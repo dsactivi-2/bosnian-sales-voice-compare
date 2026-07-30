@@ -1,4 +1,4 @@
-const COMMIT="bf48dc1";
+const COMMIT="a631ce0";
 const CORS={"access-control-allow-origin":"*","access-control-allow-methods":"GET,PUT,POST,DELETE,OPTIONS","access-control-allow-headers":"content-type"};
 function json(d,s=200){return new Response(JSON.stringify(d),{status:s,headers:{"content-type":"application/json;charset=utf-8",...CORS,"cache-control":"no-store"}})}
 function clamp(n){n=Number(n);return Number.isFinite(n)?Math.max(0,Math.min(5,Math.round(n))):0}
