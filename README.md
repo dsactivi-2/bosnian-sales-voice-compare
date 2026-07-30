@@ -1,11 +1,24 @@
 # Bosnisch Telefonsales — Voice Compare
 
-Team-Seite zum Abhören und Bewerten von Fish-Audio-Stimmen (bosnisch, gleicher Sales-Opener).
+**Team-Link (alle 8 Stimmen auf einer Seite):**  
+https://bosnian-sales-voice-compare.vercel.app/
 
-**Live:** https://dsactivi-2.github.io/bosnian-sales-voice-compare/
+Gleiche Sales-Opener-Skript für alle Kandidaten (Fish Audio, bosnisch).
 
-## Verwendung
-1. Link im Team teilen
-2. Stimmen abhören (Play / „Alle nacheinander“)
-3. Favoriten markieren
-4. Im Meeting Top-1/Top-2 abstimmen
+## So nutzt ihr es
+1. Link im Team teilen (Slack/WhatsApp/E-Mail)
+2. Stimmen abhören
+3. Im Meeting Top-1 / Top-2 festlegen
+
+## Stimmen
+1. Samouvjeren bosanski glas (♂)
+2. Profesionalni Muški Glas (♂)
+3. Bosanski Autoritet (♂)
+4. Muški Bosanski Glas (♂)
+5. Savremeni Bosanski Ženski Glas (♀)
+6. Dinamična (♀)
+7. Motivacioni Glas (♀)
+8. Jasna Ženski Glas (♀)
+
+## Einzel-MP3s
+Siehe Seite — unter jeder Karte „MP3“.
