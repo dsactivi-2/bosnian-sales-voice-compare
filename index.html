@@ -243,10 +243,10 @@ function renderApp(source){
 <div id="panelRank" style="display:${currentTab==="rank"?"":"none"}"></div>
 <div id="panelAdmin" style="display:${currentTab==="admin"?"":"none"}"></div>
 <div class="card">
-  <strong style="font-size:.9rem">Team-Sync (Bewertungen)</strong>
-  <p class="meta" style="margin:6px 0 10px">Exportiert alle Bewertungen als JSON → in Slack teilen → jemand importiert.</p>
+  <strong style="font-size:.9rem">Team-Sync (alle Bewertungen)</strong>
+  <p class="meta" style="margin:6px 0 10px">Exportiert <strong>alle</strong> Bewertungen als JSON (nicht gefiltert) → Slack → Import. Für gefilterte Ranking-Liste: Tab <strong>Ranking</strong> → Filter setzen → „Gefilterte Liste exportieren“.</p>
   <div class="actions">
-    <button type="button" class="btn btn-g" id="btnExport">Export Bewertungen</button>
+    <button type="button" class="btn btn-g" id="btnExport">Export alle Bewertungen</button>
     <button type="button" class="btn btn-g" id="btnImport">Import Bewertungen</button>
     <button type="button" class="btn btn-d" id="btnClear">Alle Bewertungen löschen</button>
   </div>
@@ -384,7 +384,18 @@ function renderRate(){
   });
 }
 
-function renderRank(){
+
+function getActiveFilters(){
+  return {
+    minAvg,
+    sexFilter,
+    langFilter,
+    highOnly,
+    selectedVoiceIds: selectedVoices.slice(),
+  };
+}
+
+function getFilteredRankRows(){
   let rows = VOICES().map(v => ({ v, ta: teamAvg(v.id), n: voiceRatings(v.id).length }));
   if (sexFilter !== "all") rows = rows.filter(r => r.v.sex === sexFilter);
   if (langFilter !== "all") rows = rows.filter(r => r.v.lang === langFilter);
@@ -392,11 +403,100 @@ function renderRank(){
   if (highOnly) rows = rows.filter(r => r.ta != null && r.ta >= 4);
   if (minAvg > 0) rows = rows.filter(r => r.ta != null && r.ta >= minAvg);
   rows.sort((a,b) => (b.ta??-1) - (a.ta??-1));
+  return rows;
+}
+
+function buildFilteredRankingExport(rows){
+  const filters = getActiveFilters();
+  return {
+    v: 1,
+    type: "filtered_ranking",
+    exportedAt: new Date().toISOString(),
+    filters,
+    count: rows.length,
+    ranking: rows.map((row, i) => {
+      const cats = {};
+      CATS().forEach(c => { cats[c.k] = catAvg(row.v.id, c.k); });
+      return {
+        rank: i + 1,
+        id: row.v.id,
+        title: row.v.title,
+        sex: row.v.sex,
+        lang: row.v.lang || null,
+        note: row.v.note || "",
+        tags: row.v.tags || [],
+        audio: row.v.audio,
+        teamAvg: row.ta,
+        ratingCount: row.n,
+        categories: cats,
+        ratings: voiceRatings(row.v.id),
+      };
+    }),
+  };
+}
+
+function rankingToCsv(rows){
+  const catKeys = CATS().map(c => c.k);
+  const headers = ["rank","id","title","sex","lang","teamAvg","ratingCount",...catKeys,"audio","note"];
+  const lines = [headers.join(",")];
+  rows.forEach((row, i) => {
+    const cats = catKeys.map(k => {
+      const v = catAvg(row.v.id, k);
+      return v == null ? "" : v.toFixed(2);
+    });
+    const cells = [
+      i + 1,
+      row.v.id,
+      JSON.stringify(row.v.title || ""),
+      row.v.sex || "",
+      row.v.lang || "",
+      row.ta == null ? "" : row.ta.toFixed(2),
+      row.n,
+      ...cats,
+      JSON.stringify(row.v.audio || ""),
+      JSON.stringify(row.v.note || ""),
+    ];
+    lines.push(cells.join(","));
+  });
+  return lines.join("\n");
+}
+
+function downloadText(filename, text, mime){
+  const blob = new Blob([text], { type: mime || "text/plain;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+async function exportFilteredRanking(format){
+  const rows = getFilteredRankRows();
+  if (!rows.length) {
+    toast("Keine Stimmen mit aktuellen Filtern — nichts zu exportieren");
+    return;
+  }
+  const stamp = new Date().toISOString().slice(0,19).replace(/[:T]/g,"-");
+  if (format === "csv") {
+    const csv = rankingToCsv(rows);
+    downloadText("ranking-filter-" + stamp + ".csv", csv, "text/csv;charset=utf-8");
+    try { await navigator.clipboard.writeText(csv); toast(rows.length + " Stimmen als CSV exportiert (+ Zwischenablage)"); }
+    catch { toast(rows.length + " Stimmen als CSV heruntergeladen"); }
+    return;
+  }
+  const payload = JSON.stringify(buildFilteredRankingExport(rows), null, 2);
+  downloadText("ranking-filter-" + stamp + ".json", payload, "application/json");
+  try { await navigator.clipboard.writeText(payload); toast(rows.length + " gefilterte Stimmen exportiert (JSON + Zwischenablage)"); }
+  catch { toast(rows.length + " gefilterte Stimmen als JSON heruntergeladen"); }
+}
+
+function renderRank(){
+  const rows = getFilteredRankRows();
 
   const root = document.getElementById("panelRank");
   root.innerHTML = `<div class="card">
     <strong>Filter & Sortierung</strong>
-    <p class="meta">Sortiert nach Team-Ø (höchste zuerst)</p>
+    <p class="meta">Sortiert nach Team-Ø (höchste zuerst) · <strong>${rows.length}</strong> von ${VOICES().length} Stimmen sichtbar</p>
     <div class="filters" style="margin-top:10px">
       <label class="field">Mindest-Ø (Team)
         <select id="minAvg">
@@ -405,6 +505,7 @@ function renderRank(){
           <option value="3.5">≥ 3,5 Sterne</option>
           <option value="4">≥ 4 Sterne</option>
           <option value="4.5">≥ 4,5 Sterne</option>
+          <option value="5">≥ 5 Sterne (nur 5,0)</option>
         </select>
       </label>
       <label class="field">Geschlecht
@@ -430,6 +531,11 @@ function renderRank(){
       <div class="meta" style="margin-bottom:6px">Stimmen multi-select (leer = alle)</div>
       <div class="chips" id="voiceChips">${VOICES().map(v=>`<button type="button" class="chip ${selectedVoices.includes(v.id)?"on":""}" data-id="${esc(v.id)}">${esc(v.title)}</button>`).join("")}</div>
     </div>
+    <div class="actions" style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+      <button type="button" class="btn btn-p" id="btnExportRankJson">Gefilterte Liste exportieren (JSON)</button>
+      <button type="button" class="btn btn-g" id="btnExportRankCsv">Gefilterte Liste exportieren (CSV)</button>
+    </div>
+    <p class="help" style="margin-top:8px">Export enthält <strong>nur die ${rows.length} aktuell angezeigten</strong> Stimmen (aktive Filter). Beispiel: Mindest-Ø ≥ 5 Sterne → nur diese landen im Export.</p>
   </div>
   ${rows.length ? rows.map((row,i)=>`
     <div class="card">
@@ -465,6 +571,10 @@ function renderRank(){
       renderRank();
     };
   });
+  const btnJ = document.getElementById("btnExportRankJson");
+  const btnC = document.getElementById("btnExportRankCsv");
+  if (btnJ) btnJ.onclick = () => exportFilteredRanking("json");
+  if (btnC) btnC.onclick = () => exportFilteredRanking("csv");
 }
 
 function emptyVoice(){
