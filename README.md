@@ -1,71 +1,28 @@
 # bosnian-sales-voice-compare
 
-Team-Dashboard: Fish-Audio-Stimmen (bosnisch) für Telefonsales vergleichen & bewerten.
+Team-Dashboard: **50 Fish-Audio-Stimmen** (bs / hr / sr) für Telefonsales vergleichen & bewerten.
 
 ## Live
 
 **https://voice-compare.activi.io/**
 
-## Stimmen ändern (einfach)
+## Stimmen
 
-### Option 1 — `config.json` (empfohlen fürs Team)
+Single source of truth: `config.json` → `voices[]` (50 Einträge).
 
-Datei `config.json` → Array `voices[]` erweitern:
-
-```json
-{
-  "id": "fish-voice-id-or-slug",
-  "title": "Anzeigename",
-  "sex": "m",
-  "note": "Kurz warum diese Stimme",
-  "tags": ["confident", "sales"],
-  "audio": "https://…/sample.mp3"
-}
-```
-
-Commit + Deploy → alle sehen die neuen Stimmen.
-
-### Option 2 — UI-Tab **Stimmen**
-
-1. Dashboard öffnen → Tab **Stimmen**  
-2. Formular ausfüllen → speichert **Browser-Entwurf**  
-3. **Config exportieren** → Datei als `config.json` ins Repo  
-4. Deploy  
-
-### Option 3 — Agent / MCP
-
-```bash
-node mcp/server.mjs
-```
-
-Tools: `add_voice`, `update_voice`, `list_voices`, …  
-Skill: [`agents/SKILL.md`](agents/SKILL.md) (Claude · Grok · OpenAI · Hermes)
-
-## Dateien
-
-| Pfad | Zweck |
+| Sprache | ca. |
 |---|---|
-| `config.json` | **Single source of truth** (Stimmen, Skript, Reviewer) |
-| `index.html` | UI (lädt config.json) |
-| `schema.json` | JSON Schema |
-| `agents/SKILL.md` | Einheitlicher Agent-Skill |
-| `agents/adapters/*` | Claude / Grok / OpenAI / Hermes Wiring |
-| `mcp/server.mjs` | MCP-Server (stdio, ohne Dependencies) |
+| Bosnisch (bs) | 19 |
+| Kroatisch (hr) | 26 |
+| Serbisch (sr) | 5 |
+
+Filter im Ranking: Geschlecht + Sprache + Mindest-Ø.
 
 ## Bewertungen
 
-- Liegen im **Browser** (`localStorage`), nicht in `config.json`
-- Button **Bewertung speichern** ist Pflicht
-- Team-Sync: Export / Import JSON
+Browser `localStorage` · Export/Import für Team-Sync · Reviewer: Arman / Denis / Osoba 3
 
-## Lokal
+## Agenten
 
-```bash
-cd /path/to/repo
-python3 -m http.server 8080
-# → http://127.0.0.1:8080/
-```
-
-## TTS-Skript (fair für alle Stimmen)
-
-Steht in `config.json` → `script`.
+- Skill: `agents/SKILL.md`
+- MCP: `node mcp/server.mjs`

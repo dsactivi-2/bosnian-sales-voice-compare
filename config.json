@@ -2,84 +2,743 @@
   "version": 1,
   "project": {
     "title": "Bosnisch Voice Compare",
-    "subtitle": "Team bewertet Stimmen in 5 Kategorien (0–5 Sterne) · Ranking nach Durchschnitt",
+    "subtitle": "Team bewertet 50 Stimmen (bs/hr/sr) in 5 Kategorien · Ranking nach Ø",
     "brand": "Fish Audio · Telefonsales",
     "liveUrl": "https://voice-compare.activi.io/",
     "repo": "https://github.com/dsactivi-2/bosnian-sales-voice-compare"
   },
   "script": "[friendly][confident] Dobar dan! Zovem se Ana iz Acme. [pause] Imate li minut da vam pokažem kako možete uštedjeti do [emphasis] trideset posto [emphasis] na mjesečnim troškovima?",
-  "reviewers": ["Arman", "Denis", "Osoba 3"],
+  "reviewers": [
+    "Arman",
+    "Denis",
+    "Osoba 3"
+  ],
   "categories": [
-    { "k": "pron", "l": "Aussprache (bosnisch)", "s": "Aussprache" },
-    { "k": "prof", "l": "Professionalität", "s": "Professionell" },
-    { "k": "warm", "l": "Wärme / Sales-Fit", "s": "Wärme" },
-    { "k": "clar", "l": "Verständlichkeit (Telefon)", "s": "Klarheit" },
-    { "k": "emo", "l": "Emotion / Ausdruck", "s": "Emotion" }
+    {
+      "k": "pron",
+      "l": "Aussprache (bosnisch/regional)",
+      "s": "Aussprache"
+    },
+    {
+      "k": "prof",
+      "l": "Professionalität",
+      "s": "Professionell"
+    },
+    {
+      "k": "warm",
+      "l": "Wärme / Sales-Fit",
+      "s": "Wärme"
+    },
+    {
+      "k": "clar",
+      "l": "Verständlichkeit (Telefon)",
+      "s": "Klarheit"
+    },
+    {
+      "k": "emo",
+      "l": "Emotion / Ausdruck",
+      "s": "Emotion"
+    }
   ],
   "voices": [
     {
       "id": "020fa2f81d65408383cd6e21d6be2f2d",
       "title": "Samouvjeren bosanski glas",
       "sex": "m",
-      "note": "Starker Allround-Sales-Kandidat",
-      "tags": ["conversational", "confident", "professional"],
+      "lang": "bs",
+      "note": "Allround Sales, confident",
+      "tags": [
+        "conversational",
+        "confident",
+        "professional",
+        "bs"
+      ],
       "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/b9afa31bf9654470985939e11fe0bfbf.mp3"
     },
     {
       "id": "91526c9cbb5841858a34cb87ae739e89",
       "title": "Profesionalni Muški Glas",
       "sex": "m",
-      "note": "Seriös, klar — B2B Outbound",
-      "tags": ["calm", "announcer", "advertisement"],
+      "lang": "bs",
+      "note": "Seriös B2B Outbound",
+      "tags": [
+        "calm",
+        "announcer",
+        "advertisement",
+        "bs"
+      ],
       "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/8d4e2323891f4fedb99b236997987026.mp3"
     },
     {
       "id": "7f141a660d4e4ee3aeaa2b562d9384bc",
       "title": "Bosanski Autoritet",
       "sex": "m",
-      "note": "Mehr Autorität, weniger weich",
-      "tags": ["deep", "authoritative", "serious"],
+      "lang": "bs",
+      "note": "Autorität, deep",
+      "tags": [
+        "deep",
+        "authoritative",
+        "serious",
+        "bs"
+      ],
       "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/e594c26a4f1248d7869c5d613157ff39.mp3"
     },
     {
       "id": "99a4e1cc695b49128a195f526152d699",
       "title": "Muški Bosanski Glas",
       "sex": "m",
-      "note": "Weicher, entspannter Einstieg",
-      "tags": ["relaxed", "calm", "friendly"],
+      "lang": "bs",
+      "note": "Weicher entspannter Einstieg",
+      "tags": [
+        "relaxed",
+        "calm",
+        "friendly",
+        "bs"
+      ],
       "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/2a44125e7ce9423ebf5d5ea5883812b8.mp3"
     },
     {
       "id": "ff407d8678d940a584b614153c5f1a0f",
       "title": "Savremeni Bosanski Ženski Glas",
       "sex": "f",
+      "lang": "bs",
       "note": "Klassische professionelle Outbound-Stimme",
-      "tags": ["friendly", "professional", "advertisement"],
+      "tags": [
+        "friendly",
+        "professional",
+        "advertisement",
+        "bs"
+      ],
       "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/f5a4e62e93b748d0bf6bb9f58b5a7653.mp3"
     },
     {
       "id": "03cfb7745c4a4200b55dd7baa09e3c59",
       "title": "Dinamična",
       "sex": "f",
-      "note": "Energie / jüngere Zielgruppe",
-      "tags": ["young", "energetic", "friendly"],
+      "lang": "bs",
+      "note": "Energie, jüngere Zielgruppe",
+      "tags": [
+        "young",
+        "energetic",
+        "friendly",
+        "bs"
+      ],
       "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/329c40ad8d7c42b9aa20602b4300467e.mp3"
     },
     {
       "id": "a45966a2eaad4fb8a64bc844869aabcc",
       "title": "Motivacioni Glas",
       "sex": "f",
-      "note": "Warm + motivierend — Closing-Fit",
-      "tags": ["warm", "confident", "advertisement"],
+      "lang": "bs",
+      "note": "Warm + Closing-Fit",
+      "tags": [
+        "warm",
+        "confident",
+        "advertisement",
+        "bs"
+      ],
       "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/f272d020f43545e18c124b926268df97.mp3"
     },
     {
       "id": "e87d1b2fc7ed40d2940e69068b0ca726",
       "title": "Jasna Ženski Glas",
       "sex": "f",
+      "lang": "bs",
       "note": "Ruhig, erklärend, vertrauensvoll",
-      "tags": ["calm", "measured", "conversational"],
+      "tags": [
+        "calm",
+        "measured",
+        "conversational",
+        "bs"
+      ],
       "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/859f0920e8754580985ba51202874fac.mp3"
+    },
+    {
+      "id": "f69639af4278450c88c7637ff9bd8a87",
+      "title": "Živahan Bosanski Glas",
+      "sex": "m",
+      "lang": "bs",
+      "note": "Energisch, expressiv",
+      "tags": [
+        "energetic",
+        "dynamic",
+        "expressive",
+        "bs"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-06/751947dcd0a44bfc8ddf78edcaf935df.mp3"
+    },
+    {
+      "id": "23212d6f03344f2595fdeaf377929276",
+      "title": "Dinamični Bosanski Komentator",
+      "sex": "m",
+      "lang": "bs",
+      "note": "Announcer / dynamisch",
+      "tags": [
+        "energetic",
+        "announcer",
+        "dynamic",
+        "bs"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-09/a8b179ddd8e742c3842cf021772f64c4.mp3"
+    },
+    {
+      "id": "fe492e6fc04148cf84716186c2be52c6",
+      "title": "Bosanski Narator",
+      "sex": "m",
+      "lang": "bs",
+      "note": "Ruhiger Narrator, warm",
+      "tags": [
+        "calm",
+        "professional",
+        "warm",
+        "bs"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/c16cdc87663b4f6c91e2250e93490407.mp3"
+    },
+    {
+      "id": "f7058cf45a604ec59b43801ae26cb8a6",
+      "title": "Jasni Bosanski Glas",
+      "sex": "m",
+      "lang": "bs",
+      "note": "Klar und gemessen",
+      "tags": [
+        "clear",
+        "measured",
+        "professional",
+        "bs"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/ca6afa6836544965b7b6d64302895c6c.mp3"
+    },
+    {
+      "id": "b123c928002c4d9191e49c103664d150",
+      "title": "Mladi Bosanski Glas",
+      "sex": "m",
+      "lang": "bs",
+      "note": "Jünger, crisp, friendly",
+      "tags": [
+        "young",
+        "energetic",
+        "professional",
+        "bs"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-28/84bed29b7d3841cbaad16264d0bd2955.mp3"
+    },
+    {
+      "id": "5d664201f86b4182bf758f6040c409fa",
+      "title": "NAGLIC",
+      "sex": "m",
+      "lang": "bs",
+      "note": "Calm professional BS",
+      "tags": [
+        "calm",
+        "clear",
+        "professional",
+        "bs"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/a7da3f143bd24785b45a1743345e2320.mp3"
+    },
+    {
+      "id": "512d154db0ff458aac007c8ff2f1ebfd",
+      "title": "Ramo",
+      "sex": "m",
+      "lang": "bs",
+      "note": "Podcast / seriös BS",
+      "tags": [
+        "conversational",
+        "professional",
+        "serious",
+        "bs"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/0b2fcd8c9a1246fd8b2356056bd6fe34.mp3"
+    },
+    {
+      "id": "c8a590158c1844f39810eca381b54bc3",
+      "title": "Živahan glas",
+      "sex": "m",
+      "lang": "bs",
+      "note": "Jung, energetisch",
+      "tags": [
+        "young",
+        "energetic",
+        "friendly",
+        "bs"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-18/6944baf05f6c4bd0be69075c29dad8da.mp3"
+    },
+    {
+      "id": "e68e5082d6ec4124a65d2df25dbe1297",
+      "title": "Melodični Glas",
+      "sex": "f",
+      "lang": "bs",
+      "note": "Melodisch, warm, expressiv",
+      "tags": [
+        "warm",
+        "expressive",
+        "cheerful",
+        "bs"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-20/0aca491383ac40c1a5b573da3e489239.mp3"
+    },
+    {
+      "id": "188e8fe4ad6a444794a93e0c5b276cb6",
+      "title": "Serbian Man (bs)",
+      "sex": "m",
+      "lang": "bs",
+      "note": "Deep male, BS-capable",
+      "tags": [
+        "deep",
+        "male",
+        "bs"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/1d576bb868bc4b999628d106dd1e18a4.mp3"
+    },
+    {
+      "id": "1dc098568e624b92819ef8181aae959b",
+      "title": "Atomic",
+      "sex": "m",
+      "lang": "bs",
+      "note": "Powerful announcer energy",
+      "tags": [
+        "announcer",
+        "energetic",
+        "authoritative",
+        "bs"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/3d25d8ee6d7e4eec89d297efccda7b53.mp3"
+    },
+    {
+      "id": "5305f70004634f8da3836d5befaba3e0",
+      "title": "Hrvatska Govornica",
+      "sex": "f",
+      "lang": "hr",
+      "note": "Ruhige professionelle Sprecherin",
+      "tags": [
+        "calm",
+        "professional",
+        "clear",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/b2de3db732494eed86aa1f2a9d805435.mp3"
+    },
+    {
+      "id": "aabfa168f35645af9aaa3cdaa442a66c",
+      "title": "Hrvatski Muški Glas",
+      "sex": "m",
+      "lang": "hr",
+      "note": "Conversational deep male",
+      "tags": [
+        "conversational",
+        "confident",
+        "warm",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-12/42b6b372216243e58442075b330f96e4.mp3"
+    },
+    {
+      "id": "c937a3fe42fd431f84228ce8d04fc69a",
+      "title": "Ugodan Hrvatski Glas",
+      "sex": "f",
+      "lang": "hr",
+      "note": "Angenehm, friendly pro",
+      "tags": [
+        "friendly",
+        "warm",
+        "professional",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/4f8cecf270e7465f8cb8154514bdb723.mp3"
+    },
+    {
+      "id": "a04054e9a54a49819a934a35d13094c4",
+      "title": "Hrvatski Pripovjedač",
+      "sex": "m",
+      "lang": "hr",
+      "note": "Storytelling confident",
+      "tags": [
+        "dynamic",
+        "confident",
+        "professional",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-13/863d49526f5e4d1daf1d5329990cbf9e.mp3"
+    },
+    {
+      "id": "dd130c5d167648e2b583d64e30cfa63e",
+      "title": "Hrvatski Mirni Glas",
+      "sex": "m",
+      "lang": "hr",
+      "note": "Deep calm authority",
+      "tags": [
+        "deep",
+        "authoritative",
+        "calm",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/8ff66891d6ec4c55b4bf60bbff15e095.mp3"
+    },
+    {
+      "id": "496f8a0b960040a3861c8757a08b12e9",
+      "title": "Energičan Hrvatski Glas",
+      "sex": "m",
+      "lang": "hr",
+      "note": "Energetic host",
+      "tags": [
+        "energetic",
+        "host",
+        "expressive",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-13/d46418a9acc9470b930135f21db5bdd1.mp3"
+    },
+    {
+      "id": "d118e25c5cd8447b8ddf65b697247354",
+      "title": "Hrvatski Sportski Glas",
+      "sex": "m",
+      "lang": "hr",
+      "note": "Sports announcer energy",
+      "tags": [
+        "announcer",
+        "energetic",
+        "professional",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/bc28bed2873e45af80184c77ca3e9fb9.mp3"
+    },
+    {
+      "id": "38eb3fee4806486599f16e5ef3ee1c3d",
+      "title": "Vedra hrvatska pripovjedačica",
+      "sex": "f",
+      "lang": "hr",
+      "note": "Cheerful female announcer",
+      "tags": [
+        "cheerful",
+        "announcer",
+        "warm",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/9ababc780e2c4343ab0bb3b721ac0d1d.mp3"
+    },
+    {
+      "id": "5c78ae5c74a24f87a9f232073641ab08",
+      "title": "Topli Hrvatski Glas",
+      "sex": "f",
+      "lang": "hr",
+      "note": "Warm gentle female",
+      "tags": [
+        "warm",
+        "calm",
+        "friendly",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/44ce2d3e37404fb78740ddb4eccfbe17.mp3"
+    },
+    {
+      "id": "da1f9cb818c0459aacfd36ad137053ef",
+      "title": "Snažan hrvatski glas",
+      "sex": "f",
+      "lang": "hr",
+      "note": "Strong confident female",
+      "tags": [
+        "confident",
+        "professional",
+        "dynamic",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/488400c0835d42d7a78783c55c9b5e13.mp3"
+    },
+    {
+      "id": "8885ec7bf34f4f1cb3476b266b3ad801",
+      "title": "Jasan Hrvatski Glas",
+      "sex": "m",
+      "lang": "hr",
+      "note": "Clear calm announcer",
+      "tags": [
+        "calm",
+        "announcer",
+        "friendly",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-17/0deb0d85dfa844d9a8afeece7200c5eb.mp3"
+    },
+    {
+      "id": "f8b790089b4d44e9981321bb8864e999",
+      "title": "Hrvatski Narator",
+      "sex": "m",
+      "lang": "hr",
+      "note": "Neutral professional narrator",
+      "tags": [
+        "calm",
+        "professional",
+        "narrative",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/494795df1d4b477c97b3f9c16517890f.mp3"
+    },
+    {
+      "id": "f2b807dd349149ca8dbf8f79abfa0e1f",
+      "title": "Hrvatski Sigurnosni Glas",
+      "sex": "m",
+      "lang": "hr",
+      "note": "Security / trustworthy",
+      "tags": [
+        "authoritative",
+        "calm",
+        "professional",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-06/8acc87a62a8149a29aea309c4952e135.mp3"
+    },
+    {
+      "id": "af29d14bf4114c258e335370877ef67b",
+      "title": "Mirni Muški Glas",
+      "sex": "m",
+      "lang": "hr",
+      "note": "Calm conversational male",
+      "tags": [
+        "calm",
+        "professional",
+        "clear",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/50ba72a353bb4e14a5d8ff4c8a1e68a6.mp3"
+    },
+    {
+      "id": "8659d35d63b941b0ae42a81f7977b6a7",
+      "title": "Duhovit Muški Glas",
+      "sex": "m",
+      "lang": "hr",
+      "note": "Warm playful male",
+      "tags": [
+        "friendly",
+        "energetic",
+        "warm",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/af43d8ddf7d949d8b8f2b955da778939.mp3"
+    },
+    {
+      "id": "d30566a322d04a838ca3426219b46c13",
+      "title": "Topli ženski glas",
+      "sex": "f",
+      "lang": "hr",
+      "note": "Warm soft female",
+      "tags": [
+        "warm",
+        "gentle",
+        "friendly",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/bb84ddb4e3a2483596c1ac6a25c5b006.mp3"
+    },
+    {
+      "id": "82036e17ed4e4538b454c09d694c7286",
+      "title": "Direktni Muški Glas",
+      "sex": "m",
+      "lang": "hr",
+      "note": "Direct confident sales tone",
+      "tags": [
+        "confident",
+        "energetic",
+        "professional",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-10/26682151595d4406bfc68eae23fd2777.mp3"
+    },
+    {
+      "id": "7277969094e54c2d827633e37683f006",
+      "title": "Snažan Muški Glas",
+      "sex": "m",
+      "lang": "hr",
+      "note": "Strong ad male",
+      "tags": [
+        "energetic",
+        "advertisement",
+        "professional",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-11/d1e38322cf874c6ab93648a30453c4fb.mp3"
+    },
+    {
+      "id": "51f38118045e49148e3944e8cc3d545e",
+      "title": "Topli Ženski Glas (2)",
+      "sex": "f",
+      "lang": "hr",
+      "note": "Warm measured female",
+      "tags": [
+        "warm",
+        "calm",
+        "professional",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/5741e9788e86438dbe221e6586d5dc8a.mp3"
+    },
+    {
+      "id": "6d4c7c65a64041029f5d6396ae4d034e",
+      "title": "Mladi Muški Glas",
+      "sex": "m",
+      "lang": "hr",
+      "note": "Young crisp host",
+      "tags": [
+        "young",
+        "energetic",
+        "host",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/3cd140be29d84f8cb506689bdf17173b.mp3"
+    },
+    {
+      "id": "d06093ef7eba4fbca846b86c718f47dd",
+      "title": "Živahni Hrvatski Glas",
+      "sex": "f",
+      "lang": "hr",
+      "note": "Energetic female HR",
+      "tags": [
+        "energetic",
+        "bright",
+        "friendly",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-25/737cbbf9682b4970852f246e4ae64a9a.mp3"
+    },
+    {
+      "id": "989e728b8ebf4964950f9ee50562566a",
+      "title": "Mladi Hrvatski Glas",
+      "sex": "f",
+      "lang": "hr",
+      "note": "Young relaxed female",
+      "tags": [
+        "young",
+        "friendly",
+        "calm",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-27/199b7036036d4797a2744491ef6dedfe.mp3"
+    },
+    {
+      "id": "5cbb1df26d344a278bdbfe3ed1968e24",
+      "title": "Hrvatski spiker",
+      "sex": "m",
+      "lang": "hr",
+      "note": "Classic radio announcer",
+      "tags": [
+        "announcer",
+        "professional",
+        "clear",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/84d87dc1756a45709a922f2fd76ed7d2.mp3"
+    },
+    {
+      "id": "aac6c27431ac47c386188ca6dd026c56",
+      "title": "Hrvatski Event Host",
+      "sex": "m",
+      "lang": "hr",
+      "note": "Event host energy",
+      "tags": [
+        "host",
+        "energetic",
+        "friendly",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-13/d15ea27042e34e68b3b3184912e96056.mp3"
+    },
+    {
+      "id": "7945a25f1df040f5897aedd0998402bc",
+      "title": "Jasna Hrvatska Žena",
+      "sex": "f",
+      "lang": "hr",
+      "note": "Clear warm professional female",
+      "tags": [
+        "clear",
+        "warm",
+        "professional",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-27/76564c95aa9343e1ad012c7c19501c5e.mp3"
+    },
+    {
+      "id": "d418491e5ad14320aaf35ddf4168a4f0",
+      "title": "Srdačan Hrvatski Glas",
+      "sex": "f",
+      "lang": "hr",
+      "note": "Cordial friendly female",
+      "tags": [
+        "friendly",
+        "warm",
+        "relaxed",
+        "hr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/fc258bdcc58c436e8b42801f7edd24dd.mp3"
+    },
+    {
+      "id": "19468ccce84c4969b21ba097e849f228",
+      "title": "Srpski muški glas",
+      "sex": "m",
+      "lang": "sr",
+      "note": "Calm professional SR male",
+      "tags": [
+        "calm",
+        "professional",
+        "confident",
+        "sr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/99686c9d02794c158ae4ffed09cd91f5.mp3"
+    },
+    {
+      "id": "a5afb69eab3b43c89ae01a98ab56d704",
+      "title": "Duboki Srpski Glas",
+      "sex": "m",
+      "lang": "sr",
+      "note": "Deep authoritative SR",
+      "tags": [
+        "deep",
+        "authoritative",
+        "professional",
+        "sr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/80c2998fb7194267bd8adddbda56c15a.mp3"
+    },
+    {
+      "id": "2493553fbdbf4906b5154511a5db66de",
+      "title": "Snažan Srpski Glas",
+      "sex": "m",
+      "lang": "sr",
+      "note": "Strong ad/announcer SR",
+      "tags": [
+        "energetic",
+        "announcer",
+        "professional",
+        "sr"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-06/c6e9692d9fc5496cb5e066f940c871f3.mp3"
+    },
+    {
+      "id": "eacb654f61d340edbc5716c7569375d7",
+      "title": "Mladi Srpski Glas",
+      "sex": "f",
+      "lang": "sr",
+      "note": "Young calm SR female",
+      "tags": [
+        "young",
+        "calm",
+        "friendly",
+        "sr"
+      ],
+      "audio": "https://platform.r2.fish.audio/task/efca859a464d4170b61085f72157ecc6.mp3"
+    },
+    {
+      "id": "1188fbf49ca14bc699b3809ae536f603",
+      "title": "Serbian Alameda Slim",
+      "sex": "m",
+      "lang": "sr",
+      "note": "Deep expressive SR male",
+      "tags": [
+        "deep",
+        "expressive",
+        "confident",
+        "sr"
+      ],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-07/2f45fd68b136416aa056cabe40ca9cb5.mp3"
     }
   ]
 }
