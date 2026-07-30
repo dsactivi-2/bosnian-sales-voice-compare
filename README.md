@@ -1,24 +1,36 @@
-# Bosnisch Telefonsales — Voice Compare
+# Bosnian Sales Voice Compare
 
-**Team-Link (alle 8 Stimmen auf einer Seite):**  
-https://bosnian-sales-voice-compare.vercel.app/
+Team-Dashboard zum Vergleich von **8 Fish-Audio-Stimmen** (bosnisch) für Telefonsales.
 
-Gleiche Sales-Opener-Skript für alle Kandidaten (Fish Audio, bosnisch).
+## Live
 
-## So nutzt ihr es
-1. Link im Team teilen (Slack/WhatsApp/E-Mail)
-2. Stimmen abhören
-3. Im Meeting Top-1 / Top-2 festlegen
+- Team-Link: https://voice-compare.activi.io/
+- Dieses Repo: statische `index.html` (Bewerten + Ranking)
 
-## Stimmen
-1. Samouvjeren bosanski glas (♂)
-2. Profesionalni Muški Glas (♂)
-3. Bosanski Autoritet (♂)
-4. Muški Bosanski Glas (♂)
-5. Savremeni Bosanski Ženski Glas (♀)
-6. Dinamična (♀)
-7. Motivacioni Glas (♀)
-8. Jasna Ženski Glas (♀)
+## Features
 
-## Einzel-MP3s
-Siehe Seite — unter jeder Karte „MP3“.
+- 8 Voice-Samples (gleicher Sales-Opener)
+- Bewerten: 5 Kategorien, 0–5 Sterne, Kommentar
+- Reviewer: Arman / Denis / Osoba 3
+- Ranking: sortiert nach Team-Ø, Filter (Mindest-Ø, Geschlecht, Multi-Select)
+- Speicherung: Browser `localStorage` (pro Gerät)
+- Team-Sync: Export / Import (JSON)
+
+## Lokal öffnen
+
+Einfach `index.html` im Browser öffnen (kein Build nötig).
+
+## Nutzung (kurz)
+
+1. Link öffnen → eigenen Namen wählen  
+2. Stimmen anhören → Sterne setzen → **Bewertung speichern**  
+3. Tab **Ranking** für Übersicht  
+4. Meeting: **Export** → teilen → jemand **Import** für gemeinsames Ranking  
+
+## Skript (TTS)
+
+```
+[friendly][confident] Dobar dan! Zovem se Ana iz Acme. [pause]
+Imate li minut da vam pokažem kako možete uštedjeti do
+[emphasis] trideset posto [emphasis] na mjesečnim troškovima?
+```
