@@ -3,7 +3,7 @@
  * - Static files from GitHub (pinned COMMIT)
  * - Ratings + voice profiles in Cloudflare D1 (binding: DB)
  */
-const COMMIT = "PLACEHOLDER_COMMIT";
+const COMMIT = "bf48dc1";
 
 const CORS = {
   "access-control-allow-origin": "*",
