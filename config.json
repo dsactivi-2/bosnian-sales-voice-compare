@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "project": {
+    "title": "Bosnisch Voice Compare",
+    "subtitle": "Team bewertet Stimmen in 5 Kategorien (0–5 Sterne) · Ranking nach Durchschnitt",
+    "brand": "Fish Audio · Telefonsales",
+    "liveUrl": "https://voice-compare.activi.io/",
+    "repo": "https://github.com/dsactivi-2/bosnian-sales-voice-compare"
+  },
+  "script": "[friendly][confident] Dobar dan! Zovem se Ana iz Acme. [pause] Imate li minut da vam pokažem kako možete uštedjeti do [emphasis] trideset posto [emphasis] na mjesečnim troškovima?",
+  "reviewers": ["Arman", "Denis", "Osoba 3"],
+  "categories": [
+    { "k": "pron", "l": "Aussprache (bosnisch)", "s": "Aussprache" },
+    { "k": "prof", "l": "Professionalität", "s": "Professionell" },
+    { "k": "warm", "l": "Wärme / Sales-Fit", "s": "Wärme" },
+    { "k": "clar", "l": "Verständlichkeit (Telefon)", "s": "Klarheit" },
+    { "k": "emo", "l": "Emotion / Ausdruck", "s": "Emotion" }
+  ],
+  "voices": [
+    {
+      "id": "020fa2f81d65408383cd6e21d6be2f2d",
+      "title": "Samouvjeren bosanski glas",
+      "sex": "m",
+      "note": "Starker Allround-Sales-Kandidat",
+      "tags": ["conversational", "confident", "professional"],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/b9afa31bf9654470985939e11fe0bfbf.mp3"
+    },
+    {
+      "id": "91526c9cbb5841858a34cb87ae739e89",
+      "title": "Profesionalni Muški Glas",
+      "sex": "m",
+      "note": "Seriös, klar — B2B Outbound",
+      "tags": ["calm", "announcer", "advertisement"],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/8d4e2323891f4fedb99b236997987026.mp3"
+    },
+    {
+      "id": "7f141a660d4e4ee3aeaa2b562d9384bc",
+      "title": "Bosanski Autoritet",
+      "sex": "m",
+      "note": "Mehr Autorität, weniger weich",
+      "tags": ["deep", "authoritative", "serious"],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/e594c26a4f1248d7869c5d613157ff39.mp3"
+    },
+    {
+      "id": "99a4e1cc695b49128a195f526152d699",
+      "title": "Muški Bosanski Glas",
+      "sex": "m",
+      "note": "Weicher, entspannter Einstieg",
+      "tags": ["relaxed", "calm", "friendly"],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/2a44125e7ce9423ebf5d5ea5883812b8.mp3"
+    },
+    {
+      "id": "ff407d8678d940a584b614153c5f1a0f",
+      "title": "Savremeni Bosanski Ženski Glas",
+      "sex": "f",
+      "note": "Klassische professionelle Outbound-Stimme",
+      "tags": ["friendly", "professional", "advertisement"],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/f5a4e62e93b748d0bf6bb9f58b5a7653.mp3"
+    },
+    {
+      "id": "03cfb7745c4a4200b55dd7baa09e3c59",
+      "title": "Dinamična",
+      "sex": "f",
+      "note": "Energie / jüngere Zielgruppe",
+      "tags": ["young", "energetic", "friendly"],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/329c40ad8d7c42b9aa20602b4300467e.mp3"
+    },
+    {
+      "id": "a45966a2eaad4fb8a64bc844869aabcc",
+      "title": "Motivacioni Glas",
+      "sex": "f",
+      "note": "Warm + motivierend — Closing-Fit",
+      "tags": ["warm", "confident", "advertisement"],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/f272d020f43545e18c124b926268df97.mp3"
+    },
+    {
+      "id": "e87d1b2fc7ed40d2940e69068b0ca726",
+      "title": "Jasna Ženski Glas",
+      "sex": "f",
+      "note": "Ruhig, erklärend, vertrauensvoll",
+      "tags": ["calm", "measured", "conversational"],
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/859f0920e8754580985ba51202874fac.mp3"
+    }
+  ]
+}

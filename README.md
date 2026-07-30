@@ -1,49 +1,71 @@
 # bosnian-sales-voice-compare
 
-Team-Dashboard: 8 Fish-Audio Stimmen (bosnisch) für Telefonsales vergleichen und bewerten.
+Team-Dashboard: Fish-Audio-Stimmen (bosnisch) für Telefonsales vergleichen & bewerten.
 
-## Live-Link (Team)
+## Live
 
 **https://voice-compare.activi.io/**
 
-## Repo-Inhalt
+## Stimmen ändern (einfach)
 
-| Datei | Beschreibung |
-|-------|----------------|
-| `index.html` | Komplettes Dashboard (Bewerten + Ranking) |
-| `README.md` | Diese Anleitung |
+### Option 1 — `config.json` (empfohlen fürs Team)
 
-Keine Dependencies, kein Build — eine HTML-Datei.
+Datei `config.json` → Array `voices[]` erweitern:
 
-## Features
+```json
+{
+  "id": "fish-voice-id-or-slug",
+  "title": "Anzeigename",
+  "sex": "m",
+  "note": "Kurz warum diese Stimme",
+  "tags": ["confident", "sales"],
+  "audio": "https://…/sample.mp3"
+}
+```
 
-- 8 Voice-Samples (gleicher Sales-Opener)
-- **Bewerten:** 5 Kategorien, 0–5 Sterne, Kommentar
-- Reviewer: Arman / Denis / Osoba 3
-- **Ranking:** Team-Ø, Filter (Mindest-Ø, Geschlecht, Multi-Select)
-- Speicherung: Browser `localStorage` (pro Gerät)
-- Team-Sync: **Export** / **Import** (JSON)
+Commit + Deploy → alle sehen die neuen Stimmen.
+
+### Option 2 — UI-Tab **Stimmen**
+
+1. Dashboard öffnen → Tab **Stimmen**  
+2. Formular ausfüllen → speichert **Browser-Entwurf**  
+3. **Config exportieren** → Datei als `config.json` ins Repo  
+4. Deploy  
+
+### Option 3 — Agent / MCP
+
+```bash
+node mcp/server.mjs
+```
+
+Tools: `add_voice`, `update_voice`, `list_voices`, …  
+Skill: [`agents/SKILL.md`](agents/SKILL.md) (Claude · Grok · OpenAI · Hermes)
+
+## Dateien
+
+| Pfad | Zweck |
+|---|---|
+| `config.json` | **Single source of truth** (Stimmen, Skript, Reviewer) |
+| `index.html` | UI (lädt config.json) |
+| `schema.json` | JSON Schema |
+| `agents/SKILL.md` | Einheitlicher Agent-Skill |
+| `agents/adapters/*` | Claude / Grok / OpenAI / Hermes Wiring |
+| `mcp/server.mjs` | MCP-Server (stdio, ohne Dependencies) |
+
+## Bewertungen
+
+- Liegen im **Browser** (`localStorage`), nicht in `config.json`
+- Button **Bewertung speichern** ist Pflicht
+- Team-Sync: Export / Import JSON
 
 ## Lokal
 
 ```bash
-# Datei im Browser öffnen
-open index.html
-# oder
+cd /path/to/repo
 python3 -m http.server 8080
+# → http://127.0.0.1:8080/
 ```
 
-## Nutzung
+## TTS-Skript (fair für alle Stimmen)
 
-1. Link öffnen → eigenen Namen wählen  
-2. Stimmen anhören → Sterne setzen → **Bewertung speichern**  
-3. Tab **Ranking** für Übersicht  
-4. Meeting: **Export** → teilen → jemand **Import** für gemeinsames Ranking  
-
-## TTS-Skript
-
-```
-[friendly][confident] Dobar dan! Zovem se Ana iz Acme. [pause]
-Imate li minut da vam pokažem kako možete uštedjeti do
-[emphasis] trideset posto [emphasis] na mjesečnim troškovima?
-```
+Steht in `config.json` → `script`.

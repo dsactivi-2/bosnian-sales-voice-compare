@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voice-compare.activi.io/schema.json",
+  "title": "VoiceCompareConfig",
+  "type": "object",
+  "required": ["version", "project", "script", "reviewers", "categories", "voices"],
+  "properties": {
+    "version": { "type": "integer", "const": 1 },
+    "project": {
+      "type": "object",
+      "required": ["title"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "subtitle": { "type": "string" },
+        "brand": { "type": "string" },
+        "liveUrl": { "type": "string" },
+        "repo": { "type": "string" }
+      }
+    },
+    "script": { "type": "string", "minLength": 1 },
+    "reviewers": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "categories": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["k", "l", "s"],
+        "properties": {
+          "k": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "l": { "type": "string" },
+          "s": { "type": "string" }
+        }
+      }
+    },
+    "voices": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "sex", "audio"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "title": { "type": "string", "minLength": 1 },
+          "sex": { "type": "string", "enum": ["m", "f", "x"] },
+          "note": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "audio": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

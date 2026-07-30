@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Voice Compare · Bosnisch Telefonsales</title>
 <style>
-:root{--bg:#0b0f14;--surface:#141a22;--s2:#1b2330;--fg:#eef2f7;--muted:#8b98ab;--border:#2a3545;--primary:#2f9bfd;--pfg:#041018;--accent:#3dd6c6;--star:#f5c542;--male:#7dd3fc;--female:#f0abfc;--danger:#f87171}
+:root{--bg:#0b0f14;--surface:#141a22;--s2:#1b2330;--fg:#eef2f7;--muted:#8b98ab;--border:#2a3545;--primary:#2f9bfd;--pfg:#041018;--accent:#3dd6c6;--star:#f5c542;--male:#7dd3fc;--female:#f0abfc;--danger:#f87171;--ok:#34d399}
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:radial-gradient(1000px 480px at 8% -8%,rgb(30 58 95/.45),transparent 55%),var(--bg);color:var(--fg);line-height:1.5}
-.wrap{max-width:820px;margin:0 auto;padding:20px 16px 72px}
+.wrap{max-width:880px;margin:0 auto;padding:20px 16px 80px}
 header{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:16px}
 h1{margin:0 0 6px;font-size:1.35rem}
 .sub{color:var(--muted);font-size:.9rem;margin:0}
 .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;align-items:end}
-label.field{display:flex;flex-direction:column;gap:4px;font-size:.75rem;color:var(--muted);flex:1;min-width:160px}
+label.field{display:flex;flex-direction:column;gap:4px;font-size:.75rem;color:var(--muted);flex:1;min-width:140px}
 select,textarea,input{background:var(--bg);color:var(--fg);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font:inherit}
 select{height:42px}
-.tabs{display:flex;gap:6px;background:var(--bg);padding:4px;border-radius:12px;margin-top:14px}
-.tabs button{flex:1;border:0;background:transparent;color:var(--muted);padding:10px;border-radius:10px;font-weight:600;cursor:pointer}
+.tabs{display:flex;gap:6px;background:var(--bg);padding:4px;border-radius:12px;margin-top:14px;flex-wrap:wrap}
+.tabs button{flex:1;min-width:90px;border:0;background:transparent;color:var(--muted);padding:10px;border-radius:10px;font-weight:600;cursor:pointer}
 .tabs button.on{background:var(--primary);color:var(--pfg)}
 .script{margin-top:12px;padding:10px 12px;background:#0a1018;border-left:3px solid var(--accent);border-radius:8px;font-size:.8rem;color:#c9d4e6;word-break:break-word}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin:12px 0}
@@ -39,6 +39,7 @@ audio{width:100%;margin:8px 0 12px}
 .btn-p{background:var(--primary);color:var(--pfg)}
 .btn-g{background:var(--s2);color:var(--fg);border:1px solid var(--border)}
 .btn-d{background:transparent;color:var(--danger);border:1px solid var(--border)}
+.btn-ok{background:rgb(52 211 153/.15);color:var(--ok);border:1px solid rgb(52 211 153/.35)}
 .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .team-box{margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
 .team-box h3{margin:0 0 8px;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
@@ -51,140 +52,277 @@ audio{width:100%;margin:8px 0 12px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .rank-num{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-weight:800;background:var(--s2)}
 .rank-num.gold{background:rgb(245 197 66/.2);color:var(--star)}
-.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--s2);border:1px solid var(--border);padding:10px 16px;border-radius:999px;font-size:.9rem;z-index:50;display:none}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--s2);border:1px solid var(--border);padding:10px 16px;border-radius:999px;font-size:.9rem;z-index:50;display:none;max-width:90vw}
 .note{font-size:.78rem;color:var(--muted);margin-top:10px;padding:8px 10px;background:var(--bg);border-radius:8px;border:1px solid var(--border)}
 .grid2{display:grid;gap:8px;grid-template-columns:1fr 1fr}
 @media(max-width:560px){.grid2{grid-template-columns:1fr}}
 .head-row{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.badge{font-size:.7rem;padding:2px 8px;border-radius:999px;border:1px solid var(--border);color:var(--muted)}
+.badge.live{border-color:rgb(52 211 153/.4);color:var(--ok)}
+.badge.draft{border-color:rgb(245 197 66/.4);color:var(--star)}
+.voice-admin{display:grid;gap:10px}
+.voice-admin .va-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px}
+.voice-admin .va-head{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.muted-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.75rem;color:var(--muted);word-break:break-all}
+.form-grid{display:grid;gap:10px;grid-template-columns:1fr 1fr}
+@media(max-width:560px){.form-grid{grid-template-columns:1fr}}
+.form-grid .full{grid-column:1/-1}
+.help{font-size:.78rem;color:var(--muted);margin:0 0 10px}
+.loading{padding:40px;text-align:center;color:var(--muted)}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header>
-  <p style="margin:0 0 4px;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)">Fish Audio · Telefonsales</p>
-  <h1>Bosnisch Voice Compare</h1>
-  <p class="sub">Team bewertet 8 Stimmen in 5 Kategorien (0–5 Sterne) · Ranking nach Durchschnitt</p>
-  <div class="row">
-    <label class="field">Teammitglied (wer bewertet gerade)
-      <select id="reviewer">
-        <option>Arman</option>
-        <option selected>Denis</option>
-        <option>Osoba 3</option>
-      </select>
-    </label>
-  </div>
-  <div class="script"><strong>Skript (gleich für alle):</strong><br/>[friendly][confident] Dobar dan! Zovem se Ana iz Acme. [pause] Imate li minut da vam pokažem kako možete uštedjeti do [emphasis] trideset posto [emphasis] na mjesečnim troškovima?</div>
-  <div class="tabs">
-    <button type="button" class="on" data-tab="rate" id="tabRate">Bewerten</button>
-    <button type="button" data-tab="rank" id="tabRank">Ranking</button>
-  </div>
-  <div class="note">💡 Bewertungen werden <strong>in diesem Browser</strong> gespeichert (pro Gerät). Fürs Meeting: alle denselben Link öffnen, Namen wählen, bewerten — im Ranking siehst du die Werte auf <em>diesem</em> Gerät. Zum Zusammenführen: unten „Export“ und einer importiert alle.</div>
-</header>
-
-<div id="panelRate"></div>
-<div id="panelRank" style="display:none"></div>
-
-<div class="card">
-  <strong style="font-size:.9rem">Team-Sync (optional)</strong>
-  <p class="meta" style="margin:6px 0 10px">Exportiert alle Bewertungen als Text → in Slack teilen → jemand importiert und sieht das Gesamt-Ranking.</p>
-  <div class="actions">
-    <button type="button" class="btn btn-g" id="btnExport">Export kopieren</button>
-    <button type="button" class="btn btn-g" id="btnImport">Import einfügen</button>
-    <button type="button" class="btn btn-d" id="btnClear">Alle Bewertungen löschen</button>
-  </div>
-</div>
+<div class="wrap" id="app">
+  <div class="loading" id="boot">Lade Stimmen-Konfiguration…</div>
 </div>
 <div class="toast" id="toast"></div>
 <script>
-const REVIEWERS=["Arman","Denis","Osoba 3"];
-const CATS=[
-  {k:"pron",l:"Aussprache (bosnisch)",s:"Aussprache"},
-  {k:"prof",l:"Professionalität",s:"Professionell"},
-  {k:"warm",l:"Wärme / Sales-Fit",s:"Wärme"},
-  {k:"clar",l:"Verständlichkeit (Telefon)",s:"Klarheit"},
-  {k:"emo",l:"Emotion / Ausdruck",s:"Emotion"},
-];
-const VOICES=[
-  {id:"020fa2f81d65408383cd6e21d6be2f2d",title:"Samouvjeren bosanski glas",sex:"m",note:"Starker Allround-Sales-Kandidat",tags:["conversational","confident","professional"],audio:"https://platform.r2.fish.audio/tasks/2026-07-30/b9afa31bf9654470985939e11fe0bfbf.mp3"},
-  {id:"91526c9cbb5841858a34cb87ae739e89",title:"Profesionalni Muški Glas",sex:"m",note:"Seriös, klar — B2B Outbound",tags:["calm","announcer","advertisement"],audio:"https://platform.r2.fish.audio/tasks/2026-07-30/8d4e2323891f4fedb99b236997987026.mp3"},
-  {id:"7f141a660d4e4ee3aeaa2b562d9384bc",title:"Bosanski Autoritet",sex:"m",note:"Mehr Autorität, weniger weich",tags:["deep","authoritative","serious"],audio:"https://platform.r2.fish.audio/tasks/2026-07-30/e594c26a4f1248d7869c5d613157ff39.mp3"},
-  {id:"99a4e1cc695b49128a195f526152d699",title:"Muški Bosanski Glas",sex:"m",note:"Weicher, entspannter Einstieg",tags:["relaxed","calm","friendly"],audio:"https://platform.r2.fish.audio/tasks/2026-07-30/2a44125e7ce9423ebf5d5ea5883812b8.mp3"},
-  {id:"ff407d8678d940a584b614153c5f1a0f",title:"Savremeni Bosanski Ženski Glas",sex:"f",note:"Klassische professionelle Outbound-Stimme",tags:["friendly","professional","advertisement"],audio:"https://platform.r2.fish.audio/tasks/2026-07-30/f5a4e62e93b748d0bf6bb9f58b5a7653.mp3"},
-  {id:"03cfb7745c4a4200b55dd7baa09e3c59",title:"Dinamična",sex:"f",note:"Energie / jüngere Zielgruppe",tags:["young","energetic","friendly"],audio:"https://platform.r2.fish.audio/tasks/2026-07-30/329c40ad8d7c42b9aa20602b4300467e.mp3"},
-  {id:"a45966a2eaad4fb8a64bc844869aabcc",title:"Motivacioni Glas",sex:"f",note:"Warm + motivierend — Closing-Fit",tags:["warm","confident","advertisement"],audio:"https://platform.r2.fish.audio/tasks/2026-07-30/f272d020f43545e18c124b926268df97.mp3"},
-  {id:"e87d1b2fc7ed40d2940e69068b0ca726",title:"Jasna Ženski Glas",sex:"f",note:"Ruhig, erklärend, vertrauensvoll",tags:["calm","measured","conversational"],audio:"https://platform.r2.fish.audio/tasks/2026-07-30/859f0920e8754580985ba51202874fac.mp3"},
-];
-const KEY="bs-voice-ratings-v1";
-const REV_KEY="bs-voice-reviewer";
+/** Embedded fallback if config.json not available (single-file deploy) */
+const EMBEDDED_CONFIG = /*__EMBED_CONFIG__*/{"version": 1, "project": {"title": "Bosnisch Voice Compare", "subtitle": "Team bewertet Stimmen in 5 Kategorien (0–5 Sterne) · Ranking nach Durchschnitt", "brand": "Fish Audio · Telefonsales", "liveUrl": "https://voice-compare.activi.io/", "repo": "https://github.com/dsactivi-2/bosnian-sales-voice-compare"}, "script": "[friendly][confident] Dobar dan! Zovem se Ana iz Acme. [pause] Imate li minut da vam pokažem kako možete uštedjeti do [emphasis] trideset posto [emphasis] na mjesečnim troškovima?", "reviewers": ["Arman", "Denis", "Osoba 3"], "categories": [{"k": "pron", "l": "Aussprache (bosnisch)", "s": "Aussprache"}, {"k": "prof", "l": "Professionalität", "s": "Professionell"}, {"k": "warm", "l": "Wärme / Sales-Fit", "s": "Wärme"}, {"k": "clar", "l": "Verständlichkeit (Telefon)", "s": "Klarheit"}, {"k": "emo", "l": "Emotion / Ausdruck", "s": "Emotion"}], "voices": [{"id": "020fa2f81d65408383cd6e21d6be2f2d", "title": "Samouvjeren bosanski glas", "sex": "m", "note": "Starker Allround-Sales-Kandidat", "tags": ["conversational", "confident", "professional"], "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/b9afa31bf9654470985939e11fe0bfbf.mp3"}, {"id": "91526c9cbb5841858a34cb87ae739e89", "title": "Profesionalni Muški Glas", "sex": "m", "note": "Seriös, klar — B2B Outbound", "tags": ["calm", "announcer", "advertisement"], "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/8d4e2323891f4fedb99b236997987026.mp3"}, {"id": "7f141a660d4e4ee3aeaa2b562d9384bc", "title": "Bosanski Autoritet", "sex": "m", "note": "Mehr Autorität, weniger weich", "tags": ["deep", "authoritative", "serious"], "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/e594c26a4f1248d7869c5d613157ff39.mp3"}, {"id": "99a4e1cc695b49128a195f526152d699", "title": "Muški Bosanski Glas", "sex": "m", "note": "Weicher, entspannter Einstieg", "tags": ["relaxed", "calm", "friendly"], "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/2a44125e7ce9423ebf5d5ea5883812b8.mp3"}, {"id": "ff407d8678d940a584b614153c5f1a0f", "title": "Savremeni Bosanski Ženski Glas", "sex": "f", "note": "Klassische professionelle Outbound-Stimme", "tags": ["friendly", "professional", "advertisement"], "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/f5a4e62e93b748d0bf6bb9f58b5a7653.mp3"}, {"id": "03cfb7745c4a4200b55dd7baa09e3c59", "title": "Dinamična", "sex": "f", "note": "Energie / jüngere Zielgruppe", "tags": ["young", "energetic", "friendly"], "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/329c40ad8d7c42b9aa20602b4300467e.mp3"}, {"id": "a45966a2eaad4fb8a64bc844869aabcc", "title": "Motivacioni Glas", "sex": "f", "note": "Warm + motivierend — Closing-Fit", "tags": ["warm", "confident", "advertisement"], "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/f272d020f43545e18c124b926268df97.mp3"}, {"id": "e87d1b2fc7ed40d2940e69068b0ca726", "title": "Jasna Ženski Glas", "sex": "f", "note": "Ruhig, erklärend, vertrauensvoll", "tags": ["calm", "measured", "conversational"], "audio": "https://platform.r2.fish.audio/tasks/2026-07-30/859f0920e8754580985ba51202874fac.mp3"}]}/*__END_EMBED__*/;
 
-function load(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch{return{}}}
-function save(data){localStorage.setItem(KEY,JSON.stringify(data))}
-function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",2200)}
-function avg(r){if(!r)return null;const v=CATS.map(c=>+r[c.k]||0);return v.reduce((a,b)=>a+b,0)/v.length}
-function starsHtml(value, name, editable){
-  let h=`<div class="stars" data-name="${name}">`;
-  if(editable) h+=`<button type="button" class="zero" data-n="0" title="0 Sterne">0</button>`;
-  for(let n=1;n<=5;n++) h+=`<button type="button" class="${n<=value?"on":""}" data-n="${n}" ${editable?"":"disabled"} aria-label="${n} Sterne">${n<=value?"★":"☆"}</button>`;
-  h+=`<span style="margin-left:6px;font-size:.75rem;color:var(--muted)">${value}/5</span></div>`;
-  return h;
+const CFG_KEY = "bs-voice-config-v1";
+const RATE_KEY = "bs-voice-ratings-v1";
+const REV_KEY = "bs-voice-reviewer";
+
+let CONFIG = null;       // active config (file + optional browser override)
+let FILE_CONFIG = null;  // from config.json / embed
+let state = {};
+let selectedVoices = [];
+let minAvg = 0, sexFilter = "all", highOnly = false;
+let currentTab = "rate";
+let editId = null; // voice id being edited in admin form
+
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.display = "block";
+  setTimeout(() => t.style.display = "none", 2400);
+}
+function esc(s){ return String(s??"").replace(/&/g,"&").replace(/</g,"<").replace(/>/g,">").replace(/"/g,"""); }
+function loadRatings(){ try{return JSON.parse(localStorage.getItem(RATE_KEY)||"{}")}catch{return{}} }
+function saveRatings(data){ localStorage.setItem(RATE_KEY, JSON.stringify(data)); }
+function loadOverride(){ try{const raw=localStorage.getItem(CFG_KEY);return raw?JSON.parse(raw):null}catch{return null} }
+function saveOverride(cfg){ localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); }
+function clearOverride(){ localStorage.removeItem(CFG_KEY); }
+function hasOverride(){ return !!localStorage.getItem(CFG_KEY); }
+function clone(o){ return JSON.parse(JSON.stringify(o)); }
+
+function validateConfig(cfg){
+  const errs = [];
+  if (!cfg || typeof cfg !== "object") return ["Config ist kein Objekt"];
+  if (!cfg.project?.title) errs.push("project.title fehlt");
+  if (!cfg.script) errs.push("script fehlt");
+  if (!Array.isArray(cfg.reviewers) || !cfg.reviewers.length) errs.push("reviewers[] leer");
+  if (!Array.isArray(cfg.categories) || !cfg.categories.length) errs.push("categories[] leer");
+  if (!Array.isArray(cfg.voices) || !cfg.voices.length) errs.push("voices[] leer");
+  const ids = new Set();
+  (cfg.voices||[]).forEach((v,i)=>{
+    if (!v.id) errs.push(`voices[${i}].id fehlt`);
+    if (!v.title) errs.push(`voices[${i}].title fehlt`);
+    if (!v.audio) errs.push(`voices[${i}].audio fehlt`);
+    if (!["m","f","x"].includes(v.sex)) errs.push(`voices[${i}].sex muss m|f|x sein`);
+    if (v.id && ids.has(v.id)) errs.push(`doppelte id: ${v.id}`);
+    if (v.id) ids.add(v.id);
+  });
+  return errs;
 }
 
-let state=load();
-let selectedVoices=[];
-let minAvg=0, sexFilter="all", highOnly=false;
+function applyConfig(cfg, source){
+  const errs = validateConfig(cfg);
+  if (errs.length) throw new Error(errs.join("; "));
+  CONFIG = cfg;
+  state = loadRatings();
+  document.title = `${cfg.project.title} · Voice Compare`;
+  renderApp(source);
+}
 
-const reviewerEl=document.getElementById("reviewer");
-try{const r=localStorage.getItem(REV_KEY);if(r&&REVIEWERS.includes(r))reviewerEl.value=r}catch{}
-reviewerEl.onchange=()=>{try{localStorage.setItem(REV_KEY,reviewerEl.value)}catch{};renderRate()};
+async function boot(){
+  let fileCfg = null;
+  try {
+    const r = await fetch("config.json", { cache: "no-store" });
+    if (r.ok) fileCfg = await r.json();
+  } catch {}
+  if (!fileCfg && EMBEDDED_CONFIG) fileCfg = EMBEDDED_CONFIG;
+  if (!fileCfg) {
+    document.getElementById("boot").textContent = "config.json fehlt und kein Embed vorhanden.";
+    return;
+  }
+  FILE_CONFIG = fileCfg;
+  const override = loadOverride();
+  try {
+    applyConfig(override || fileCfg, override ? "browser-override" : "file");
+  } catch (e) {
+    if (override) {
+      clearOverride();
+      toast("Ungültige Browser-Config verworfen");
+      applyConfig(fileCfg, "file");
+    } else {
+      document.getElementById("boot").textContent = "Config ungültig: " + e.message;
+    }
+  }
+}
 
-document.getElementById("tabRate").onclick=()=>{
-  document.getElementById("tabRate").classList.add("on");
-  document.getElementById("tabRank").classList.remove("on");
-  document.getElementById("panelRate").style.display="";
-  document.getElementById("panelRank").style.display="none";
-};
-document.getElementById("tabRank").onclick=()=>{
-  document.getElementById("tabRank").classList.add("on");
-  document.getElementById("tabRate").classList.remove("on");
-  document.getElementById("panelRate").style.display="none";
-  document.getElementById("panelRank").style.display="";
-  renderRank();
-};
-
+function CATS(){ return CONFIG.categories; }
+function REVIEWERS(){ return CONFIG.reviewers; }
+function VOICES(){ return CONFIG.voices; }
+function avg(r){
+  if (!r) return null;
+  const v = CATS().map(c => +r[c.k] || 0);
+  return v.reduce((a,b)=>a+b,0) / v.length;
+}
+function starsHtml(value, name, editable){
+  let h = `<div class="stars" data-name="${esc(name)}">`;
+  if (editable) h += `<button type="button" class="zero" data-n="0" title="0 Sterne">0</button>`;
+  for (let n=1;n<=5;n++) {
+    h += `<button type="button" class="${n<=value?"on":""}" data-n="${n}" ${editable?"":"disabled"} aria-label="${n} Sterne">${n<=value?"★":"☆"}</button>`;
+  }
+  h += `<span style="margin-left:6px;font-size:.75rem;color:var(--muted)">${value}/5</span></div>`;
+  return h;
+}
 function voiceRatings(vid){
-  const out=[];
-  for(const rev of REVIEWERS){
-    const key=vid+"|"+rev;
-    if(state[key]) out.push({reviewer:rev,...state[key]});
+  const out = [];
+  for (const rev of REVIEWERS()) {
+    const key = vid + "|" + rev;
+    if (state[key]) out.push({ reviewer: rev, ...state[key] });
   }
   return out;
 }
+function teamAvg(vid){
+  const rs = voiceRatings(vid);
+  if (!rs.length) return null;
+  return rs.map(avg).reduce((a,b)=>a+b,0)/rs.length;
+}
+function catAvg(vid,k){
+  const rs = voiceRatings(vid);
+  if (!rs.length) return null;
+  return rs.reduce((s,r)=>s+(+r[k]||0),0)/rs.length;
+}
+
+function setTab(tab){
+  currentTab = tab;
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab===tab));
+  ["rate","rank","admin"].forEach(t => {
+    const el = document.getElementById("panel"+t[0].toUpperCase()+t.slice(1));
+    if (el) el.style.display = t===tab ? "" : "none";
+  });
+  if (tab==="rank") renderRank();
+  if (tab==="admin") renderAdmin();
+  if (tab==="rate") renderRate();
+}
+
+function renderApp(source){
+  const p = CONFIG.project;
+  const app = document.getElementById("app");
+  const srcBadge = hasOverride()
+    ? `<span class="badge draft">Browser-Entwurf (nicht committed)</span>`
+    : `<span class="badge live">config.json</span>`;
+  app.innerHTML = `
+<header>
+  <p style="margin:0 0 4px;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)">${esc(p.brand||"Voice Compare")}</p>
+  <div class="head-row">
+    <div>
+      <h1>${esc(p.title)}</h1>
+      <p class="sub">${esc(p.subtitle||"")}</p>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">${srcBadge}<span class="badge">${VOICES().length} Stimmen</span></div>
+  </div>
+  <div class="row">
+    <label class="field">Teammitglied (wer bewertet gerade)
+      <select id="reviewer">${REVIEWERS().map((r,i)=>`<option ${i===Math.min(1,REVIEWERS().length-1)?"selected":""}>${esc(r)}</option>`).join("")}</select>
+    </label>
+  </div>
+  <div class="script" id="scriptBox"><strong>Skript (gleich für alle):</strong><br/>${esc(CONFIG.script)}</div>
+  <div class="tabs">
+    <button type="button" data-tab="rate" class="${currentTab==="rate"?"on":""}">Bewerten</button>
+    <button type="button" data-tab="rank" class="${currentTab==="rank"?"on":""}">Ranking</button>
+    <button type="button" data-tab="admin" class="${currentTab==="admin"?"on":""}">Stimmen</button>
+  </div>
+  <div class="note">💡 Bewertungen → <strong>Browser localStorage</strong>. Stimmen-Katalog → <strong>config.json</strong> (oder Browser-Entwurf unter Tab „Stimmen“). Export-Config committen = neue Stimmen fürs Team live.</div>
+</header>
+<div id="panelRate" style="display:${currentTab==="rate"?"":"none"}"></div>
+<div id="panelRank" style="display:${currentTab==="rank"?"":"none"}"></div>
+<div id="panelAdmin" style="display:${currentTab==="admin"?"":"none"}"></div>
+<div class="card">
+  <strong style="font-size:.9rem">Team-Sync (Bewertungen)</strong>
+  <p class="meta" style="margin:6px 0 10px">Exportiert alle Bewertungen als JSON → in Slack teilen → jemand importiert.</p>
+  <div class="actions">
+    <button type="button" class="btn btn-g" id="btnExport">Export Bewertungen</button>
+    <button type="button" class="btn btn-g" id="btnImport">Import Bewertungen</button>
+    <button type="button" class="btn btn-d" id="btnClear">Alle Bewertungen löschen</button>
+  </div>
+</div>`;
+
+  // restore reviewer
+  const reviewerEl = document.getElementById("reviewer");
+  try {
+    const r = localStorage.getItem(REV_KEY);
+    if (r && REVIEWERS().includes(r)) reviewerEl.value = r;
+  } catch {}
+  reviewerEl.onchange = () => {
+    try { localStorage.setItem(REV_KEY, reviewerEl.value); } catch {}
+    if (currentTab==="rate") renderRate();
+  };
+
+  document.querySelectorAll(".tabs button").forEach(b => {
+    b.onclick = () => setTab(b.dataset.tab);
+  });
+
+  document.getElementById("btnExport").onclick = async () => {
+    const payload = JSON.stringify({ v:1, ratings: state }, null, 2);
+    try { await navigator.clipboard.writeText(payload); toast("Export in Zwischenablage"); }
+    catch { prompt("Kopiere Export:", payload); }
+  };
+  document.getElementById("btnImport").onclick = () => {
+    const raw = prompt("Export-JSON hier einfügen:");
+    if (!raw) return;
+    try {
+      const data = JSON.parse(raw);
+      const incoming = data.ratings || data;
+      state = { ...state, ...incoming };
+      saveRatings(state);
+      toast("Import OK");
+      renderRate();
+    } catch { toast("Import fehlgeschlagen"); }
+  };
+  document.getElementById("btnClear").onclick = () => {
+    if (!confirm("Wirklich alle Bewertungen auf diesem Gerät löschen?")) return;
+    state = {};
+    saveRatings(state);
+    toast("Gelöscht");
+    renderRate();
+  };
+
+  if (currentTab==="rate") renderRate();
+  else if (currentTab==="rank") renderRank();
+  else renderAdmin();
+}
 
 function renderRate(){
-  const rev=reviewerEl.value;
-  const root=document.getElementById("panelRate");
-  root.innerHTML=VOICES.map((v,i)=>{
-    const key=v.id+"|"+rev;
-    const mine=state[key]||{pron:0,prof:0,warm:0,clar:0,emo:0,comment:""};
-    const a=avg(mine);
-    const all=voiceRatings(v.id);
-    return `<article class="card" data-vid="${v.id}">
+  const rev = document.getElementById("reviewer")?.value || REVIEWERS()[0];
+  const root = document.getElementById("panelRate");
+  if (!root) return;
+  root.innerHTML = VOICES().map((v,i) => {
+    const key = v.id + "|" + rev;
+    const mine = state[key] || Object.fromEntries([...CATS().map(c=>[c.k,0]), ["comment",""]]);
+    const a = avg(mine);
+    const all = voiceRatings(v.id);
+    return `<article class="card" data-vid="${esc(v.id)}">
       <div class="head-row">
         <div>
-          <h2>${i+1}. ${v.title}</h2>
-          <p class="meta">${v.note}</p>
-          <div class="tags"><span class="tag ${v.sex}">${v.sex==="m"?"männlich":"weiblich"}</span>${v.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+          <h2>${i+1}. ${esc(v.title)}</h2>
+          <p class="meta">${esc(v.note||"")}</p>
+          <div class="tags"><span class="tag ${esc(v.sex)}">${v.sex==="m"?"männlich":v.sex==="f"?"weiblich":"divers"}</span>${(v.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>
         </div>
         ${a!=null&&state[key]?`<div class="avg">${a.toFixed(1)} <span style="font-size:.7rem;color:var(--muted)">dein Ø</span></div>`:""}
       </div>
-      <audio controls preload="metadata" src="${v.audio}"></audio>
+      <audio controls preload="metadata" src="${esc(v.audio)}"></audio>
       <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px">
-        <div class="meta" style="margin-bottom:8px;font-weight:600;text-transform:uppercase;font-size:.72rem">Deine Bewertung als ${rev}</div>
-        <div class="grid2" id="cats-${v.id}">
-          ${CATS.map(c=>`<div class="cat"><div class="cat-label">${c.l}</div>${starsHtml(+mine[c.k]||0,c.k,true)}</div>`).join("")}
+        <div class="meta" style="margin-bottom:8px;font-weight:600;text-transform:uppercase;font-size:.72rem">Deine Bewertung als ${esc(rev)}</div>
+        <div class="grid2">
+          ${CATS().map(c=>`<div class="cat"><div class="cat-label">${esc(c.l)}</div>${starsHtml(+mine[c.k]||0,c.k,true)}</div>`).join("")}
         </div>
         <label class="field" style="margin-top:10px">Kommentar (optional)
-          <textarea rows="2" maxlength="1000" data-comment>${(mine.comment||"").replace(/</g,"<")}</textarea>
+          <textarea rows="2" maxlength="1000" data-comment>${esc(mine.comment||"")}</textarea>
         </label>
         <div class="actions">
           <button type="button" class="btn btn-p" data-save>Bewertung speichern</button>
@@ -192,74 +330,70 @@ function renderRate(){
         </div>
       </div>
       <div class="team-box">
-        <h3>Team-Wertungen (${all.length}/3)</h3>
-        ${REVIEWERS.map(name=>{
-          const r=all.find(x=>x.reviewer===name);
-          if(!r) return `<div class="rating-row pending"><strong>${name}</strong> — ausstehend</div>`;
-          const av=avg(r);
-          return `<div class="rating-row"><div style="display:flex;justify-content:space-between"><strong>${name}</strong><span class="avg" style="font-size:.95rem">Ø ${av.toFixed(2)}</span></div>
-            <div class="grid2" style="margin-top:6px">${CATS.map(c=>`<div style="font-size:.75rem;display:flex;justify-content:space-between"><span class="meta">${c.s}</span><span>${r[c.k]}/5</span></div>`).join("")}</div>
-            ${r.comment?`<div style="margin-top:6px;font-size:.85rem">„${r.comment.replace(/</g,"<")}“</div>`:""}
+        <h3>Team-Wertungen (${all.length}/${REVIEWERS().length})</h3>
+        ${REVIEWERS().map(name=>{
+          const r = all.find(x=>x.reviewer===name);
+          if (!r) return `<div class="rating-row pending"><strong>${esc(name)}</strong> — ausstehend</div>`;
+          const av = avg(r);
+          return `<div class="rating-row"><div style="display:flex;justify-content:space-between"><strong>${esc(name)}</strong><span class="avg" style="font-size:.95rem">Ø ${av.toFixed(2)}</span></div>
+            <div class="grid2" style="margin-top:6px">${CATS().map(c=>`<div style="font-size:.75rem;display:flex;justify-content:space-between"><span class="meta">${esc(c.s)}</span><span>${r[c.k]}/5</span></div>`).join("")}</div>
+            ${r.comment?`<div style="margin-top:6px;font-size:.85rem">„${esc(r.comment)}“</div>`:""}
           </div>`;
         }).join("")}
       </div>
     </article>`;
   }).join("");
 
-  root.querySelectorAll("article").forEach(card=>{
-    const vid=card.dataset.vid;
-    card.querySelectorAll(".stars").forEach(row=>{
-      row.querySelectorAll("button").forEach(btn=>{
-        btn.onclick=()=>{
-          const n=+btn.dataset.n;
-          row.querySelectorAll("button[data-n]").forEach(b=>{
-            if(b.classList.contains("zero")) return;
-            const bn=+b.dataset.n;
+  root.querySelectorAll("article").forEach(card => {
+    const vid = card.dataset.vid;
+    card.querySelectorAll(".stars").forEach(row => {
+      row.querySelectorAll("button").forEach(btn => {
+        btn.onclick = () => {
+          const n = +btn.dataset.n;
+          row.querySelectorAll("button[data-n]").forEach(b => {
+            if (b.classList.contains("zero")) return;
+            const bn = +b.dataset.n;
             b.classList.toggle("on", bn<=n && bn>0);
-            b.textContent=bn<=n && bn>0?"★":"☆";
+            b.textContent = bn<=n && bn>0 ? "★" : "☆";
           });
-          row.dataset.value=String(n);
-          const span=row.querySelector("span");
-          if(span) span.textContent=n+"/5";
+          row.dataset.value = String(n);
+          const span = row.querySelector("span");
+          if (span) span.textContent = n + "/5";
         };
       });
-      // init dataset
-      const onCount=[...row.querySelectorAll("button.on")].filter(b=>!b.classList.contains("zero")).length;
-      row.dataset.value=String(onCount);
+      const onCount = [...row.querySelectorAll("button.on")].filter(b=>!b.classList.contains("zero")).length;
+      row.dataset.value = String(onCount);
     });
-    card.querySelector("[data-save]").onclick=()=>{
-      const scores={};
-      card.querySelectorAll(".stars").forEach(row=>{scores[row.dataset.name]=+(row.dataset.value||0)});
-      const comment=card.querySelector("[data-comment]").value||"";
-      state[vid+"|"+reviewerEl.value]={...scores,comment,ts:Date.now()};
-      save(state);toast("Gespeichert als "+reviewerEl.value);renderRate();
+    card.querySelector("[data-save]").onclick = () => {
+      const scores = {};
+      card.querySelectorAll(".stars").forEach(row => { scores[row.dataset.name] = +(row.dataset.value||0); });
+      const comment = card.querySelector("[data-comment]").value || "";
+      const revNow = document.getElementById("reviewer").value;
+      state[vid+"|"+revNow] = { ...scores, comment, ts: Date.now() };
+      saveRatings(state);
+      toast("Gespeichert als " + revNow);
+      renderRate();
     };
-    const del=card.querySelector("[data-del]");
-    if(del) del.onclick=()=>{delete state[vid+"|"+reviewerEl.value];save(state);toast("Gelöscht");renderRate()};
+    const del = card.querySelector("[data-del]");
+    if (del) del.onclick = () => {
+      delete state[vid+"|"+document.getElementById("reviewer").value];
+      saveRatings(state);
+      toast("Gelöscht");
+      renderRate();
+    };
   });
 }
 
-function teamAvg(vid){
-  const rs=voiceRatings(vid);
-  if(!rs.length) return null;
-  return rs.map(avg).reduce((a,b)=>a+b,0)/rs.length;
-}
-function catAvg(vid,k){
-  const rs=voiceRatings(vid);
-  if(!rs.length) return null;
-  return rs.reduce((s,r)=>s+(+r[k]||0),0)/rs.length;
-}
-
 function renderRank(){
-  let rows=VOICES.map(v=>({v,ta:teamAvg(v.id),n:voiceRatings(v.id).length}));
-  if(sexFilter!=="all") rows=rows.filter(r=>r.v.sex===sexFilter);
-  if(selectedVoices.length) rows=rows.filter(r=>selectedVoices.includes(r.v.id));
-  if(highOnly) rows=rows.filter(r=>r.ta!=null&&r.ta>=4);
-  if(minAvg>0) rows=rows.filter(r=>r.ta!=null&&r.ta>=minAvg);
-  rows.sort((a,b)=>(b.ta??-1)-(a.ta??-1));
+  let rows = VOICES().map(v => ({ v, ta: teamAvg(v.id), n: voiceRatings(v.id).length }));
+  if (sexFilter !== "all") rows = rows.filter(r => r.v.sex === sexFilter);
+  if (selectedVoices.length) rows = rows.filter(r => selectedVoices.includes(r.v.id));
+  if (highOnly) rows = rows.filter(r => r.ta != null && r.ta >= 4);
+  if (minAvg > 0) rows = rows.filter(r => r.ta != null && r.ta >= minAvg);
+  rows.sort((a,b) => (b.ta??-1) - (a.ta??-1));
 
-  const root=document.getElementById("panelRank");
-  root.innerHTML=`<div class="card">
+  const root = document.getElementById("panelRank");
+  root.innerHTML = `<div class="card">
     <strong>Filter & Sortierung</strong>
     <p class="meta">Sortiert nach Team-Ø (höchste zuerst)</p>
     <div class="filters" style="margin-top:10px">
@@ -281,73 +415,260 @@ function renderRank(){
       </label>
     </div>
     <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size:.9rem;cursor:pointer">
-      <input type="checkbox" id="highOnly"/> Nur Top-Stimmen (Ø ≥ 4 Sterne)
+      <input type="checkbox" id="highOnly"/> Nur Top-Stimmen (Ø ≥ 4)
     </label>
     <div style="margin-top:12px">
       <div class="meta" style="margin-bottom:6px">Stimmen multi-select (leer = alle)</div>
-      <div class="chips" id="voiceChips">${VOICES.map(v=>`<button type="button" class="chip ${selectedVoices.includes(v.id)?"on":""}" data-id="${v.id}">${v.title}</button>`).join("")}</div>
+      <div class="chips" id="voiceChips">${VOICES().map(v=>`<button type="button" class="chip ${selectedVoices.includes(v.id)?"on":""}" data-id="${esc(v.id)}">${esc(v.title)}</button>`).join("")}</div>
     </div>
   </div>
-  ${rows.length?rows.map((row,i)=>`
+  ${rows.length ? rows.map((row,i)=>`
     <div class="card">
       <div class="head-row">
         <div style="display:flex;gap:12px;align-items:flex-start">
           <div class="rank-num ${i===0?"gold":""}">#${i+1}</div>
           <div>
-            <h2 style="margin:0">${row.v.title}</h2>
-            <p class="meta">${row.v.sex==="m"?"männlich":"weiblich"} · ${row.n}/3 Bewertungen</p>
+            <h2 style="margin:0">${esc(row.v.title)}</h2>
+            <p class="meta">${row.v.sex==="m"?"männlich":row.v.sex==="f"?"weiblich":"divers"} · ${row.n}/${REVIEWERS().length} Bewertungen</p>
           </div>
         </div>
         <div style="text-align:right"><div class="avg" style="font-size:1.6rem">${row.ta!=null?row.ta.toFixed(2):"—"}</div><div class="meta" style="font-size:.65rem;text-transform:uppercase">Team-Ø</div></div>
       </div>
-      <audio controls preload="metadata" src="${row.v.audio}"></audio>
-      <div class="grid2">${CATS.map(c=>{const ca=catAvg(row.v.id,c.k);return `<div style="display:flex;justify-content:space-between;font-size:.8rem;background:var(--bg);padding:6px 8px;border-radius:8px"><span class="meta">${c.s}</span><span>${ca!=null?ca.toFixed(1)+" ★":"—"}</span></div>`}).join("")}</div>
-      <div class="team-box">${REVIEWERS.map(name=>{
-        const r=voiceRatings(row.v.id).find(x=>x.reviewer===name);
-        if(!r) return `<div class="meta">${name}: noch nicht bewertet</div>`;
-        return `<div style="font-size:.9rem"><strong>${name}:</strong> <span class="avg" style="font-size:.9rem">Ø ${avg(r).toFixed(2)}</span>${r.comment?` <span class="meta">— „${r.comment.replace(/</g,"<")}“</span>`:""}</div>`;
-      }).join("")}</div>
-    </div>`).join(""):`<div class="card meta">Keine Stimmen passen zu den Filtern.</div>`}`;
+      <audio controls preload="metadata" src="${esc(row.v.audio)}"></audio>
+      <div class="grid2">${CATS().map(c=>{const ca=catAvg(row.v.id,c.k);return `<div style="display:flex;justify-content:space-between;font-size:.8rem;background:var(--bg);padding:6px 8px;border-radius:8px"><span class="meta">${esc(c.s)}</span><span>${ca!=null?ca.toFixed(1)+" ★":"—"}</span></div>`}).join("")}</div>
+    </div>`).join("") : `<div class="card meta">Keine Stimmen passen zu den Filtern.</div>`}`;
 
-  const minEl=document.getElementById("minAvg");
-  minEl.value=String(minAvg);
-  minEl.onchange=()=>{minAvg=+minEl.value;renderRank()};
-  const sexEl=document.getElementById("sexF");
-  sexEl.value=sexFilter;
-  sexEl.onchange=()=>{sexFilter=sexEl.value;renderRank()};
-  const hi=document.getElementById("highOnly");
-  hi.checked=highOnly;
-  hi.onchange=()=>{highOnly=hi.checked;renderRank()};
-  document.querySelectorAll("#voiceChips .chip").forEach(ch=>{
-    ch.onclick=()=>{
-      const id=ch.dataset.id;
-      selectedVoices=selectedVoices.includes(id)?selectedVoices.filter(x=>x!==id):[...selectedVoices,id];
+  const minEl = document.getElementById("minAvg");
+  minEl.value = String(minAvg);
+  minEl.onchange = () => { minAvg = +minEl.value; renderRank(); };
+  const sexEl = document.getElementById("sexF");
+  sexEl.value = sexFilter;
+  sexEl.onchange = () => { sexFilter = sexEl.value; renderRank(); };
+  const hi = document.getElementById("highOnly");
+  hi.checked = highOnly;
+  hi.onchange = () => { highOnly = hi.checked; renderRank(); };
+  document.querySelectorAll("#voiceChips .chip").forEach(ch => {
+    ch.onclick = () => {
+      const id = ch.dataset.id;
+      selectedVoices = selectedVoices.includes(id) ? selectedVoices.filter(x=>x!==id) : [...selectedVoices, id];
       renderRank();
     };
   });
 }
 
-document.getElementById("btnExport").onclick=async()=>{
-  const payload=JSON.stringify({v:1,ratings:state},null,2);
-  try{await navigator.clipboard.writeText(payload);toast("Export in Zwischenablage kopiert")}
-  catch{prompt("Kopiere diesen Export:",payload)}
-};
-document.getElementById("btnImport").onclick=()=>{
-  const raw=prompt("Export-JSON hier einfügen:");
-  if(!raw) return;
-  try{
-    const data=JSON.parse(raw);
-    const incoming=data.ratings||data;
-    state={...state,...incoming};
-    save(state);toast("Import OK");renderRate();
-  }catch{toast("Import fehlgeschlagen — JSON prüfen")}
-};
-document.getElementById("btnClear").onclick=()=>{
-  if(!confirm("Wirklich alle Bewertungen auf diesem Gerät löschen?")) return;
-  state={};save(state);toast("Gelöscht");renderRate();
-};
+function emptyVoice(){
+  return { id: "", title: "", sex: "m", note: "", tags: [], audio: "" };
+}
 
-renderRate();
+function renderAdmin(){
+  const root = document.getElementById("panelAdmin");
+  const editing = editId ? VOICES().find(v => v.id === editId) : null;
+  const form = editing || emptyVoice();
+  const tagsStr = (form.tags||[]).join(", ");
+
+  root.innerHTML = `
+<div class="card">
+  <strong>Stimmen verwalten</strong>
+  <p class="help">Einfachste Wege: (1) hier hinzufügen/bearbeiten → <em>Config exportieren</em> → in Repo als <code>config.json</code> speichern, oder (2) direkt <code>config.json</code> editieren und deployen. Agenten nutzen MCP/Skill im Repo.</p>
+  <div class="actions">
+    <button type="button" class="btn btn-ok" id="btnExportCfg">Config exportieren (JSON)</button>
+    <button type="button" class="btn btn-g" id="btnImportCfg">Config importieren</button>
+    <button type="button" class="btn btn-g" id="btnCopyCfg">Config in Zwischenablage</button>
+    ${hasOverride()?`<button type="button" class="btn btn-d" id="btnResetCfg">Browser-Entwurf verwerfen</button>`:""}
+  </div>
+</div>
+
+<div class="card">
+  <strong>${editing ? "Stimme bearbeiten" : "Neue Stimme hinzufügen"}</strong>
+  <p class="help">Felder: <code>id</code> (Fish voice_id oder eigene stabile ID), <code>title</code>, <code>sex</code> m|f|x, <code>audio</code> (MP3-URL), optional note/tags.</p>
+  <div class="form-grid" id="voiceForm">
+    <label class="field">Titel<input id="fTitle" value="${esc(form.title)}" placeholder="z.B. Warme Sales-Stimme"/></label>
+    <label class="field">ID (stabil)<input id="fId" value="${esc(form.id)}" placeholder="fish-voice-id oder slug" ${editing?"readonly":""}/></label>
+    <label class="field">Geschlecht
+      <select id="fSex">
+        <option value="m" ${form.sex==="m"?"selected":""}>männlich (m)</option>
+        <option value="f" ${form.sex==="f"?"selected":""}>weiblich (f)</option>
+        <option value="x" ${form.sex==="x"?"selected":""}>divers (x)</option>
+      </select>
+    </label>
+    <label class="field">Tags (Komma-getrennt)<input id="fTags" value="${esc(tagsStr)}" placeholder="confident, sales"/></label>
+    <label class="field full">Audio-URL (mp3)<input id="fAudio" value="${esc(form.audio)}" placeholder="https://...mp3"/></label>
+    <label class="field full">Notiz<input id="fNote" value="${esc(form.note||"")}" placeholder="Kurzbeschreibung fürs Team"/></label>
+  </div>
+  <div class="actions">
+    <button type="button" class="btn btn-p" id="btnSaveVoice">${editing?"Änderungen speichern":"Stimme hinzufügen"}</button>
+    ${editing?`<button type="button" class="btn btn-g" id="btnCancelEdit">Abbrechen</button>`:""}
+  </div>
+</div>
+
+<div class="card">
+  <strong>Skript & Reviewer</strong>
+  <label class="field" style="margin-top:8px">TTS / Vergleichs-Skript
+    <textarea id="fScript" rows="3">${esc(CONFIG.script)}</textarea>
+  </label>
+  <label class="field" style="margin-top:8px">Reviewer (Komma-getrennt)
+    <input id="fReviewers" value="${esc(REVIEWERS().join(", "))}"/>
+  </label>
+  <div class="actions">
+    <button type="button" class="btn btn-p" id="btnSaveMeta">Skript/Reviewer speichern</button>
+  </div>
+</div>
+
+<div class="card">
+  <strong>Aktuelle Stimmen (${VOICES().length})</strong>
+  <div class="voice-admin" style="margin-top:10px">
+    ${VOICES().map((v,i)=>`
+      <div class="va-card" data-id="${esc(v.id)}">
+        <div class="va-head">
+          <div>
+            <strong>${i+1}. ${esc(v.title)}</strong>
+            <div class="muted-code">${esc(v.id)}</div>
+            <div class="meta">${v.sex==="m"?"♂":v.sex==="f"?"♀":"·"} ${esc(v.note||"")} ${(v.tags||[]).map(t=>`#${esc(t)}`).join(" ")}</div>
+          </div>
+          <div class="actions" style="margin:0">
+            <button type="button" class="btn btn-g" data-up title="Nach oben">↑</button>
+            <button type="button" class="btn btn-g" data-down title="Nach unten">↓</button>
+            <button type="button" class="btn btn-g" data-edit>Edit</button>
+            <button type="button" class="btn btn-d" data-rm>Entfernen</button>
+          </div>
+        </div>
+        <audio controls preload="metadata" src="${esc(v.audio)}" style="margin-top:8px"></audio>
+      </div>`).join("")}
+  </div>
+</div>
+
+<div class="card">
+  <strong>Für Agenten (Claude / Grok / OpenAI / Hermes)</strong>
+  <p class="help">Im Repo: <code>agents/SKILL.md</code> + <code>mcp/server.mjs</code>. Workflow: Stimme via Fish TTS erzeugen → <code>audio</code>-URL + <code>id</code> in <code>config.json</code> eintragen → deploy.</p>
+  <pre class="muted-code" style="white-space:pre-wrap;background:var(--bg);padding:10px;border-radius:8px;border:1px solid var(--border)"># Stimme hinzufügen (manuell)
+1. Fish Audio TTS mit voice_id + script
+2. MP3-URL + voice_id in config.json unter voices[]
+3. commit & deploy → live auf ${esc(CONFIG.project.liveUrl||"")}</pre>
+</div>`;
+
+  const persistDraft = (cfg) => {
+    const errs = validateConfig(cfg);
+    if (errs.length) { toast("Ungültig: " + errs[0]); return false; }
+    saveOverride(cfg);
+    applyConfig(cfg, "browser-override");
+    toast("Als Browser-Entwurf gespeichert — Config exportieren zum Committen");
+    return true;
+  };
+
+  document.getElementById("btnSaveVoice").onclick = () => {
+    const title = document.getElementById("fTitle").value.trim();
+    let id = document.getElementById("fId").value.trim();
+    const sex = document.getElementById("fSex").value;
+    const audio = document.getElementById("fAudio").value.trim();
+    const note = document.getElementById("fNote").value.trim();
+    const tags = document.getElementById("fTags").value.split(",").map(s=>s.trim()).filter(Boolean);
+    if (!title || !audio) { toast("Titel und Audio-URL nötig"); return; }
+    if (!id) id = "voice-" + Date.now().toString(36);
+    const cfg = clone(CONFIG);
+    if (editId) {
+      const idx = cfg.voices.findIndex(v => v.id === editId);
+      if (idx < 0) { toast("Stimme nicht gefunden"); return; }
+      cfg.voices[idx] = { ...cfg.voices[idx], title, sex, audio, note, tags, id: editId };
+      editId = null;
+    } else {
+      if (cfg.voices.some(v => v.id === id)) { toast("ID existiert bereits"); return; }
+      cfg.voices.push({ id, title, sex, audio, note, tags });
+    }
+    persistDraft(cfg);
+    currentTab = "admin";
+    setTab("admin");
+  };
+
+  const cancel = document.getElementById("btnCancelEdit");
+  if (cancel) cancel.onclick = () => { editId = null; renderAdmin(); };
+
+  document.getElementById("btnSaveMeta").onclick = () => {
+    const script = document.getElementById("fScript").value.trim();
+    const reviewers = document.getElementById("fReviewers").value.split(",").map(s=>s.trim()).filter(Boolean);
+    if (!script || !reviewers.length) { toast("Skript und mind. 1 Reviewer"); return; }
+    const cfg = clone(CONFIG);
+    cfg.script = script;
+    cfg.reviewers = reviewers;
+    persistDraft(cfg);
+    currentTab = "admin";
+    setTab("admin");
+  };
+
+  root.querySelectorAll(".va-card").forEach(card => {
+    const id = card.dataset.id;
+    card.querySelector("[data-edit]").onclick = () => { editId = id; renderAdmin(); };
+    card.querySelector("[data-rm]").onclick = () => {
+      if (!confirm("Stimme entfernen?")) return;
+      const cfg = clone(CONFIG);
+      cfg.voices = cfg.voices.filter(v => v.id !== id);
+      if (!cfg.voices.length) { toast("Mindestens 1 Stimme behalten"); return; }
+      if (editId === id) editId = null;
+      persistDraft(cfg);
+      currentTab = "admin";
+      setTab("admin");
+    };
+    card.querySelector("[data-up]").onclick = () => {
+      const cfg = clone(CONFIG);
+      const i = cfg.voices.findIndex(v => v.id === id);
+      if (i <= 0) return;
+      [cfg.voices[i-1], cfg.voices[i]] = [cfg.voices[i], cfg.voices[i-1]];
+      persistDraft(cfg);
+      currentTab = "admin";
+      setTab("admin");
+    };
+    card.querySelector("[data-down]").onclick = () => {
+      const cfg = clone(CONFIG);
+      const i = cfg.voices.findIndex(v => v.id === id);
+      if (i < 0 || i >= cfg.voices.length-1) return;
+      [cfg.voices[i], cfg.voices[i+1]] = [cfg.voices[i+1], cfg.voices[i]];
+      persistDraft(cfg);
+      currentTab = "admin";
+      setTab("admin");
+    };
+  });
+
+  const download = (filename, text) => {
+    const blob = new Blob([text], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
+  document.getElementById("btnExportCfg").onclick = () => {
+    download("config.json", JSON.stringify(CONFIG, null, 2));
+    toast("config.json heruntergeladen");
+  };
+  document.getElementById("btnCopyCfg").onclick = async () => {
+    const text = JSON.stringify(CONFIG, null, 2);
+    try { await navigator.clipboard.writeText(text); toast("Config kopiert"); }
+    catch { prompt("Config:", text); }
+  };
+  document.getElementById("btnImportCfg").onclick = () => {
+    const raw = prompt("Gesamte config.json hier einfügen:");
+    if (!raw) return;
+    try {
+      const cfg = JSON.parse(raw);
+      if (!cfg.version) cfg.version = 1;
+      persistDraft(cfg);
+      currentTab = "admin";
+      setTab("admin");
+    } catch (e) { toast("JSON-Fehler: " + e.message); }
+  };
+  const reset = document.getElementById("btnResetCfg");
+  if (reset) reset.onclick = () => {
+    if (!confirm("Browser-Entwurf verwerfen und config.json laden?")) return;
+    clearOverride();
+    editId = null;
+    applyConfig(clone(FILE_CONFIG), "file");
+    currentTab = "admin";
+    setTab("admin");
+    toast("Zurück zu config.json");
+  };
+}
+
+boot();
 </script>
 </body>
 </html>
