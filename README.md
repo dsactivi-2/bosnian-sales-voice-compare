@@ -26,3 +26,16 @@ Browser `localStorage` · Export/Import für Team-Sync · Reviewer: Arman / Deni
 
 - Skill: `agents/SKILL.md`
 - MCP: `node mcp/server.mjs`
+
+
+## Cloud-Datenbank (D1)
+
+Bewertungen liegen in **Cloudflare D1** (nicht nur Browser):
+
+- `GET /api/ratings` — alle Team-Bewertungen
+- `PUT /api/ratings` — eine Bewertung speichern
+- `PUT /api/ratings/bulk` — Import/Merge
+- `DELETE /api/ratings?voice_id=&reviewer=` — löschen
+- `GET /api/health` — Status
+
+Schema: `deploy/schema.sql`. Worker: `deploy/cloudflare-worker.js` (Binding `DB`).

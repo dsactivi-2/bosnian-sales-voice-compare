@@ -91,6 +91,9 @@ let selectedVoices = [];
 let minAvg = 0, sexFilter = "all", langFilter = "all", highOnly = false;
 let currentTab = "rate";
 let editId = null; // voice id being edited in admin form
+let cloudOnline = false;
+let cloudCount = 0;
+const API_BASE = ""; // same-origin /api/*
 
 function toast(msg){
   const t = document.getElementById("toast");
@@ -100,7 +103,84 @@ function toast(msg){
 }
 function esc(s){return String(s??"").replace(/&/g,"&"+"amp;").replace(/</g,"&"+"lt;").replace(/>/g,"&"+"gt;").replace(/"/g,"&"+"quot;")}
 function loadRatings(){ try{return JSON.parse(localStorage.getItem(RATE_KEY)||"{}")}catch{return{}} }
-function saveRatings(data){ localStorage.setItem(RATE_KEY, JSON.stringify(data)); }
+function saveRatingsLocal(data){ try{ localStorage.setItem(RATE_KEY, JSON.stringify(data)); }catch{} }
+function saveRatings(data){ saveRatingsLocal(data); }
+
+async function fetchCloudRatings(){
+  try {
+    const res = await fetch(API_BASE + "/api/ratings", { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    cloudOnline = true;
+    cloudCount = data.count || 0;
+    return data.ratings || {};
+  } catch (e) {
+    cloudOnline = false;
+    return null;
+  }
+}
+
+async function pushRating(voiceId, reviewer, payload){
+  try {
+    const res = await fetch(API_BASE + "/api/ratings", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ voice_id: voiceId, reviewer, ...payload }),
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    cloudOnline = true;
+    return true;
+  } catch {
+    cloudOnline = false;
+    return false;
+  }
+}
+
+async function deleteCloudRating(voiceId, reviewer){
+  try {
+    const res = await fetch(API_BASE + "/api/ratings?voice_id=" + encodeURIComponent(voiceId) + "&reviewer=" + encodeURIComponent(reviewer), { method: "DELETE" });
+    return res.ok;
+  } catch { return false; }
+}
+
+async function bulkPushRatings(map){
+  try {
+    const res = await fetch(API_BASE + "/api/ratings/bulk", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ ratings: map }),
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    cloudOnline = true;
+    return true;
+  } catch {
+    cloudOnline = false;
+    return false;
+  }
+}
+
+async function clearCloudRatings(){
+  try {
+    const res = await fetch(API_BASE + "/api/ratings?all=1", { method: "DELETE" });
+    return res.ok;
+  } catch { return false; }
+}
+
+async function refreshFromCloud(){
+  const cloud = await fetchCloudRatings();
+  if (!cloud) return false;
+  state = cloud;
+  saveRatingsLocal(state);
+  cloudCount = Object.keys(state).length;
+  return true;
+}
+
+function storageBadgeHtml(){
+  if (cloudOnline) {
+    return `<span style="display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:999px;background:rgb(52 211 153/.12);border:1px solid rgb(52 211 153/.35);color:#34d399">● Cloud-DB live · ${cloudCount} Bewertungen</span>`;
+  }
+  return `<span style="display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:999px;background:rgb(245 197 66/.12);border:1px solid rgb(245 197 66/.35);color:var(--star)">○ Offline · nur Browser</span>`;
+}
 function loadOverride(){ try{const raw=localStorage.getItem(CFG_KEY);return raw?JSON.parse(raw):null}catch{return null} }
 function saveOverride(cfg){ localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); }
 function clearOverride(){ localStorage.removeItem(CFG_KEY); }
@@ -131,7 +211,7 @@ function applyConfig(cfg, source){
   const errs = validateConfig(cfg);
   if (errs.length) throw new Error(errs.join("; "));
   CONFIG = cfg;
-  state = loadRatings();
+  if (!state || typeof state !== "object") state = loadRatings();
   document.title = `${cfg.project.title} · Voice Compare`;
   renderApp(source);
 }
@@ -148,6 +228,31 @@ async function boot(){
     return;
   }
   FILE_CONFIG = fileCfg;
+
+  const local = loadRatings();
+  const cloud = await fetchCloudRatings();
+  if (cloud) {
+    const merged = { ...local };
+    for (const [k, v] of Object.entries(cloud)) {
+      const loc = merged[k];
+      if (!loc || (v.ts || 0) >= (loc.ts || 0)) merged[k] = v;
+    }
+    const localOnly = {};
+    for (const [k, v] of Object.entries(local)) {
+      if (!cloud[k]) localOnly[k] = v;
+    }
+    if (Object.keys(localOnly).length) {
+      await bulkPushRatings(localOnly);
+      const again = await fetchCloudRatings();
+      if (again) for (const [k, v] of Object.entries(again)) merged[k] = v;
+    }
+    state = merged;
+    saveRatingsLocal(state);
+    cloudCount = Object.keys(state).length;
+  } else {
+    state = local;
+  }
+
   const override = loadOverride();
   try {
     applyConfig(override || fileCfg, override ? "browser-override" : "file");
@@ -237,18 +342,19 @@ function renderApp(source){
     <button type="button" data-tab="rank" class="${currentTab==="rank"?"on":""}">Ranking</button>
     <button type="button" data-tab="admin" class="${currentTab==="admin"?"on":""}">Stimmen</button>
   </div>
-  <div class="note">💡 <strong>50 Stimmen</strong> (bs/hr/sr) · Bewertungen → <strong>Browser localStorage</strong>. Stimmen-Katalog → <strong>config.json</strong> (oder Browser-Entwurf unter Tab „Stimmen“). Export-Config committen = neue Stimmen fürs Team live. · <a href="/theme-test.html" style="color:var(--accent)">Theme-Test (Option A)</a></div>
+  <div class="note">💡 <strong>50 Stimmen</strong> (bs/hr/sr) · Bewertungen → <strong>Cloud-Datenbank</strong> (teamweit). Stimmen-Katalog → <div style="margin-top:8px">${storageBadgeHtml()}</div><strong>config.json</strong> (oder Browser-Entwurf unter Tab „Stimmen“). Export-Config committen = neue Stimmen fürs Team live. · <a href="/theme-test.html" style="color:var(--accent)">Theme-Test (Option A)</a></div>
 </header>
 <div id="panelRate" style="display:${currentTab==="rate"?"":"none"}"></div>
 <div id="panelRank" style="display:${currentTab==="rank"?"":"none"}"></div>
 <div id="panelAdmin" style="display:${currentTab==="admin"?"":"none"}"></div>
 <div class="card">
-  <strong style="font-size:.9rem">Team-Sync (alle Bewertungen)</strong>
-  <p class="meta" style="margin:6px 0 10px">Exportiert <strong>alle</strong> Bewertungen als JSON (nicht gefiltert) → Slack → Import. Für gefilterte Ranking-Liste: Tab <strong>Ranking</strong> → Filter setzen → „Gefilterte Liste exportieren“.</p>
+  <strong style="font-size:.9rem">Team-Cloud & Backup</strong>
+  <p class="meta" style="margin:6px 0 10px">Speichern schreibt in die <strong>gemeinsame Cloud-DB</strong> (alle Geräte). Export/Import als Backup. Gefilterte Liste: Tab Ranking.</p>
   <div class="actions">
-    <button type="button" class="btn btn-g" id="btnExport">Export alle Bewertungen</button>
-    <button type="button" class="btn btn-g" id="btnImport">Import Bewertungen</button>
-    <button type="button" class="btn btn-d" id="btnClear">Alle Bewertungen löschen</button>
+    <button type="button" class="btn btn-p" id="btnRefreshCloud">Cloud neu laden</button>
+    <button type="button" class="btn btn-g" id="btnExport">Export Backup (JSON)</button>
+    <button type="button" class="btn btn-g" id="btnImport">Import → Cloud</button>
+    <button type="button" class="btn btn-d" id="btnClear">Alle in Cloud löschen</button>
   </div>
 </div>`;
 
@@ -268,28 +374,39 @@ function renderApp(source){
   });
 
   document.getElementById("btnExport").onclick = async () => {
-    const payload = JSON.stringify({ v:1, ratings: state }, null, 2);
-    try { await navigator.clipboard.writeText(payload); toast("Export in Zwischenablage"); }
+    const payload = JSON.stringify({ v:1, storage: cloudOnline?"d1":"local", ratings: state }, null, 2);
+    try { await navigator.clipboard.writeText(payload); toast("Backup in Zwischenablage"); }
     catch { prompt("Kopiere Export:", payload); }
   };
-  document.getElementById("btnImport").onclick = () => {
-    const raw = prompt("Export-JSON hier einfügen:");
+  document.getElementById("btnImport").onclick = async () => {
+    const raw = prompt("Export-JSON hier einfügen (wird in Cloud übernommen):");
     if (!raw) return;
     try {
       const data = JSON.parse(raw);
       const incoming = data.ratings || data;
       state = { ...state, ...incoming };
-      saveRatings(state);
-      toast("Import OK");
+      saveRatingsLocal(state);
+      const ok = await bulkPushRatings(incoming);
+      toast(ok ? "Import in Cloud OK" : "Lokal importiert (Cloud offline)");
+      await refreshFromCloud();
       renderRate();
     } catch { toast("Import fehlgeschlagen"); }
   };
-  document.getElementById("btnClear").onclick = () => {
-    if (!confirm("Wirklich alle Bewertungen auf diesem Gerät löschen?")) return;
+  document.getElementById("btnClear").onclick = async () => {
+    if (!confirm("Wirklich ALLE Team-Bewertungen in der Cloud löschen?")) return;
+    const ok = await clearCloudRatings();
     state = {};
-    saveRatings(state);
-    toast("Gelöscht");
-    renderRate();
+    saveRatingsLocal(state);
+    cloudCount = 0;
+    toast(ok ? "Cloud geleert" : "Lokal geleert (Cloud offline)");
+    renderApp(hasOverride() ? "browser-override" : "file");
+  };
+  const btnRef = document.getElementById("btnRefreshCloud");
+  if (btnRef) btnRef.onclick = async () => {
+    toast("Lade Cloud…");
+    await refreshFromCloud();
+    renderApp(hasOverride() ? "browser-override" : "file");
+    toast(cloudOnline ? ("Cloud: " + cloudCount + " Bewertungen") : "Cloud offline");
   };
 
   if (currentTab==="rate") renderRate();
@@ -364,20 +481,26 @@ function renderRate(){
       const onCount = [...row.querySelectorAll("button.on")].filter(b=>!b.classList.contains("zero")).length;
       row.dataset.value = String(onCount);
     });
-    card.querySelector("[data-save]").onclick = () => {
+    card.querySelector("[data-save]").onclick = async () => {
       const scores = {};
       card.querySelectorAll(".stars").forEach(row => { scores[row.dataset.name] = +(row.dataset.value||0); });
       const comment = card.querySelector("[data-comment]").value || "";
       const revNow = document.getElementById("reviewer").value;
-      state[vid+"|"+revNow] = { ...scores, comment, ts: Date.now() };
-      saveRatings(state);
-      toast("Gespeichert als " + revNow);
+      const payload = { ...scores, comment, ts: Date.now() };
+      state[vid+"|"+revNow] = payload;
+      saveRatingsLocal(state);
+      const ok = await pushRating(vid, revNow, payload);
+      cloudCount = Object.keys(state).length;
+      toast(ok ? ("In Cloud gespeichert · " + revNow) : ("Offline gespeichert · " + revNow));
       renderRate();
     };
     const del = card.querySelector("[data-del]");
-    if (del) del.onclick = () => {
-      delete state[vid+"|"+document.getElementById("reviewer").value];
-      saveRatings(state);
+    if (del) del.onclick = async () => {
+      const revNow = document.getElementById("reviewer").value;
+      delete state[vid+"|"+revNow];
+      saveRatingsLocal(state);
+      await deleteCloudRating(vid, revNow);
+      cloudCount = Object.keys(state).length;
       toast("Gelöscht");
       renderRate();
     };
