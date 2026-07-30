@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Option A · Theme-Test · Bosanski Sales</title>
+<style>
+:root{
+  --bg:#0b1220;--surface:#121a2b;--s2:#1a2438;--border:#2a3650;
+  --fg:#e8eefc;--muted:#93a0b8;--primary:#2f9bfd;--pfg:#041018;
+  --accent:#7dd3fc;--star:#f5c542;--ok:#34d399;--m:#7dd3fc;--f:#e9a8ff;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--fg);line-height:1.45}
+.wrap{max-width:920px;margin:0 auto;padding:20px 16px 48px}
+header h1{margin:6px 0 4px;font-size:1.45rem}
+.sub{color:var(--muted);margin:0 0 12px;font-size:.95rem}
+.kicker{margin:0;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.badge{display:inline-block;background:rgb(47 155 253/.15);border:1px solid rgb(47 155 253/.4);color:var(--accent);padding:3px 10px;border-radius:999px;font-size:.75rem;font-weight:700}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin:12px 0}
+.card h2{margin:0 0 6px;font-size:1.05rem}
+.meta{color:var(--muted);font-size:.88rem}
+.note{font-size:.82rem;color:var(--muted);margin-top:10px;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)}
+.tabs{display:flex;gap:6px;background:var(--bg);padding:4px;border-radius:12px;flex-wrap:wrap;margin:14px 0 4px}
+.tabs button{flex:1;min-width:120px;border:0;background:transparent;color:var(--muted);padding:10px;border-radius:10px;font-weight:600;cursor:pointer}
+.tabs button.on{background:var(--primary);color:var(--pfg)}
+.script{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:12px;font-size:.92rem;margin:10px 0}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.tag{font-size:.72rem;padding:2px 8px;border-radius:999px;border:1px solid var(--border);background:var(--s2);color:var(--muted)}
+.tag.m{color:var(--m);border-color:#1e4a66}
+.tag.f{color:var(--f);border-color:#5b2d6b}
+.tag.ok{color:var(--ok);border-color:#14532d}
+audio{width:100%;margin:8px 0 4px}
+.head-row{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+a{color:var(--accent)}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.links a{font-size:.9rem}
+.verdict{border-left:3px solid var(--ok);padding-left:10px;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <p class="kicker">Fish Audio · Option A</p>
+  <h1>Theme-Test: Library-Stimmen für Tele-Sales</h1>
+  <p class="sub">Gleiche Sales-Szenen · 8 passende Library-Stimmen (bs/hr) · anhören & vergleichen</p>
+  <span class="badge">Option A = Schnellstart ohne eigenen Klon</span>
+  <div class="note">
+    <strong>Fazit Recherche:</strong> Ja — es gibt brauchbare Library-Stimmen für bosnischen/kroatischen Tele-Sales.
+    Besonders stark: professionell, warm, conversational, advertisement. Politiker-/Character-Stimmen und Gags (z. B. Vučić, Pikachu) sind <em>nicht</em> sales-tauglich und hier weggelassen.
+    <div class="links">
+      <a href="/">← Team-Bewertung (50 Stimmen)</a>
+      <a href="https://github.com/dsactivi-2/bosnian-sales-voice-compare">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="tabs" id="tabs"></div>
+<div class="card" id="themeMeta"></div>
+<div id="list"></div>
+</div>
+<script>
+const THEMES = [
+  {
+    id: "open",
+    title: "1 · Otvaranje poziva",
+    de: "Anruf öffnen — freundlich, sicher, um Zeit bitten",
+    script: "[friendly][confident] Dobar dan! Zovem se Ana iz Acme. [pause] Imate li minut?",
+  },
+  {
+    id: "objection",
+    title: "2 · Prigovor (nema vremena)",
+    de: "Einwand „keine Zeit“ — empathisch, kurz bleiben, Wert andeuten",
+    script: "[empathetic][calm] Razumijem, sada nije idealno. [pause] Mogu li vam za [emphasis] dvije minute [emphasis] pokazati jednu stvar?",
+  },
+  {
+    id: "close",
+    title: "3 · Zakazivanje / Close",
+    de: "Termin vorschlagen — warm + klarer Call-to-Action",
+    script: "[confident][warm] Super. [pause] Predlažem kratki sastanak sutra u deset. [pause] Da li vam odgovara?",
+  },
+];
+
+const VOICES = [
+  {
+    id: "020fa2f81d65408383cd6e21d6be2f2d",
+    title: "Samouvjeren bosanski glas",
+    sex: "m", lang: "bs",
+    fit: "Allround Sales · confident",
+    why: "Stärkster Allrounder: klar, sicher, natürlich im Telefonsales-Ton.",
+    themes: {
+      open: "https://platform.r2.fish.audio/tasks/2026-07-30/55a3a5c017624702a943332377b8cf13.mp3",
+      objection: "https://platform.r2.fish.audio/tasks/2026-07-30/1c33b7f91c1541a68470208993191827.mp3",
+      close: "https://platform.r2.fish.audio/tasks/2026-07-30/6ce6864d9fe941a794a6bb73c6a22bb7.mp3",
+    },
+  },
+  {
+    id: "91526c9cbb5841858a34cb87ae739e89",
+    title: "Profesionalni Muški Glas",
+    sex: "m", lang: "bs",
+    fit: "B2B / seriöser Outbound",
+    why: "Ruhig, professionell, gut für ernsthafte Angebote und Entscheider.",
+    themes: {
+      open: "https://platform.r2.fish.audio/tasks/2026-07-30/6282b59ff50c413cb69286f1570d7059.mp3",
+      objection: "https://platform.r2.fish.audio/tasks/2026-07-30/03d00a8a3109441aadc1949b9c177a46.mp3",
+      close: "https://platform.r2.fish.audio/tasks/2026-07-30/5670ecab36174859a0a6cb0ecea63f09.mp3",
+    },
+  },
+  {
+    id: "7f141a660d4e4ee3aeaa2b562d9384bc",
+    title: "Bosanski Autoritet",
+    sex: "m", lang: "bs",
+    fit: "Autorität · deep",
+    why: "Mehr Gewicht und Autorität — eher Premium/B2B als warmes Smalltalk.",
+    themes: {
+      open: "https://platform.r2.fish.audio/tasks/2026-07-30/0461034533104737814c81d480d42f27.mp3",
+      objection: "https://platform.r2.fish.audio/tasks/2026-07-30/5228da0fe9e44ac79d54d8d2ce017385.mp3",
+      close: "https://platform.r2.fish.audio/tasks/2026-07-30/ae373d73c4034880a80144e059265acc.mp3",
+    },
+  },
+  {
+    id: "ff407d8678d940a584b614153c5f1a0f",
+    title: "Savremeni Bosanski Ženski Glas",
+    sex: "f", lang: "bs",
+    fit: "Klassische Outbound-Agentin",
+    why: "Modern, professionell, klar — sehr nah an typischer Sales-Agent-Stimme.",
+    themes: {
+      open: "https://platform.r2.fish.audio/tasks/2026-07-30/7886ac795f554d07bc40d5240e5db4d9.mp3",
+      objection: "https://platform.r2.fish.audio/tasks/2026-07-30/667243360c9240ba948adf05e5904f59.mp3",
+      close: "https://platform.r2.fish.audio/tasks/2026-07-30/27dd540afe9244d981447252b5f6b30b.mp3",
+    },
+  },
+  {
+    id: "a45966a2eaad4fb8a64bc844869aabcc",
+    title: "Motivacioni Glas",
+    sex: "f", lang: "bs",
+    fit: "Wärme + Closing",
+    why: "Warm und motivierend — stark bei Close und Beziehungston.",
+    themes: {
+      open: "https://platform.r2.fish.audio/tasks/2026-07-30/5f4453dd9b0a4c1d9f94133d811aa63e.mp3",
+      objection: "https://platform.r2.fish.audio/tasks/2026-07-30/96b0d829474847f3961cf366afc2259b.mp3",
+      close: "https://platform.r2.fish.audio/tasks/2026-07-30/f9684c3f52fb4bbf8d7c3742b5e252c3.mp3",
+    },
+  },
+  {
+    id: "03cfb7745c4a4200b55dd7baa09e3c59",
+    title: "Dinamična",
+    sex: "f", lang: "bs",
+    fit: "Energie · jüngere Zielgruppe",
+    why: "Dynamisch und freundlich — gut wenn der Pitch lebendig klingen soll.",
+    themes: {
+      open: "https://platform.r2.fish.audio/tasks/2026-07-30/60d408f87ec044189a9faec8eeb1ef23.mp3",
+      objection: "https://platform.r2.fish.audio/tasks/2026-07-30/59bef134f1684cf9bc2a4c18c94dabba.mp3",
+      close: "https://platform.r2.fish.audio/tasks/2026-07-30/72f029ac48d1498ab039476472f2860b.mp3",
+    },
+  },
+  {
+    id: "e87d1b2fc7ed40d2940e69068b0ca726",
+    title: "Jasna Ženski Glas",
+    sex: "f", lang: "bs",
+    fit: "Ruhig · erklärend",
+    why: "Ruhig und vertrauensvoll — ideal für Beratung und Erklärphasen.",
+    themes: {
+      open: "https://platform.r2.fish.audio/tasks/2026-07-30/19124a90d92c4383a48f0824f65064e3.mp3",
+      objection: "https://platform.r2.fish.audio/tasks/2026-07-30/609aefc3733c4a19bd7ff2575f0e5030.mp3",
+      close: "https://platform.r2.fish.audio/tasks/2026-07-30/b20d6e4b236e4b61ae9f9a5a0d8cd7a3.mp3",
+    },
+  },
+  {
+    id: "5305f70004634f8da3836d5befaba3e0",
+    title: "Hrvatska Govornica",
+    sex: "f", lang: "hr",
+    fit: "HR · professionell ruhig",
+    why: "Stärkste kroatische Library-Stimme (sehr genutzt). Gut wenn HR-Aussprache gewünscht ist.",
+    themes: {
+      open: "https://platform.r2.fish.audio/tasks/2026-07-30/3545827dd9bb4475a2250cfd4f923727.mp3",
+      objection: "https://platform.r2.fish.audio/tasks/2026-07-30/0c83ff1f2ce24d8d8ba25a978160076b.mp3",
+      close: "https://platform.r2.fish.audio/tasks/2026-07-30/10e75993ec8c462d844d70eba1ffbc89.mp3",
+    },
+  },
+];
+
+let current = "open";
+
+function renderTabs(){
+  const el = document.getElementById("tabs");
+  el.innerHTML = THEMES.map(t =>
+    `<button type="button" class="${t.id===current?"on":""}" data-id="${t.id}">${t.title}</button>`
+  ).join("");
+  el.querySelectorAll("button").forEach(b => {
+    b.onclick = () => { current = b.dataset.id; render(); };
+  });
+}
+
+function render(){
+  renderTabs();
+  const theme = THEMES.find(t => t.id === current);
+  document.getElementById("themeMeta").innerHTML = `
+    <h2>${theme.title}</h2>
+    <p class="meta">${theme.de}</p>
+    <div class="script"><strong>Skript (identisch für alle Stimmen):</strong><br/>${theme.script}</div>
+    <p class="meta">Tipp: nacheinander anhören — gleiche Szene, verschiedene Stimmen.</p>
+  `;
+  document.getElementById("list").innerHTML = VOICES.map((v,i) => `
+    <article class="card">
+      <div class="head-row">
+        <div>
+          <h2>${i+1}. ${v.title}</h2>
+          <p class="meta">${v.fit}</p>
+          <div class="tags">
+            <span class="tag ${v.sex}">${v.sex==="m"?"muški":"ženski"}</span>
+            <span class="tag">${v.lang}</span>
+            <span class="tag ok">Option A</span>
+          </div>
+        </div>
+      </div>
+      <audio controls preload="metadata" src="${v.themes[current]}"></audio>
+      <div class="verdict meta">${v.why}</div>
+    </article>
+  `).join("");
+}
+
+render();
+</script>
+</body>
+</html>
