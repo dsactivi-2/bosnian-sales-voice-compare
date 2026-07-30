@@ -108,13 +108,15 @@ function saveRatings(data){ saveRatingsLocal(data); }
 
 async function fetchCloudRatings(){
   try {
-    const res = await fetch(API_BASE + "/api/ratings", { cache: "no-store" });
+    const res = await fetch(API_BASE + "/api/ratings?_=" + Date.now(), { cache: "no-store" });
     if (!res.ok) throw new Error("HTTP " + res.status);
     const data = await res.json();
+    const ratings = data.ratings || {};
     cloudOnline = true;
-    cloudCount = data.count || 0;
-    return data.ratings || {};
+    cloudCount = data.count != null ? data.count : Object.keys(ratings).length;
+    return ratings;
   } catch (e) {
+    console.warn("Cloud ratings load failed", e);
     cloudOnline = false;
     return null;
   }
@@ -122,15 +124,27 @@ async function fetchCloudRatings(){
 
 async function pushRating(voiceId, reviewer, payload){
   try {
+    const body = {
+      voice_id: voiceId,
+      reviewer,
+      pron: +(payload.pron||0),
+      prof: +(payload.prof||0),
+      warm: +(payload.warm||0),
+      clar: +(payload.clar||0),
+      emo: +(payload.emo||0),
+      comment: payload.comment || "",
+      ts: payload.ts || Date.now(),
+    };
     const res = await fetch(API_BASE + "/api/ratings", {
       method: "PUT",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ voice_id: voiceId, reviewer, ...payload }),
+      body: JSON.stringify(body),
     });
     if (!res.ok) throw new Error("HTTP " + res.status);
     cloudOnline = true;
     return true;
-  } catch {
+  } catch (e) {
+    console.warn("Cloud save failed", e);
     cloudOnline = false;
     return false;
   }
@@ -177,9 +191,81 @@ async function refreshFromCloud(){
 
 function storageBadgeHtml(){
   if (cloudOnline) {
-    return `<span style="display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:999px;background:rgb(52 211 153/.12);border:1px solid rgb(52 211 153/.35);color:#34d399">● Cloud-DB live · ${cloudCount} Bewertungen</span>`;
+    return `<span style="display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:999px;background:rgb(52 211 153/.12);border:1px solid rgb(52 211 153/.35);color:#34d399">● Cloud-DB live · ${cloudCount} Team-Bewertungen</span>`;
   }
-  return `<span style="display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:999px;background:rgb(245 197 66/.12);border:1px solid rgb(245 197 66/.35);color:var(--star)">○ Offline · nur Browser</span>`;
+  return `<span style="display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:999px;background:rgb(245 197 66/.12);border:1px solid rgb(245 197 66/.35);color:var(--star)">○ Offline · nur Browser (nicht teamweit!)</span>`;
+}
+
+let saveTimers = {};
+let pollTimer = null;
+
+function collectScoresFromCard(card){
+  const scores = {};
+  card.querySelectorAll(".stars").forEach(row => {
+    scores[row.dataset.name] = +(row.dataset.value || 0);
+  });
+  const comment = card.querySelector("[data-comment]")?.value || "";
+  return { ...scores, comment };
+}
+
+async function saveVoiceRating(vid, rev, payload, { silent=false, refreshTeam=true } = {}){
+  const full = { ...payload, ts: Date.now() };
+  state[vid + "|" + rev] = full;
+  saveRatingsLocal(state);
+  const ok = await pushRating(vid, rev, full);
+  if (ok && refreshTeam) {
+    // re-pull so team box always matches DB truth
+    const cloud = await fetchCloudRatings();
+    if (cloud) {
+      state = { ...state, ...cloud };
+      // cloud wins for same keys by ts
+      for (const [k,v] of Object.entries(cloud)) {
+        const loc = state[k];
+        if (!loc || (v.ts||0) >= (loc.ts||0)) state[k] = v;
+      }
+      saveRatingsLocal(state);
+      cloudCount = Object.keys(state).filter(k => state[k] && typeof state[k]==='object').length;
+    }
+  } else {
+    cloudCount = Object.keys(state).length;
+  }
+  if (!silent) toast(ok ? ("✓ In Cloud · " + rev) : ("⚠ Nur lokal · " + rev + " (Cloud offline)"));
+  return ok;
+}
+
+function startCloudPoll(){
+  if (pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(async () => {
+    if (document.hidden) return;
+    const cloud = await fetchCloudRatings();
+    if (!cloud) return;
+    let changed = false;
+    for (const [k,v] of Object.entries(cloud)) {
+      const cur = state[k];
+      if (!cur || (v.ts||0) > (cur.ts||0) || JSON.stringify(cur) !== JSON.stringify({...v})) {
+        // shallow compare fields
+        if (!cur || cur.pron!==v.pron || cur.prof!==v.prof || cur.warm!==v.warm || cur.clar!==v.clar || cur.emo!==v.emo || (cur.comment||"")!==(v.comment||"")) {
+          state[k] = v;
+          changed = true;
+        }
+      }
+    }
+    // also pick up new keys
+    for (const k of Object.keys(cloud)) {
+      if (!state[k]) { state[k]=cloud[k]; changed=true; }
+    }
+    if (changed) {
+      saveRatingsLocal(state);
+      cloudCount = Object.keys(cloud).length;
+      if (currentTab === "rate") renderRate();
+      else if (currentTab === "rank") renderRank();
+      // update badge without full header rebuild
+      const note = document.querySelector(".note");
+      if (note) {
+        // light touch: leave full re-render to tab switches
+      }
+    }
+  }, 8000);
 }
 function loadOverride(){ try{const raw=localStorage.getItem(CFG_KEY);return raw?JSON.parse(raw):null}catch{return null} }
 function saveOverride(cfg){ localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); }
@@ -264,6 +350,13 @@ async function boot(){
     } else {
       document.getElementById("boot").textContent = "Config ungültig: " + e.message;
     }
+  }
+  startCloudPoll();
+  if (cloudOnline) {
+    const n = Object.keys(state).length;
+    setTimeout(() => toast(n ? (`Cloud: ${n} Team-Bewertungen geladen`) : "Cloud verbunden · noch keine Bewertungen"), 400);
+  } else {
+    setTimeout(() => toast("⚠ Cloud offline — Bewertungen nur lokal"), 400);
   }
 }
 
@@ -442,12 +535,13 @@ function renderRate(){
           <textarea rows="2" maxlength="1000" data-comment>${esc(mine.comment||"")}</textarea>
         </label>
         <div class="actions">
-          <button type="button" class="btn btn-p" data-save>Bewertung speichern</button>
+          <button type="button" class="btn btn-p" data-save>Jetzt in Cloud speichern</button>
           ${state[key]?`<button type="button" class="btn btn-d" data-del>Löschen</button>`:""}
         </div>
       </div>
       <div class="team-box">
-        <h3>Team-Wertungen (${all.length}/${REVIEWERS().length})</h3>
+        <h3>Team-Wertungen (${all.length}/${REVIEWERS().length})${cloudOnline?"":" · ⚠ Cloud offline"}</h3>
+        ${all.length?"":`<p class="meta" style="margin:0 0 8px">Noch niemand hat <strong>diese</strong> Stimme bewertet. Sterne tippen = Auto-Save in die Cloud.</p>`}
         ${REVIEWERS().map(name=>{
           const r = all.find(x=>x.reviewer===name);
           if (!r) return `<div class="rating-row pending"><strong>${esc(name)}</strong> — ausstehend</div>`;
@@ -481,17 +575,75 @@ function renderRate(){
       const onCount = [...row.querySelectorAll("button.on")].filter(b=>!b.classList.contains("zero")).length;
       row.dataset.value = String(onCount);
     });
-    card.querySelector("[data-save]").onclick = async () => {
-      const scores = {};
-      card.querySelectorAll(".stars").forEach(row => { scores[row.dataset.name] = +(row.dataset.value||0); });
-      const comment = card.querySelector("[data-comment]").value || "";
+    const scheduleAutosave = () => {
       const revNow = document.getElementById("reviewer").value;
-      const payload = { ...scores, comment, ts: Date.now() };
-      state[vid+"|"+revNow] = payload;
-      saveRatingsLocal(state);
-      const ok = await pushRating(vid, revNow, payload);
-      cloudCount = Object.keys(state).length;
-      toast(ok ? ("In Cloud gespeichert · " + revNow) : ("Offline gespeichert · " + revNow));
+      const key = vid + "|" + revNow;
+      clearTimeout(saveTimers[key]);
+      saveTimers[key] = setTimeout(async () => {
+        const payload = collectScoresFromCard(card);
+        // only autosave if at least one star > 0 or existing rating
+        const hasScore = CATS().some(c => +(payload[c.k]||0) > 0);
+        if (!hasScore && !state[key]) return;
+        await saveVoiceRating(vid, revNow, payload, { silent: true, refreshTeam: true });
+        // update team box + avg without full list rebuild (keep scroll)
+        const a = avg(state[vid+"|"+revNow]);
+        const avgEl = card.querySelector(".head-row .avg");
+        if (a != null) {
+          if (avgEl) avgEl.innerHTML = a.toFixed(1) + ' <span style="font-size:.7rem;color:var(--muted)">dein Ø</span>';
+          else {
+            const hr = card.querySelector(".head-row");
+            if (hr) {
+              const d = document.createElement("div");
+              d.className = "avg";
+              d.innerHTML = a.toFixed(1) + ' <span style="font-size:.7rem;color:var(--muted)">dein Ø</span>';
+              hr.appendChild(d);
+            }
+          }
+        }
+        // refresh team section HTML for this card only
+        const all = voiceRatings(vid);
+        const team = card.querySelector(".team-box");
+        if (team) {
+          team.innerHTML = `<h3>Team-Wertungen (${all.length}/${REVIEWERS().length})</h3>` +
+            REVIEWERS().map(name => {
+              const r = all.find(x => x.reviewer === name);
+              if (!r) return `<div class="rating-row pending"><strong>${esc(name)}</strong> — ausstehend</div>`;
+              const av = avg(r);
+              return `<div class="rating-row"><div style="display:flex;justify-content:space-between"><strong>${esc(name)}</strong><span class="avg" style="font-size:.95rem">Ø ${av.toFixed(2)}</span></div>
+                <div class="grid2" style="margin-top:6px">${CATS().map(c=>`<div style="font-size:.75rem;display:flex;justify-content:space-between"><span class="meta">${esc(c.s)}</span><span>${r[c.k]}/5</span></div>`).join("")}</div>
+                ${r.comment?`<div style="margin-top:6px;font-size:.85rem">„${esc(r.comment)}“</div>`:""}
+              </div>`;
+            }).join("");
+        }
+        // subtle status under actions
+        let st = card.querySelector("[data-sync-status]");
+        if (!st) {
+          st = document.createElement("div");
+          st.dataset.syncStatus = "1";
+          st.style.cssText = "font-size:.75rem;margin-top:8px;color:var(--muted)";
+          card.querySelector(".actions")?.after(st);
+        }
+        st.textContent = cloudOnline ? "✓ In Cloud-DB fürs Team sichtbar" : "⚠ Nur lokal gespeichert";
+        st.style.color = cloudOnline ? "#34d399" : "var(--star)";
+      }, 500);
+    };
+
+    card.querySelectorAll(".stars").forEach(row => {
+      row.querySelectorAll("button").forEach(btn => {
+        const prev = btn.onclick;
+        btn.addEventListener("click", () => scheduleAutosave());
+      });
+    });
+    const ta = card.querySelector("[data-comment]");
+    if (ta) {
+      ta.addEventListener("change", () => scheduleAutosave());
+      ta.addEventListener("blur", () => scheduleAutosave());
+    }
+
+    card.querySelector("[data-save]").onclick = async () => {
+      const revNow = document.getElementById("reviewer").value;
+      const payload = collectScoresFromCard(card);
+      await saveVoiceRating(vid, revNow, payload, { silent: false, refreshTeam: true });
       renderRate();
     };
     const del = card.querySelector("[data-del]");
@@ -500,7 +652,8 @@ function renderRate(){
       delete state[vid+"|"+revNow];
       saveRatingsLocal(state);
       await deleteCloudRating(vid, revNow);
-      cloudCount = Object.keys(state).length;
+      const cloud = await fetchCloudRatings();
+      if (cloud) { state = cloud; saveRatingsLocal(state); cloudCount = Object.keys(state).length; }
       toast("Gelöscht");
       renderRate();
     };
