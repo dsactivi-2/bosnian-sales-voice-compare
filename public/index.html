@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fish Audio · Bosnisch Telefonsales · Voice Compare</title>
+  <meta name="description" content="Team-Vergleich: bosnische TTS-Stimmen für Telefonsales (gleicher Skripttext)" />
+  <style>
+    :root {
+      --bg: #0c0f14;
+      --surface: #151a22;
+      --surface2: #1c2330;
+      --border: #2a3344;
+      --text: #eef2f8;
+      --muted: #93a0b5;
+      --accent: #3d9cf0;
+      --accent2: #5eead4;
+      --good: #34d399;
+      --female: #f0abfc;
+      --male: #7dd3fc;
+      --radius: 14px;
+      --shadow: 0 12px 40px rgba(0,0,0,.35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #1a2a44 0%, transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, #1a2e2a 0%, transparent 50%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 28px 18px 80px; }
+    header {
+      margin-bottom: 28px;
+      padding: 22px 22px 18px;
+      background: linear-gradient(160deg, var(--surface) 0%, #111722 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.35rem, 3vw, 1.75rem);
+      letter-spacing: -0.02em;
+    }
+    header p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .badge {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--muted);
+    }
+    .badge strong { color: var(--text); font-weight: 600; }
+    .script {
+      margin: 18px 0 0;
+      padding: 14px 16px;
+      background: #0a1018;
+      border-left: 3px solid var(--accent2);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: #c9d4e6;
+    }
+    .script code {
+      color: var(--accent2);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.82em;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin: 18px 0 10px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 10px 0;
+      background: linear-gradient(var(--bg) 70%, transparent);
+    }
+    .toolbar button, .filter-btn {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 9px 14px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+    }
+    .toolbar button:hover, .filter-btn:hover { border-color: var(--accent); }
+    .toolbar button.primary {
+      background: linear-gradient(135deg, #2563eb, #0ea5e9);
+      border-color: transparent;
+      font-weight: 600;
+    }
+    .filter-btn.active {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 1px var(--accent2) inset;
+    }
+    .hint { color: var(--muted); font-size: 0.82rem; margin-left: auto; }
+    .grid { display: flex; flex-direction: column; gap: 14px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 16px 14px;
+      box-shadow: var(--shadow);
+      transition: border-color .15s, transform .15s;
+    }
+    .card:hover { border-color: #3a4860; }
+    .card.playing { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--shadow); }
+    .card-top {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .num {
+      flex: 0 0 auto;
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: grid; place-items: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+    }
+    .meta { flex: 1; min-width: 0; }
+    .meta h2 {
+      margin: 0 0 4px;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .tag {
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--surface2);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .tag.sex-m { color: var(--male); border-color: #1e4a66; }
+    .tag.sex-f { color: var(--female); border-color: #5b2d6b; }
+    .vote {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+    .vote label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+    }
+    .vote input { accent-color: var(--good); width: 16px; height: 16px; }
+    audio {
+      width: 100%;
+      height: 40px;
+      margin-top: 4px;
+    }
+    .id-line {
+      margin-top: 10px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      word-break: break-all;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    .id-line a { color: var(--accent); text-decoration: none; }
+    .id-line a:hover { text-decoration: underline; }
+    footer {
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    .results {
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: var(--surface2);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      display: none;
+    }
+    .results.show { display: block; }
+    .results h3 { margin: 0 0 8px; font-size: 0.95rem; }
+    @media (max-width: 560px) {
+      .hint { width: 100%; margin-left: 0; }
+      .card-top { flex-wrap: wrap; }
+      .vote { flex-direction: row; width: 100%; justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Bosnisch Telefonsales — Voice Compare</h1>
+      <p>Team-Abstimmung: alle Kandidaten mit <strong>identischem Sales-Opener</strong> (Emotion-Tags inkl.). Fish Audio · s2-TTS.</p>
+      <div class="badge-row">
+        <span class="badge"><strong>8</strong> Stimmen</span>
+        <span class="badge">Sprache: <strong>bs</strong></span>
+        <span class="badge">Use case: <strong>Voice Agent · Telefonsales</strong></span>
+        <span class="badge">Bewertung: <strong>lokal im Browser</strong> (kein Server)</span>
+      </div>
+      <div class="script">
+        <strong>Skript (gleich für alle):</strong><br />
+        <code>[friendly][confident]</code> Dobar dan! Zovem se Ana iz Acme.
+        <code>[pause]</code> Imate li minut da vam pokažem kako možete uštedjeti do
+        <code>[emphasis]</code> trideset posto <code>[emphasis]</code> na mjesečnim troškovima?
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <button type="button" class="primary" id="playAll">▶ Alle nacheinander</button>
+      <button type="button" id="stopAll">Stop</button>
+      <button type="button" class="filter-btn active" data-filter="all">Alle</button>
+      <button type="button" class="filter-btn" data-filter="m">Nur ♂</button>
+      <button type="button" class="filter-btn" data-filter="f">Nur ♀</button>
+      <button type="button" id="showVotes">Meine Favoriten anzeigen</button>
+      <span class="hint">Tipp: Häkchen setzen → Link teilen ist genug, Votes bleiben auf dem Gerät.</span>
+    </div>
+
+    <div class="results" id="results"></div>
+
+    <div class="grid" id="grid"></div>
+
+    <footer>
+      Stimmen von Fish Audio (öffentliche Library). Audio-URLs sind permanent und funktionieren ohne Login.
+      Für Produktion empfohlen: <code>s2.1-pro</code> + ggf. eigener Klon nach Team-Entscheidung.
+      <br /><br />
+      <strong>Einzel-MP3-Links</strong> stehen unter jeder Karte. Diese Seite = ein Link fürs ganze Team.
+    </footer>
+  </div>
+
+  <script>
+    const VOICES = [
+      {
+        id: "020fa2f81d65408383cd6e21d6be2f2d",
+        title: "Samouvjeren bosanski glas",
+        sex: "m",
+        tags: ["conversational", "confident", "professional", "sales-fit"],
+        note: "Starker Allround-Sales-Kandidat (männlich)",
+        audio: "https://platform.r2.fish.audio/tasks/2026-07-30/b9afa31bf9654470985939e11fe0bfbf.mp3",
+      },
+      {
+        id: "91526c9cbb5841858a34cb87ae739e89",
+        title: "Profesionalni Muški Glas",
+        sex: "m",
+        tags: ["calm", "announcer", "advertisement", "B2B"],
+        note: "Seriös, klar — gut für B2B Outbound",
+        audio: "https://platform.r2.fish.audio/tasks/2026-07-30/8d4e2323891f4fedb99b236997987026.mp3",
+      },
+      {
+        id: "7f141a660d4e4ee3aeaa2b562d9384bc",
+        title: "Bosanski Autoritet",
+        sex: "m",
+        tags: ["deep", "authoritative", "serious"],
+        note: "Mehr Autorität, weniger „weich“",
+        audio: "https://platform.r2.fish.audio/tasks/2026-07-30/e594c26a4f1248d7869c5d613157ff39.mp3",
+      },
+      {
+        id: "99a4e1cc695b49128a195f526152d699",
+        title: "Muški Bosanski Glas",
+        sex: "m",
+        tags: ["relaxed", "calm", "friendly"],
+        note: "Weicher, entspannter Einstieg",
+        audio: "https://platform.r2.fish.audio/tasks/2026-07-30/2a44125e7ce9423ebf5d5ea5883812b8.mp3",
+      },
+      {
+        id: "ff407d8678d940a584b614153c5f1a0f",
+        title: "Savremeni Bosanski Ženski Glas",
+        sex: "f",
+        tags: ["friendly", "professional", "advertisement"],
+        note: "Klassische professionelle Outbound-Stimme",
+        audio: "https://platform.r2.fish.audio/tasks/2026-07-30/f5a4e62e93b748d0bf6bb9f58b5a7653.mp3",
+      },
+      {
+        id: "03cfb7745c4a4200b55dd7baa09e3c59",
+        title: "Dinamična",
+        sex: "f",
+        tags: ["young", "energetic", "friendly"],
+        note: "Energie / jüngere Zielgruppe",
+        audio: "https://platform.r2.fish.audio/tasks/2026-07-30/329c40ad8d7c42b9aa20602b4300467e.mp3",
+      },
+      {
+        id: "a45966a2eaad4fb8a64bc844869aabcc",
+        title: "Motivacioni Glas",
+        sex: "f",
+        tags: ["warm", "confident", "advertisement"],
+        note: "Warm + motivierend — Closing-Fit",
+        audio: "https://platform.r2.fish.audio/tasks/2026-07-30/f272d020f43545e18c124b926268df97.mp3",
+      },
+      {
+        id: "e87d1b2fc7ed40d2940e69068b0ca726",
+        title: "Jasna Ženski Glas",
+        sex: "f",
+        tags: ["calm", "measured", "conversational"],
+        note: "Ruhig, erklärend, vertrauensvoll",
+        audio: "https://platform.r2.fish.audio/tasks/2026-07-30/859f0920e8754580985ba51202874fac.mp3",
+      },
+    ];
+
+    const STORAGE_KEY = "fish-bs-sales-votes-v1";
+    const grid = document.getElementById("grid");
+    const results = document.getElementById("results");
+    let filter = "all";
+    let playlist = [];
+    let playlistIdx = -1;
+
+    function loadVotes() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }
+      catch { return {}; }
+    }
+    function saveVotes(v) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(v));
+    }
+
+    function render() {
+      const votes = loadVotes();
+      grid.innerHTML = "";
+      VOICES.filter(v => filter === "all" || v.sex === filter).forEach((v, i) => {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.dataset.id = v.id;
+        card.dataset.sex = v.sex;
+        card.innerHTML = `
+          <div class="card-top">
+            <div class="num">${i + 1}</div>
+            <div class="meta">
+              <h2>${v.title}</h2>
+              <div style="color:var(--muted);font-size:0.88rem">${v.note}</div>
+              <div class="tags">
+                <span class="tag sex-${v.sex}">${v.sex === "m" ? "männlich" : "weiblich"}</span>
+                ${v.tags.map(t => `<span class="tag">${t}</span>`).join("")}
+              </div>
+            </div>
+            <div class="vote">
+              <label><input type="checkbox" data-vote="${v.id}" ${votes[v.id] ? "checked" : ""}/> Favorit</label>
+            </div>
+          </div>
+          <audio controls preload="metadata" src="${v.audio}"></audio>
+          <div class="id-line">
+            voice_id: ${v.id}<br/>
+            MP3: <a href="${v.audio}" target="_blank" rel="noopener">direkter Link</a>
+          </div>
+        `;
+        const audio = card.querySelector("audio");
+        audio.addEventListener("play", () => {
+          document.querySelectorAll(".card").forEach(c => c.classList.remove("playing"));
+          card.classList.add("playing");
+          document.querySelectorAll("audio").forEach(a => { if (a !== audio) a.pause(); });
+        });
+        audio.addEventListener("ended", () => {
+          card.classList.remove("playing");
+          if (playlistIdx >= 0) playNextInList();
+        });
+        card.querySelector("input[data-vote]").addEventListener("change", (e) => {
+          const votes2 = loadVotes();
+          if (e.target.checked) votes2[v.id] = true;
+          else delete votes2[v.id];
+          saveVotes(votes2);
+        });
+        grid.appendChild(card);
+      });
+    }
+
+    function stopAll() {
+      playlistIdx = -1;
+      playlist = [];
+      document.querySelectorAll("audio").forEach(a => { a.pause(); a.currentTime = 0; });
+      document.querySelectorAll(".card").forEach(c => c.classList.remove("playing"));
+    }
+
+    function playNextInList() {
+      playlistIdx++;
+      if (playlistIdx >= playlist.length) {
+        playlistIdx = -1;
+        return;
+      }
+      const id = playlist[playlistIdx];
+      const card = document.querySelector(`.card[data-id="${id}"]`);
+      const audio = card && card.querySelector("audio");
+      if (audio) {
+        card.scrollIntoView({ behavior: "smooth", block: "center" });
+        audio.play().catch(() => playNextInList());
+      } else {
+        playNextInList();
+      }
+    }
+
+    document.getElementById("playAll").addEventListener("click", () => {
+      stopAll();
+      playlist = VOICES.filter(v => filter === "all" || v.sex === filter).map(v => v.id);
+      playlistIdx = -1;
+      playNextInList();
+    });
+    document.getElementById("stopAll").addEventListener("click", stopAll);
+
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        filter = btn.dataset.filter;
+        stopAll();
+        render();
+      });
+    });
+
+    document.getElementById("showVotes").addEventListener("click", () => {
+      const votes = loadVotes();
+      const picked = VOICES.filter(v => votes[v.id]);
+      results.classList.add("show");
+      if (!picked.length) {
+        results.innerHTML = "<h3>Noch keine Favoriten</h3><p style='margin:0;color:var(--muted);font-size:0.9rem'>Setze Häkchen bei den Stimmen, die dir gefallen.</p>";
+        return;
+      }
+      results.innerHTML = `
+        <h3>Deine Favoriten (${picked.length})</h3>
+        <ul style="margin:0;padding-left:1.1rem">
+          ${picked.map(v => `<li><strong>${v.title}</strong> — <code style="font-size:0.8em">${v.id}</code></li>`).join("")}
+        </ul>
+        <p style="margin:10px 0 0;color:var(--muted);font-size:0.85rem">Im Team-Meeting: jeder teilt seine Top-1/Top-2, dann Entscheidung.</p>
+      `;
+    });
+
+    render();
+  </script>
+</body>
+</html>
