@@ -1,44 +1,38 @@
 # Bosnian Sales Voice Compare
 
-Human A/B rating of Fish Audio (s2.x) voices for tele-sales / call-center / voice agents.
+Live: https://voice-compare.activi.io/
 
-**Live:** https://voice-compare.activi.io/
+## Portfolio v3 (2026-07-31)
 
-## Rate (personal links)
-
-- [Denis](https://voice-compare.activi.io/?me=Denis)
-- [Arman](https://voice-compare.activi.io/?me=Arman)
-- [Osoba 3](https://voice-compare.activi.io/?me=Osoba%203)
-
-Blind mode is on by default: peer scores appear only after you rate a voice.
-
-## Portfolio v2 (2026-07-31)
+**56 curated voices** for professional tele-sales / call-center / voice-agent evaluation.
 
 | Group | Count |
-|---|---|
-| Bosnian / BA (bs) | 10♂ + 10♀ |
-| Croatian (hr) | 5♂ + 5♀ |
-| Serbian (sr) | 5♂ + 5♀ |
-| English (en) | 5 |
-| Multilingual (ml) | 5 |
-| Agent profiles | 6 (instruction packs on library bases) |
+|-------|------:|
+| Bosnian (BS/BA) male | 10 |
+| Bosnian (BS/BA) female | 10 |
+| Croatian (HR) male | 5 |
+| Croatian (HR) female | 5 |
+| Serbian (SR) male | 5 |
+| Serbian (SR) female | 5 |
+| English (neutral) | 5 |
+| Multilingual | 5 |
+| Agent instruction profiles | 6 |
 
-- Uniform **stress-test sample** audio (names Ana/Marko, numbers, time, email)
-- Full long script in UI for evaluation reading
-- Tags + **voice_instructions** per voice for agent systems
-- Ratings in Cloudflare D1
+### Evaluation script
+Long stress script (UI): names **Ana Hadžić** / **Marko Petrović** with pronouns, dates, times, reference numbers, percentages, KM/EUR, emails, URLs, objections, appointment choice, emotions.
 
-## Stack
+Audio samples use a short free-plan TTS stress line (≤500 bytes).
 
-- Static UI (`index.html` + `config.json`) pinned from GitHub via Cloudflare Worker
-- Ratings in Cloudflare D1 (`PRIMARY KEY(voice_id, reviewer)`)
+### Exclusions
+Politicians, character gags, vulgar titles, ASMR/intimate, gaming announcers.
 
-## API
+### Agent profiles
+Not real clones (consent required for cloning). Six instruction-optimized profiles share library base audio with separate rating IDs.
 
-| Method | Path | Notes |
-|---|---|---|
-| GET | `/api/health` | commit + feature flags |
-| GET/PUT/DELETE | `/api/ratings` | allowlisted reviewers only |
-| DELETE | `/api/ratings?all=1` | requires `x-admin-key` |
+### Team
+Reviewers: Arman, Denis, Osoba 3. Ratings in Cloudflare D1.
 
-See [PLAN.md](./PLAN.md) for architecture combo (Voice Compare ≠ ops-dashboard).
+### Repo files
+- `config.json` — source of truth
+- `index.html` — UI + embedded fallback config
+- `deploy/cloudflare-worker.js` — CDN pin via `COMMIT`
