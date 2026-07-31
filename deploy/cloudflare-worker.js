@@ -4,7 +4,7 @@
  * - Static files from GitHub (pinned COMMIT)
  * - D1: ratings, users, archive, audit
  */
-const COMMIT = "7b2fc2a"; // pin updated after each release commit
+const COMMIT = "e68af0c"; // pin: esc() fix via string-concat entities
 const APP_VERSION = "7.3.0";
 const ADMIN_KEY = "vc-admin-2026";
 const CORS = {
@@ -92,7 +92,6 @@ async function schema(db) {
       updated_at INTEGER NOT NULL,
       updated_by TEXT NOT NULL DEFAULT '')`),
   ]);
-  // seed main users (idempotent)
   const ts = Date.now();
   for (const u of MAIN_SEED) {
     await db.prepare(
@@ -118,7 +117,6 @@ async function resolveUser(req, db) {
   const qTok = u.searchParams.get("u") || u.searchParams.get("token") || "";
   const tok = (headerTok || qTok || "").trim();
   const me = (req.headers.get("x-reviewer") || u.searchParams.get("me") || u.searchParams.get("reviewer") || "").trim();
-
   if (tok) {
     const row = await db.prepare(`SELECT * FROM users WHERE token=? AND active=1`).bind(tok).first();
     if (row) return { id: row.id, name: row.name, role: row.role, token: row.token, via: "token" };
@@ -141,14 +139,10 @@ async function archivedSet(db) {
 }
 
 async function votesFor(db, voice_id) {
-  const { results } = await db.prepare(
-    `SELECT voter, created_at FROM archive_votes WHERE voice_id=?`
-  ).bind(voice_id).all();
+  const { results } = await db.prepare(`SELECT voter, created_at FROM archive_votes WHERE voice_id=?`).bind(voice_id).all();
   return results || [];
 }
 
-
-/** Strip Fish [bracket] tags + normalize for BS comparison */
 function stripFishTags(s) {
   return String(s || "").replace(/\[[^\]]*\]/g, " ");
 }
@@ -164,14 +158,12 @@ function normText(s) {
 function tokens(s) {
   return normText(s).split(" ").filter(Boolean);
 }
-/** Levenshtein ratio 0..1 */
 function charRatio(a, b) {
   a = normText(a); b = normText(b);
   if (!a && !b) return 1;
   if (!a || !b) return 0;
   const m = a.length, n = b.length;
   if (m * n > 250000) {
-    // fallback: length-capped bag similarity
     const ta = new Set(tokens(a)), tb = new Set(tokens(b));
     let inter = 0;
     for (const t of ta) if (tb.has(t)) inter++;
@@ -202,7 +194,6 @@ function phoneticDiff(expected, transcript) {
   const precision = aSet.size ? hit / aSet.size : 0;
   const f1 = (precision + recall) ? (2 * precision * recall) / (precision + recall) : 0;
   const cr = charRatio(expected, transcript);
-  // weighted score 0-100
   const score = Math.round(100 * (0.55 * f1 + 0.45 * cr));
   const missing = [...eSet].filter((t) => !aSet.has(t)).slice(0, 24);
   const extra = [...aSet].filter((t) => !eSet.has(t)).slice(0, 24);
@@ -239,22 +230,13 @@ async function fishStt(env, audioUrl, language) {
   const b64 = await arrayBufferToBase64(buf);
   const res = await fetch("https://api.fish.audio/v1/asr", {
     method: "POST",
-    headers: {
-      Authorization: "Bearer " + key,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      audio: b64,
-      language: language || "bs",
-      ignore_timestamps: true,
-    }),
+    headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
+    body: JSON.stringify({ audio: b64, language: language || "bs", ignore_timestamps: true }),
   });
   const text = await res.text();
   let data = null;
   try { data = JSON.parse(text); } catch { /* raw */ }
-  if (!res.ok) {
-    throw new Error("Fish ASR " + res.status + ": " + String(text).slice(0, 240));
-  }
+  if (!res.ok) throw new Error("Fish ASR " + res.status + ": " + String(text).slice(0, 240));
   const transcript = String(data?.text || data?.transcript || "").trim();
   return { transcript, raw: data, model: "fish-asr" };
 }
@@ -308,38 +290,18 @@ async function api(req, env, path) {
     });
   }
 
-  // --- me ---
   if (path === "/api/me" && method === "GET") {
     if (!user) return json({ ok: false, user: null });
-    return json({
-      ok: true,
-      user: { id: user.id, name: user.name, role: user.role, token: user.token, via: user.via },
-    });
+    return json({ ok: true, user: { id: user.id, name: user.name, role: user.role, token: user.token, via: user.via } });
   }
 
-  // --- users ---
   if (path === "/api/users" && method === "GET") {
     if (!user) return json({ error: "auth required" }, 401);
     const all = await listActiveUsers(db);
     if (user.role === "main") {
-      return json({
-        v: 1,
-        users: all.map((u) => ({
-          id: u.id, name: u.name, role: u.role, token: u.token,
-          active: u.active, created_at: u.created_at, created_by: u.created_by,
-          linkPath: u.role === "main" ? `?me=${encodeURIComponent(u.name)}` : `?u=${encodeURIComponent(u.token)}`,
-        })),
-      });
+      return json({ v: 1, users: all.map((u) => ({ id: u.id, name: u.name, role: u.role, token: u.token, active: u.active, created_at: u.created_at, created_by: u.created_by, linkPath: u.role === "main" ? `?me=${encodeURIComponent(u.name)}` : `?u=${encodeURIComponent(u.token)}` })) });
     }
-    // tester: only self
-    return json({
-      v: 1,
-      users: all.filter((u) => u.id === user.id).map((u) => ({
-        id: u.id, name: u.name, role: u.role, token: u.token,
-        active: u.active, created_at: u.created_at,
-        linkPath: `?u=${encodeURIComponent(u.token)}`,
-      })),
-    });
+    return json({ v: 1, users: all.filter((u) => u.id === user.id).map((u) => ({ id: u.id, name: u.name, role: u.role, token: u.token, active: u.active, created_at: u.created_at, linkPath: `?u=${encodeURIComponent(u.token)}` })) });
   }
 
   if (path === "/api/users" && method === "POST") {
@@ -347,22 +309,15 @@ async function api(req, env, path) {
     const b = await req.json().catch(() => null);
     const name = String(b?.name || "").trim().slice(0, 64);
     if (!name) return json({ error: "name required" }, 400);
-    if (MAIN_SEED.some((m) => m.name.toLowerCase() === name.toLowerCase())) {
-      return json({ error: "name reserved for main user" }, 400);
-    }
+    if (MAIN_SEED.some((m) => m.name.toLowerCase() === name.toLowerCase())) return json({ error: "name reserved for main user" }, 400);
     const exists = await db.prepare(`SELECT id FROM users WHERE lower(name)=lower(?) AND active=1`).bind(name).first();
     if (exists) return json({ error: "name already exists" }, 409);
     const id = uid("tester");
     const tok = token();
     const ts = Date.now();
-    await db.prepare(
-      `INSERT INTO users (id,name,role,token,active,created_at,created_by) VALUES (?,?,?,?,1,?,?)`
-    ).bind(id, name, "tester", tok, ts, user.name).run();
+    await db.prepare(`INSERT INTO users (id,name,role,token,active,created_at,created_by) VALUES (?,?,?,?,1,?,?)`).bind(id, name, "tester", tok, ts, user.name).run();
     await audit(db, user.name, "user.create", "", name);
-    return json({
-      ok: true,
-      user: { id, name, role: "tester", token: tok, linkPath: `?u=${encodeURIComponent(tok)}` },
-    });
+    return json({ ok: true, user: { id, name, role: "tester", token: tok, linkPath: `?u=${encodeURIComponent(tok)}` } });
   }
 
   if (path === "/api/users" && method === "DELETE") {
@@ -378,52 +333,27 @@ async function api(req, env, path) {
     return json({ ok: true, deactivated: id });
   }
 
-  // --- ratings ---
   if (path === "/api/ratings" && method === "GET") {
     const arch = await archivedSet(db);
     const { results } = await db.prepare("SELECT * FROM ratings ORDER BY updated_at DESC").all();
     let rows = results || [];
-    // hide archived ratings from testers
-    if (user?.role === "tester") {
-      rows = rows.filter((r) => r.reviewer === user.name && !arch.has(r.voice_id));
-    } else if (!user) {
-      // public read of non-archived only (legacy); prefer auth
-      rows = rows.filter((r) => !arch.has(r.voice_id));
-    } else {
-      // main sees all including archived (for archive UI)
-    }
-    return json({
-      v: 1,
-      storage: "d1",
-      ratings: toMap(rows),
-      count: rows.length,
-      archivedIds: user?.role === "main" ? [...arch] : [],
-    });
+    if (user?.role === "tester") rows = rows.filter((r) => r.reviewer === user.name && !arch.has(r.voice_id));
+    else if (!user) rows = rows.filter((r) => !arch.has(r.voice_id));
+    return json({ v: 1, storage: "d1", ratings: toMap(rows), count: rows.length, archivedIds: user?.role === "main" ? [...arch] : [] });
   }
 
   if (path === "/api/ratings" && method === "PUT") {
     const b = await req.json().catch(() => null);
     if (!b?.voice_id || !b?.reviewer) return json({ error: "voice_id and reviewer required" }, 400);
     const reviewer = String(b.reviewer).slice(0, 64);
-    // auth: must be known active user; token locks identity
     const allowed = await db.prepare(`SELECT name, role FROM users WHERE name=? AND active=1`).bind(reviewer).first();
     if (!allowed) return json({ error: "reviewer not allowed" }, 403);
-    if (user) {
-      if (user.name !== reviewer) return json({ error: "cannot rate as another user" }, 403);
-    } else {
-      // legacy: allow if name is active user (compat) — prefer token in new UI
-    }
+    if (user && user.name !== reviewer) return json({ error: "cannot rate as another user" }, 403);
     const arch = await archivedSet(db);
     const voice_id = String(b.voice_id).slice(0, 128);
-    if (arch.has(voice_id) && allowed.role !== "main") {
-      return json({ error: "voice archived" }, 403);
-    }
+    if (arch.has(voice_id) && allowed.role !== "main") return json({ error: "voice archived" }, 403);
     const ts = Number(b.ts) || Date.now();
-    await db.prepare(UPSERT).bind(
-      voice_id, reviewer,
-      clamp(b.pron), clamp(b.prof), clamp(b.warm), clamp(b.clar), clamp(b.emo),
-      String(b.comment || "").slice(0, 1000), ts
-    ).run();
+    await db.prepare(UPSERT).bind(voice_id, reviewer, clamp(b.pron), clamp(b.prof), clamp(b.warm), clamp(b.clar), clamp(b.emo), String(b.comment || "").slice(0, 1000), ts).run();
     return json({ ok: true, key: voice_id + "|" + reviewer });
   }
 
@@ -445,11 +375,7 @@ async function api(req, env, path) {
       if (!allowed) { skipped++; continue; }
       if (arch.has(voice_id) && user?.role !== "main") { skipped++; continue; }
       const ts = Number(val.ts) || Date.now();
-      stmts.push(db.prepare(UPSERT).bind(
-        voice_id, reviewer,
-        clamp(val.pron), clamp(val.prof), clamp(val.warm), clamp(val.clar), clamp(val.emo),
-        String(val.comment || "").slice(0, 1000), ts
-      ));
+      stmts.push(db.prepare(UPSERT).bind(voice_id, reviewer, clamp(val.pron), clamp(val.prof), clamp(val.warm), clamp(val.clar), clamp(val.emo), String(val.comment || "").slice(0, 1000), ts));
       n++;
     }
     if (stmts.length) await db.batch(stmts);
@@ -461,9 +387,7 @@ async function api(req, env, path) {
     const voice_id = u.searchParams.get("voice_id");
     const reviewer = u.searchParams.get("reviewer");
     if (voice_id && reviewer) {
-      if (user && user.name !== reviewer && user.role !== "main") {
-        return json({ error: "forbidden" }, 403);
-      }
+      if (user && user.name !== reviewer && user.role !== "main") return json({ error: "forbidden" }, 403);
       const allowed = await db.prepare(`SELECT name FROM users WHERE name=? AND active=1`).bind(reviewer).first();
       if (!allowed && !(user?.role === "main")) return json({ error: "reviewer not allowed" }, 403);
       await db.prepare("DELETE FROM ratings WHERE voice_id=? AND reviewer=?").bind(voice_id, reviewer).run();
@@ -480,16 +404,10 @@ async function api(req, env, path) {
     return json({ error: "provide voice_id+reviewer or all=1" }, 400);
   }
 
-  // --- profiles ---
   if (path === "/api/profiles" && method === "GET") {
     const { results } = await db.prepare("SELECT * FROM voice_profiles").all();
     const m = {};
-    for (const r of results || []) {
-      m[r.voice_id] = {
-        opening_tags: r.opening_tags, objection_tags: r.objection_tags,
-        close_tags: r.close_tags, pace_note: r.pace_note, notes: r.notes, ts: r.updated_at,
-      };
-    }
+    for (const r of results || []) m[r.voice_id] = { opening_tags: r.opening_tags, objection_tags: r.objection_tags, close_tags: r.close_tags, pace_note: r.pace_note, notes: r.notes, ts: r.updated_at };
     return json({ v: 1, profiles: m });
   }
   if (path === "/api/profiles" && method === "PUT") {
@@ -498,38 +416,18 @@ async function api(req, env, path) {
     if (!b?.voice_id) return json({ error: "voice_id required" }, 400);
     const id = String(b.voice_id).slice(0, 128);
     const ts = Date.now();
-    await db.prepare(
-      `INSERT INTO voice_profiles (voice_id,opening_tags,objection_tags,close_tags,pace_note,notes,updated_at)
-       VALUES (?,?,?,?,?,?,?) ON CONFLICT(voice_id) DO UPDATE SET
-       opening_tags=excluded.opening_tags,objection_tags=excluded.objection_tags,
-       close_tags=excluded.close_tags,pace_note=excluded.pace_note,notes=excluded.notes,updated_at=excluded.updated_at`
-    ).bind(
-      id,
-      String(b.opening_tags || "").slice(0, 200),
-      String(b.objection_tags || "").slice(0, 200),
-      String(b.close_tags || "").slice(0, 200),
-      String(b.pace_note || "").slice(0, 500),
-      String(b.notes || "").slice(0, 2000),
-      ts
-    ).run();
+    await db.prepare(`INSERT INTO voice_profiles (voice_id,opening_tags,objection_tags,close_tags,pace_note,notes,updated_at) VALUES (?,?,?,?,?,?,?) ON CONFLICT(voice_id) DO UPDATE SET opening_tags=excluded.opening_tags,objection_tags=excluded.objection_tags,close_tags=excluded.close_tags,pace_note=excluded.pace_note,notes=excluded.notes,updated_at=excluded.updated_at`).bind(id, String(b.opening_tags || "").slice(0, 200), String(b.objection_tags || "").slice(0, 200), String(b.close_tags || "").slice(0, 200), String(b.pace_note || "").slice(0, 500), String(b.notes || "").slice(0, 2000), ts).run();
     return json({ ok: true, voice_id: id });
   }
 
-  // --- archive ---
   if (path === "/api/archive" && method === "GET") {
     if (!user || user.role !== "main") return json({ error: "main role required" }, 403);
     const { results: arch } = await db.prepare(`SELECT * FROM archived_voices ORDER BY archived_at DESC`).all();
     const { results: votes } = await db.prepare(`SELECT * FROM archive_votes`).all();
     const pending = {};
-    for (const v of votes || []) {
-      if (!pending[v.voice_id]) pending[v.voice_id] = [];
-      pending[v.voice_id].push({ voter: v.voter, ts: v.created_at });
-    }
-    // drop pending for already archived
+    for (const v of votes || []) { if (!pending[v.voice_id]) pending[v.voice_id] = []; pending[v.voice_id].push({ voter: v.voter, ts: v.created_at }); }
     const archivedIds = new Set((arch || []).map((a) => a.voice_id));
-    for (const id of Object.keys(pending)) {
-      if (archivedIds.has(id)) delete pending[id];
-    }
+    for (const id of Object.keys(pending)) if (archivedIds.has(id)) delete pending[id];
     return json({ v: 1, archived: arch || [], pending });
   }
 
@@ -541,33 +439,19 @@ async function api(req, env, path) {
     try {
       const already = await db.prepare(`SELECT voice_id FROM archived_voices WHERE voice_id=?`).bind(voice_id).first();
       if (already) return json({ ok: true, archived: true, message: "already archived" });
-      // one vote per main user (PK prevents double)
       try {
-        await db.prepare(
-          `INSERT INTO archive_votes (voice_id, voter, created_at) VALUES (?,?,?)`
-        ).bind(voice_id, user.name, Date.now()).run();
+        await db.prepare(`INSERT INTO archive_votes (voice_id, voter, created_at) VALUES (?,?,?)`).bind(voice_id, user.name, Date.now()).run();
       } catch {
-        // already voted — still return current state
         const votesDup = await votesFor(db, voice_id);
         const votersDup = [...new Set(votesDup.map((v) => v.voter))];
-        return json({
-          ok: true,
-          duplicate: true,
-          message: "already voted",
-          voice_id,
-          votes: votersDup.length,
-          voters: votersDup,
-          archived: votersDup.length >= 2,
-        });
+        return json({ ok: true, duplicate: true, message: "already voted", voice_id, votes: votersDup.length, voters: votersDup, archived: votersDup.length >= 2 });
       }
       await audit(db, user.name, "archive.vote", voice_id, "vote");
       const votes = await votesFor(db, voice_id);
       const voters = [...new Set(votes.map((v) => v.voter))];
       let archived = false;
       if (voters.length >= 2) {
-        await db.prepare(
-          "INSERT INTO archived_voices (voice_id, archived_at, voters_json) VALUES (?,?,?) ON CONFLICT(voice_id) DO UPDATE SET archived_at=excluded.archived_at, voters_json=excluded.voters_json"
-        ).bind(voice_id, Date.now(), JSON.stringify(voters)).run();
+        await db.prepare("INSERT INTO archived_voices (voice_id, archived_at, voters_json) VALUES (?,?,?) ON CONFLICT(voice_id) DO UPDATE SET archived_at=excluded.archived_at, voters_json=excluded.voters_json").bind(voice_id, Date.now(), JSON.stringify(voters)).run();
         await audit(db, user.name, "archive.complete", voice_id, voters.join(","));
         archived = true;
       }
@@ -598,29 +482,18 @@ async function api(req, env, path) {
     return json({ ok: true, restored: voice_id });
   }
 
-  // --- audit ---
   if (path === "/api/audit" && method === "GET") {
     if (!user || user.role !== "main") return json({ error: "main role required" }, 403);
     const { results } = await db.prepare(`SELECT * FROM audit_log ORDER BY ts DESC LIMIT 200`).all();
     return json({ v: 1, entries: results || [] });
   }
 
-
-  // --- Auto-Phonetik (TTS expected → STT → Diff) ---
   if (path === "/api/phonetic" && method === "GET") {
     if (!user) return json({ error: "auth required" }, 401);
-    const { results } = await db.prepare(
-      `SELECT voice_id,audio_url,expected_text,transcript,score,word_recall,word_precision,char_ratio,model,language,error,updated_at,updated_by FROM phonetic_results ORDER BY score ASC, updated_at DESC`
-    ).all();
+    const { results } = await db.prepare(`SELECT voice_id,audio_url,expected_text,transcript,score,word_recall,word_precision,char_ratio,model,language,error,updated_at,updated_by FROM phonetic_results ORDER BY score ASC, updated_at DESC`).all();
     const map = {};
     for (const r of results || []) map[r.voice_id] = r;
-    return json({
-      v: 1,
-      count: (results || []).length,
-      fishKey: Boolean(env.FISH_API_KEY),
-      results: map,
-      list: results || [],
-    });
+    return json({ v: 1, count: (results || []).length, fishKey: Boolean(env.FISH_API_KEY), results: map, list: results || [] });
   }
 
   if (path === "/api/phonetic/run" && method === "POST") {
@@ -630,29 +503,17 @@ async function api(req, env, path) {
     const audio_url = String(b?.audio_url || "").slice(0, 500);
     const expected_text = String(b?.expected_text || "").slice(0, 4000);
     const language = String(b?.language || "bs").slice(0, 8);
-    if (!voice_id || !audio_url || !expected_text) {
-      return json({ error: "voice_id, audio_url, expected_text required" }, 400);
-    }
+    if (!voice_id || !audio_url || !expected_text) return json({ error: "voice_id, audio_url, expected_text required" }, 400);
     try {
       const { transcript, model } = await fishStt(env, audio_url, language);
       const d = phoneticDiff(expected_text, transcript);
-      const row = {
-        voice_id, audio_url, expected_text, transcript,
-        score: d.score, word_recall: d.word_recall, word_precision: d.word_precision,
-        char_ratio: d.char_ratio, model, language, error: "",
-        updated_at: Date.now(), updated_by: user.name,
-      };
+      const row = { voice_id, audio_url, expected_text, transcript, score: d.score, word_recall: d.word_recall, word_precision: d.word_precision, char_ratio: d.char_ratio, model, language, error: "", updated_at: Date.now(), updated_by: user.name };
       await upsertPhonetic(db, row);
       await audit(db, user.name, "phonetic.run", voice_id, "score=" + d.score);
       return json({ ok: true, result: { ...row, missing: d.missing, extra: d.extra } });
     } catch (e) {
       const msg = String(e && e.message || e).slice(0, 400);
-      const row = {
-        voice_id, audio_url, expected_text, transcript: "",
-        score: 0, word_recall: 0, word_precision: 0, char_ratio: 0,
-        model: "", language, error: msg,
-        updated_at: Date.now(), updated_by: user.name,
-      };
+      const row = { voice_id, audio_url, expected_text, transcript: "", score: 0, word_recall: 0, word_precision: 0, char_ratio: 0, model: "", language, error: msg, updated_at: Date.now(), updated_by: user.name };
       await upsertPhonetic(db, row);
       const status = e && e.code === "NO_FISH_KEY" ? 503 : 500;
       return json({ ok: false, error: msg, result: row }, status);
@@ -660,7 +521,6 @@ async function api(req, env, path) {
   }
 
   if (path === "/api/phonetic/ingest" && method === "POST") {
-    // Precomputed STT (agent/MCP) or Worker — main or admin key
     const b = await req.json().catch(() => null);
     const admin = (req.headers.get("x-admin-key") || "") === ADMIN_KEY;
     if (!admin && (!user || user.role !== "main")) return json({ error: "main or admin key required" }, 403);
@@ -674,21 +534,7 @@ async function api(req, env, path) {
       const transcript = String(it.transcript || "").slice(0, 4000);
       if (!voice_id || !expected_text) continue;
       const d = phoneticDiff(expected_text, transcript);
-      const row = {
-        voice_id,
-        audio_url: String(it.audio_url || "").slice(0, 500),
-        expected_text,
-        transcript,
-        score: Number.isFinite(Number(it.score)) ? Math.round(Number(it.score)) : d.score,
-        word_recall: d.word_recall,
-        word_precision: d.word_precision,
-        char_ratio: d.char_ratio,
-        model: String(it.model || "ingest").slice(0, 64),
-        language: String(it.language || "bs").slice(0, 8),
-        error: String(it.error || "").slice(0, 400),
-        updated_at: Date.now(),
-        updated_by: user?.name || "admin",
-      };
+      const row = { voice_id, audio_url: String(it.audio_url || "").slice(0, 500), expected_text, transcript, score: Number.isFinite(Number(it.score)) ? Math.round(Number(it.score)) : d.score, word_recall: d.word_recall, word_precision: d.word_precision, char_ratio: d.char_ratio, model: String(it.model || "ingest").slice(0, 64), language: String(it.language || "bs").slice(0, 8), error: String(it.error || "").slice(0, 400), updated_at: Date.now(), updated_by: user?.name || "admin" };
       await upsertPhonetic(db, row);
       n++;
       out.push({ voice_id, score: row.score });
@@ -717,10 +563,7 @@ async function api(req, env, path) {
 
 async function staticFile(path) {
   if (path === "/" || path === "") path = "/index.html";
-  const allowed = new Set([
-    "/index.html", "/config.json", "/schema.json", "/README.md",
-    "/theme-test.html", "/favicon.ico", "/PLAN.md", "/versions/README.md",
-  ]);
+  const allowed = new Set(["/index.html", "/config.json", "/schema.json", "/README.md", "/theme-test.html", "/favicon.ico", "/PLAN.md", "/versions/README.md"]);
   if (!allowed.has(path)) return new Response("Not found", { status: 404, headers: CORS });
   const file = path.slice(1);
   const sources = [
