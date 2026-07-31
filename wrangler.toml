@@ -1,0 +1,9 @@
+name = "bosnian-sales-voice-compare"
+main = "deploy/cloudflare-worker.js"
+compatibility_date = "2026-07-01"
+account_id = "2f8c7ae79d6d316eac3961585f5c2f5b"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "voice-compare"
+database_id = "1ce07788-ada0-4fb3-a9c9-1d61f7e4b005"

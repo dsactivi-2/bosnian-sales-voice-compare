@@ -1,35 +1,29 @@
-# bosnian-sales-voice-compare
+# Bosnian Sales Voice Compare
 
-Team-Dashboard: **50 Fish-Audio-Stimmen** (bs / hr / sr) für Telefonsales.
+Human A/B rating of Fish Audio (s2.x) voices for Bosnian tele-sales.
 
-## Live
+**Live:** https://voice-compare.activi.io/
 
-**https://voice-compare.activi.io/**
+## Rate (personal links)
 
-### Persönliche Links (Name gesperrt)
+- [Denis](https://voice-compare.activi.io/?me=Denis)
+- [Arman](https://voice-compare.activi.io/?me=Arman)
+- [Osoba 3](https://voice-compare.activi.io/?me=Osoba%203)
 
-| Person | Link |
-|---|---|
-| Arman | https://voice-compare.activi.io/?me=Arman |
-| Denis | https://voice-compare.activi.io/?me=Denis |
-| Osoba 3 | https://voice-compare.activi.io/?me=Osoba%203 |
+Blind mode is on by default: peer scores appear only after you rate a voice.
 
-Blind (Peer-Scores erst nach eigener Bewertung): Standard **an**. Aus: `&blind=0`
+## Stack
 
-### Samples
+- Static UI (`index.html` + `config.json`) pinned from GitHub via Cloudflare Worker
+- Ratings in Cloudflare D1 (`PRIMARY KEY(voice_id, reviewer)`)
+- 50 voices · languages bs / hr / sr · uniform sales-script sample batch `2026-07-31`
 
-Alle 50 mit **gleichem Sales-Skript** (Batch `2026-07-31-s2-sales`, s2.x Tags).  
-19 bs · 26 hr · 5 sr — Filter im Ranking nutzen.
+## API
 
-> Fish-Label `bs` ≠ garantiert nativer bosnischer Akzent. Kategorie **Aussprache** ernst nehmen.
+| Method | Path | Notes |
+|---|---|---|
+| GET | `/api/health` | commit + feature flags |
+| GET/PUT/DELETE | `/api/ratings` | allowlisted reviewers only |
+| DELETE | `/api/ratings?all=1` | requires `x-admin-key` |
 
-### Cloud (D1)
-
-Autosave + manuell speichern. API: `/api/ratings`, `/api/health`.  
-Wipe aller Daten nur mit Admin-Key.
-
-### Plan
-
-Siehe [PLAN.md](./PLAN.md) — empfohlene Kombi-Version; großer Ausbau nur nach Freigabe.
-
-Repo: https://github.com/dsactivi-2/bosnian-sales-voice-compare
+See [PLAN.md](./PLAN.md) for the recommended architecture combo (Voice Compare ≠ ops-dashboard).

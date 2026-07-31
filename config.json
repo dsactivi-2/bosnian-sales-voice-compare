@@ -791,5 +791,7 @@
       ],
       "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/479947a33f1e4da4b8b15354b01ad5d9.mp3"
     }
-  ]
+  ],
+  "sampleBatch": "2026-07-31-s2-sales",
+  "sampleNote": "All 50 voices re-TTS with identical sales opening script (sales-script-v2)"
 }

@@ -15,7 +15,8 @@ Single source of truth for the team dashboard:
 | File | Role |
 |---|---|
 | `config.json` | **All voices, script, reviewers, categories** |
-| `index.html` | UI (loads `config.json`, ratings in browser localStorage) |
+| `index.html` | UI (loads `config.json`; team ratings via Worker → D1) |
+| `deploy/cloudflare-worker.js` | Static pin + D1 API (allowlist, admin wipe) |
 | `schema.json` | JSON Schema for config |
 | `mcp/server.mjs` | MCP tools to edit config safely |
 | Live | https://voice-compare.activi.io/ |
