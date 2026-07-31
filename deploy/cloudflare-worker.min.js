@@ -1,5 +1,5 @@
 /** voice-compare.activi.io — static GitHub pin + D1 ratings */
-const COMMIT = "COMMIT_PLACEHOLDER";
+const COMMIT = "ff05dde";
 const ADMIN_KEY = "vc-admin-2026";
 const ALLOWED_REVIEWERS = new Set(["Arman", "Denis", "Osoba 3"]);
 const CORS = {
