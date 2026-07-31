@@ -4,7 +4,7 @@
  * - Static files from GitHub (pinned COMMIT)
  * - D1: ratings, users, archive, audit
  */
-const COMMIT = "df4c026"; // pin updated after each release commit
+const COMMIT = "f28310e"; // pin updated after each release commit
 const APP_VERSION = "7.2.1";
 const ADMIN_KEY = "vc-admin-2026";
 const CORS = {
