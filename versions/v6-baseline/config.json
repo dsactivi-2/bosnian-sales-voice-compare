@@ -1,8 +1,8 @@
 {
   "version": 6,
   "project": {
-    "title": "Voice Compare · v7 Users + Archiv",
-    "subtitle": "89 Stimmen · Pagination 10 · Testuser · 2-von-3 Archiv · Tool v7.2",
+    "title": "Voice Compare · Portfolio v6 · Fish-Tags + BS Dialekt",
+    "subtitle": "89 Stimmen · 11 Clones · 22 Interview · Fish [tags] · ijekavisch",
     "brand": "Fish Audio s2.x · Activi",
     "liveUrl": "https://voice-compare.activi.io/",
     "repo": "https://github.com/dsactivi-2/bosnian-sales-voice-compare",
@@ -3324,6 +3324,5 @@
         "Prefer [clear][pause][measured] for telesales phone quality"
       ]
     }
-  },
-  "toolVersion": "7.2.0"
+  }
 }

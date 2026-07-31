@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Voice Compare · Tele-Sales Portfolio</title>
+<title>Voice Compare · v7</title>
 <style>
+
 :root{--bg:#0b0f14;--surface:#141a22;--s2:#1b2330;--fg:#eef2f7;--muted:#8b98ab;--border:#2a3545;--primary:#2f9bfd;--pfg:#041018;--accent:#3dd6c6;--star:#f5c542;--male:#7dd3fc;--female:#f0abfc;--danger:#f87171;--ok:#34d399}
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:radial-gradient(1000px 480px at 8% -8%,rgb(30 58 95/.45),transparent 55%),var(--bg);color:var(--fg);line-height:1.5}
@@ -69,23 +70,80 @@ audio{width:100%;margin:8px 0 12px}
 .form-grid .full{grid-column:1/-1}
 .help{font-size:.78rem;color:var(--muted);margin:0 0 10px}
 .loading{padding:40px;text-align:center;color:var(--muted)}
+
+.pager{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin:12px 0}
+.pager .pages{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pager button{min-width:36px}
+.pager button.on{background:var(--primary);color:var(--pfg);border-color:var(--primary)}
+.toolbar{display:grid;gap:10px;grid-template-columns:2fr 1fr 1fr 1fr;margin-bottom:12px}
+@media(max-width:720px){.toolbar{grid-template-columns:1fr 1fr}}
+.role-badge{font-size:.7rem;font-weight:800;padding:3px 8px;border-radius:999px;border:1px solid var(--border)}
+.role-main{background:rgb(47 155 253/.15);color:var(--primary)}
+.role-tester{background:rgb(61 214 198/.12);color:var(--accent)}
+.user-row{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--bg)}
+.vote-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.vote-pill{font-size:.72rem;padding:3px 8px;border-radius:999px;background:var(--s2);border:1px solid var(--border)}
+.vote-pill.yes{border-color:var(--danger);color:var(--danger)}
+.archived-tag{color:var(--danger);font-weight:700;font-size:.75rem}
+.version-bar{font-size:.72rem;color:var(--muted);margin-top:6px}
+.link-box{font-family:ui-monospace,monospace;font-size:.75rem;word-break:break-all;background:var(--bg);border:1px solid var(--border);padding:8px;border-radius:8px}
+
+.boot{padding:40px;text-align:center;color:var(--muted);font-size:1rem}
 </style>
 </head>
 <body>
-<div class="wrap" id="app">
-  <div class="loading" id="boot">Lade Stimmen-Konfiguration…</div>
-</div>
-<div class="toast" id="toast"></div>
+<div id="toast" class="toast" style="display:none"></div>
+<div id="boot" class="boot">Lade…</div>
+<div id="app"></div>
 <script>
-/** Embedded fallback if config.json not available (single-file deploy) */
-const EMBEDDED_CONFIG = /*__EMBED_CONFIG__*/{"version":5,"project":{"title":"Voice Compare · Portfolio v5 · Clones + Interview","subtitle":"89 Stimmen · +11 Clones Telesales · +22 Interview-Varianten · BS Dialekt","brand":"Fish Audio s2.x · Activi","liveUrl":"https://voice-compare.activi.io/","repo":"https://github.com/dsactivi-2/bosnian-sales-voice-compare","sampleBatch":"2026-07-31-clones-v5"},"script":"[friendly][confident] Dobar dan! Zovem se Ana Hadžić, viša prodajna savjetnica u Activi Soft d.o.o. sa sjedištem u Sarajevu, Zmaja od Bosne broj sedam, sprat tri.\n[pause] Zovem vas u vezi vašeg zahtjeva od petnaestog marta dvije hiljade dvadeset šeste godine, tačno u četrnaest sati i trideset minuta, referentni broj AS-2026-0847-B.\n[soft] Moj kolega Marko Petrović vodi tehničku evaluaciju. On je dostupan od devet do sedamnaest sati, od ponedjeljka do petka. Ona — dakle ja, Ana — vodi onboarding, ugovore i naplatu; on — Marko — vodi integracije, API ključeve i sigurnost.\n[confident] Uz paket Enterprise Pro Plus možete uštedjeti trideset dva zarez pet posto na mjesečnim troškovima: to je približno stotinu osamdeset i pet KM, odnosno devedeset četiri eura i pedeset centi, ili oko sto dva američka dolara.\n[pause] Pišite nam na ana.hadzic@activi-soft.ba ili marko.petrovic@activi-soft.ba. Tehničku dokumentaciju šaljemo na support@activi.io. Demo rezervišete na https://activi.io/demo-bosna?ref=AS-2026-0847&utm=voice.\n[soft][empathetic] Razumijem da sada niste slobodni — to je potpuno u redu. Recite mi samo preferirani termin: utorak, dvadeset drugog aprila, u deset sati i petnaest minuta, ili četvrtak, dvadeset četvrtog, u šesnaest sati?\n[confident] Ako vam se cijena čini visokom: u prva tri mjeseca nema setup naknade od dvije stotine pedeset KM, a prioritetna podrška je uključena. Bez pritiska — odluka je vaša, a ja sam tu ako zatreba.\n[pause] Još jedna napomena: ugovor se aktivira automatski petog maja u nula nula sati, osim ako do trećeg maja do osamnaest sati ne pošaljete otkaz na legal@activi-soft.ba.\n[friendly] Hvala na vremenu. Lijep pozdrav iz Activi Soft-a — Ana Hadžić, u ime tima s Markom Petrovićem.","script_en":"[friendly][confident] Good afternoon! My name is Ana Hadzic, senior sales advisor at Activi Soft LLC, based in Sarajevo at Zmaja od Bosne number seven, third floor.\n[pause] I'm calling about your request from March fifteenth, twenty twenty-six, at exactly two thirty p.m., reference number AS-2026-0847-B.\n[soft] My colleague Marko Petrovic leads technical evaluation. He is available from nine to five, Monday through Friday. She — that is me, Ana — leads onboarding, contracts and billing; he — Marko — leads integrations, API keys and security.\n[confident] With the Enterprise Pro Plus package you can save thirty-two point five percent on monthly costs: about one hundred eighty-five convertible marks, or ninety-four euros and fifty cents, or roughly one hundred two US dollars.\n[pause] Email us at ana.hadzic@activi-soft.ba or marko.petrovic@activi-soft.ba. Technical docs go to support@activi.io. Book a demo at https://activi.io/demo-bosnia?ref=AS-2026-0847&utm=voice.\n[soft][empathetic] I understand now is not a good time — that is completely fine. Just tell me a preferred slot: Tuesday, April twenty-second, at ten fifteen a.m., or Thursday, April twenty-fourth, at four p.m.?\n[confident] If the price feels high: the first three months have no setup fee of two hundred fifty marks, and priority support is included. No pressure — the decision is yours, and I am here if you need me.\n[pause] One more note: the contract activates automatically on May fifth at midnight, unless you cancel by May third at six p.m. via legal@activi-soft.ba.\n[friendly] Thank you for your time. Best regards from Activi Soft — Ana Hadzic, on behalf of the team with Marko Petrovic.","script_tts_bs":"[friendly][confident] Dobar dan! Zovem se Ana Hadžić, prodajna savjetnica u Activi Soft iz Sarajeva. [pause] Marko Petrović i ja smo dostupni petnaestog marta u četrnaest sati i trideset minuta, referentni broj AS-2026. [soft][clear] Ušteda je trideset dva zarez pet posto — oko sto osamdeset i pet KM. [friendly] Pišite na ana@activi.io. Da li imate jednu minutu?","script_tts_en":"[friendly][confident] Hello! Ana Hadzic, Activi Soft. Marko and I, March 15 at 2:30, AS-2026. Save 32.5%. ana@activi.io — one minute?","scriptNote":"Vollskript (UI/Bewertung): lange Sätze, Ana+Marko + Pronomen, Datum/Uhrzeit, Ref-Nr., Prozent, KM/EUR/USD, E-Mails, URL mit Query, Einwand, Terminwahl, Vertragsdatum, Emotionen [friendly]/confident]/soft]/empathetic]. Audio-Samples: gekürztes Stress-Skript (Free-Plan TTS ≤500 Bytes).","reviewers":["Arman","Denis","Osoba 3"],"categories":[{"k":"pron","l":"Aussprache / Akzent-Fit","s":"Aussprache"},{"k":"prof","l":"Professionalität","s":"Professionell"},{"k":"warm","l":"Wärme / Sales-Fit","s":"Wärme"},{"k":"clar","l":"Verständlichkeit (Telefon)","s":"Klarheit"},{"k":"emo","l":"Emotion / Ausdruck","s":"Emotion"}],"voices":[{"id":"91526c9cbb5841858a34cb87ae739e89","title":"BS · Profesionalni Muški","sex":"m","lang":"bs","note":"Seriöser B2B-Outbound, klar und gemessen — Primärkandidat","tags":["male","middle-aged","professional","telesales","outbound","call-center","conversational","confident","trustworthy","corporate","natural","clear","calm","persuasive"],"age":"middle-aged","role":"outbound","group":"bs","source":"library","voice_instructions":{"opening":"Ruhiger Firmenname + Nutzen in einem Atemzug","pace":"measured","tone":"professional confident","avoid":"rush, shout, comedy, character","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: professional confident. Pace: measured. Opening: Ruhiger Firmenname + Nutzen in einem Atemzug. Never: rush, shout, comedy, character. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/82b4eede89f741dcaca7c05cb647fcd5.mp3"},{"id":"5d664201f86b4182bf758f6040c409fa","title":"BS · NAGLIC Clear Pro","sex":"m","lang":"bs","note":"Neutral-klar, Callcenter-Standard, hohe Verständlichkeit","tags":["male","middle-aged","professional","telesales","call-center","inbound","clear","calm","measured","corporate","trustworthy","natural","smooth"],"age":"middle-aged","role":"call-center","group":"bs","source":"library","voice_instructions":{"opening":"Neutral-klar wie erfahrener Agent","pace":"measured","tone":"calm clear professional","avoid":"drama, character, raspy chaos","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: calm clear professional. Pace: measured. Opening: Neutral-klar wie erfahrener Agent. Never: drama, character, raspy chaos. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/e8ee1857bc2c44a58407646b4463261c.mp3"},{"id":"020fa2f81d65408383cd6e21d6be2f2d","title":"BS · Samouvjeren Sales","sex":"m","lang":"bs","note":"Allround confident Sales mit Lächeln in der Stimme","tags":["male","middle-aged","professional","telesales","outbound","conversational","confident","energetic","persuasive","natural","friendly"],"age":"middle-aged","role":"outbound","group":"bs","source":"library","voice_instructions":{"opening":"Selbstsicher + Lächeln; sanfter Close","pace":"natural","tone":"confident friendly","avoid":"monotone, hard-close pressure","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: confident friendly. Pace: natural. Opening: Selbstsicher + Lächeln; sanfter Close. Never: monotone, hard-close pressure. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/20df4fcf1a0349d799b4682d83ccfb7f.mp3"},{"id":"99a4e1cc695b49128a195f526152d699","title":"BS · Mekani Muški","sex":"m","lang":"bs","note":"Weicher, warmer Inbound-/Relationship-Ton","tags":["male","middle-aged","professional","telesales","inbound","customer-service","warm","soft","friendly","trustworthy","calm","conversational","natural"],"age":"middle-aged","role":"inbound","group":"bs","source":"library","voice_instructions":{"opening":"Weich einladend, kein Announcer","pace":"relaxed","tone":"warm soft professional","avoid":"loud, announcer boom","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: warm soft professional. Pace: relaxed. Opening: Weich einladend, kein Announcer. Never: loud, announcer boom. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/69f0895cd6f6400a9425a5955e3c3c70.mp3"},{"id":"512d154db0ff458aac007c8ff2f1ebfd","title":"BS · Ramo Podcast Pro","sex":"m","lang":"bs","note":"Podcast-seriös, consultative B2B","tags":["male","mature","professional","telesales","conversational","trustworthy","corporate","serious","natural","premium","consultative"],"age":"mature","role":"consultative","group":"bs","source":"library","voice_instructions":{"opening":"Berater-Ton, ruhige Autorität","pace":"conversational-measured","tone":"serious warm","avoid":"hype, gaming, theatrics","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: serious warm. Pace: conversational-measured. Opening: Berater-Ton, ruhige Autorität. Never: hype, gaming, theatrics. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/7f122771402d4dbb82639b44de8f87f1.mp3"},{"id":"fe492e6fc04148cf84716186c2be52c6","title":"BS · Narator Warm","sex":"m","lang":"bs","note":"Ruhiger Narrator, warm erklärend — Demo/Explain","tags":["male","middle-aged","professional","customer-service","warm","calm","clear","trustworthy","expressive","natural","telesales"],"age":"middle-aged","role":"explain","group":"bs","source":"library","voice_instructions":{"opening":"Erklärend warm, Zahlen klar","pace":"measured","tone":"warm professional","avoid":"flat robot, cold","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: warm professional. Pace: measured. Opening: Erklärend warm, Zahlen klar. Never: flat robot, cold. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/163155be901e43d1bb98700c78b497aa.mp3"},{"id":"f7058cf45a604ec59b43801ae26cb8a6","title":"BS · Jasni Measured","sex":"m","lang":"bs","note":"Klar und gemessen — Telefon-Verständlichkeit","tags":["male","middle-aged","professional","telesales","clear","measured","confident","corporate","natural","outbound","call-center"],"age":"middle-aged","role":"outbound","group":"bs","source":"library","voice_instructions":{"opening":"Jedes Wort klar am Telefon","pace":"measured","tone":"clear confident","avoid":"mumble, rush, breathy","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear confident. Pace: measured. Opening: Jedes Wort klar am Telefon. Never: mumble, rush, breathy. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/ab4ccb6f93164087a5c27c8442db8464.mp3"},{"id":"c8c0d4318eec4e5d8f997bf098e8adeb","title":"BS · Sale Deep Calm","sex":"m","lang":"bs","note":"Deep calm premium — Enterprise / High-Ticket","tags":["male","middle-aged","professional","telesales","deep","calm","smooth","trustworthy","conversational","premium","enterprise"],"age":"middle-aged","role":"premium","group":"bs","source":"library","voice_instructions":{"opening":"Tief, ruhig, premium ohne Drama","pace":"slow-calm","tone":"deep calm premium","avoid":"raspy chaos, character","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: deep calm premium. Pace: slow-calm. Opening: Tief, ruhig, premium ohne Drama. Never: raspy chaos, character. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/ff1ed1870c784ce2b21e58f6fd80da1d.mp3"},{"id":"10344f42d6f342b683f9806c4594cedd","title":"BS · Narativni Calm","sex":"m","lang":"bs","note":"Ruhig-narrativ, freundlich-klar für längere Pitches","tags":["male","middle-aged","professional","telesales","narration","calm","measured","friendly","clear","expressive","natural","conversational"],"age":"middle-aged","role":"consultative","group":"bs","source":"library","voice_instructions":{"opening":"Narrativ ruhig, dann Nutzen","pace":"measured","tone":"calm friendly narrative","avoid":"entertainment hype","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: calm friendly narrative. Pace: measured. Opening: Narrativ ruhig, dann Nutzen. Never: entertainment hype. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/208d35a57ec44cf1b3f14ed8e18f35a4.mp3"},{"id":"d5b9ed88d72b47519fc174d4cc9b2b1a","title":"BS · Alex Marco Pro","sex":"m","lang":"bs","note":"Klar-confident educational Pro-Ton","tags":["male","middle-aged","professional","telesales","clear","crisp","confident","measured","calm","authoritative","friendly","natural","outbound"],"age":"middle-aged","role":"outbound","group":"bs","source":"library","voice_instructions":{"opening":"Klar, confident, höflich","pace":"measured","tone":"clear confident professional","avoid":"shout, slang","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear confident professional. Pace: measured. Opening: Klar, confident, höflich. Never: shout, slang. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/a18ae8ba01e64aebb9e48448a84ad987.mp3"},{"id":"a45966a2eaad4fb8a64bc844869aabcc","title":"BS · Motivacioni Closing","sex":"f","lang":"bs","note":"Warm + Closing-Fit — Top-Kandidat Outbound Close","tags":["female","middle-aged","professional","telesales","outbound","warm","confident","persuasive","friendly","premium","natural","expressive","closing"],"age":"middle-aged","role":"closing","group":"bs","source":"library","voice_instructions":{"opening":"Warm zum Close führen; Ana","pace":"natural","tone":"warm confident persuasive","avoid":"cold flat, hard pressure","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: warm confident persuasive. Pace: natural. Opening: Warm zum Close führen; Ana. Never: cold flat, hard pressure. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/9b91064669f143f5bd2d5560c8fe4d8f.mp3"},{"id":"ff407d8678d940a584b614153c5f1a0f","title":"BS · Savremeni Outbound","sex":"f","lang":"bs","note":"Klassische professionelle Outbound-Stimme","tags":["female","middle-aged","professional","telesales","outbound","call-center","clear","calm","friendly","corporate","natural","measured"],"age":"middle-aged","role":"outbound","group":"bs","source":"library","voice_instructions":{"opening":"Klassisch professionell Outbound","pace":"measured","tone":"clear friendly pro","avoid":"breathy intimate, hype","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear friendly pro. Pace: measured. Opening: Klassisch professionell Outbound. Never: breathy intimate, hype. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/10bc71c57d6e45e4be0b6b0eecec5c1f.mp3"},{"id":"e87d1b2fc7ed40d2940e69068b0ca726","title":"BS · Jasna Erklärend","sex":"f","lang":"bs","note":"Ruhig erklärend, vertrauensvoll — Inbound/Support","tags":["female","middle-aged","professional","customer-service","inbound","calm","measured","trustworthy","clear","conversational","natural","telesales"],"age":"middle-aged","role":"inbound","group":"bs","source":"library","voice_instructions":{"opening":"Ruhig erklären, dann soft upsell","pace":"measured","tone":"calm trustworthy","avoid":"fast sales pitch","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: calm trustworthy. Pace: measured. Opening: Ruhig erklären, dann soft upsell. Never: fast sales pitch. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/0e7c46c540284a7094f51a4422bea30f.mp3"},{"id":"03cfb7745c4a4200b55dd7baa09e3c59","title":"BS · Dinamična Young","sex":"f","lang":"bs","note":"Energie für jüngere Zielgruppe, kontrolliert","tags":["female","young","professional","telesales","outbound","energetic","friendly","clear","young","persuasive","natural","bright"],"age":"young","role":"outbound-young","group":"bs","source":"library","voice_instructions":{"opening":"Lebendig aber kontrolliert","pace":"brisk","tone":"energetic friendly pro","avoid":"screamy, playful chaos","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: energetic friendly pro. Pace: brisk. Opening: Lebendig aber kontrolliert. Never: screamy, playful chaos. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/856f34c3308341e89efae625209ad533.mp3"},{"id":"e68e5082d6ec4124a65d2df25dbe1297","title":"BS · Melodični Warm","sex":"f","lang":"bs","note":"Melodisch warm expressiv — Relationship Sales","tags":["female","middle-aged","professional","telesales","warm","expressive","friendly","persuasive","natural","soft","relationship"],"age":"middle-aged","role":"relationship","group":"bs","source":"library","voice_instructions":{"opening":"Melodisch warm, nicht theatralisch","pace":"natural","tone":"warm expressive","avoid":"monotone, cartoon","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: warm expressive. Pace: natural. Opening: Melodisch warm, nicht theatralisch. Never: monotone, cartoon. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/34d5c23402a24808a56602cd8448bd57.mp3"},{"id":"5305f70004634f8da3836d5befaba3e0","title":"BA · Hrvatska Govornica Pro","sex":"f","lang":"bs","note":"Ruhige Pro-Sprecherin (BCMS, BA-tauglich)","tags":["female","middle-aged","professional","telesales","call-center","calm","clear","smooth","corporate","trustworthy","natural","bcms"],"age":"middle-aged","role":"call-center","group":"bs","source":"library","voice_instructions":{"opening":"Ruhig professionell BCMS","pace":"measured","tone":"calm clear pro","avoid":"announcer boom","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: calm clear pro. Pace: measured. Opening: Ruhig professionell BCMS. Never: announcer boom. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/d13dd239d8854baab0b091813378394e.mp3"},{"id":"c937a3fe42fd431f84228ce8d04fc69a","title":"BA · Ugodan Warm Pro","sex":"f","lang":"bs","note":"Angenehm friendly pro (BCMS)","tags":["female","middle-aged","professional","telesales","customer-service","warm","friendly","professional","natural","trustworthy","bcms"],"age":"middle-aged","role":"service-sales","group":"bs","source":"library","voice_instructions":{"opening":"Angenehm und sicher","pace":"natural","tone":"warm friendly pro","avoid":"cold script","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: warm friendly pro. Pace: natural. Opening: Angenehm und sicher. Never: cold script. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/ac3eb191bfc840f2872807a02fcc662d.mp3"},{"id":"408dadcbecaa42bca59946b2f77f9704","title":"BA · Vedra Clear Pro","sex":"f","lang":"bs","note":"Klar, warm, professional narrative (BCMS)","tags":["female","middle-aged","professional","telesales","clear","crisp","warm","friendly","expressive","natural","premium","bcms"],"age":"middle-aged","role":"premium-female","group":"bs","source":"library","voice_instructions":{"opening":"Klar wie Nachrichten, warm wie Service","pace":"measured","tone":"clear warm professional","avoid":"cartoon energy","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear warm professional. Pace: measured. Opening: Klar wie Nachrichten, warm wie Service. Never: cartoon energy. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/485b98377a664a63a0a8d6a4590e8b85.mp3"},{"id":"7945a25f1df040f5897aedd0998402bc","title":"BA · Jasna Hrvatska Pro","sex":"f","lang":"bs","note":"Clear warm professional female BCMS","tags":["female","middle-aged","professional","telesales","clear","warm","professional","trustworthy","natural","outbound","bcms"],"age":"middle-aged","role":"outbound","group":"bs","source":"library","voice_instructions":{"opening":"Warm-professionell Outbound","pace":"measured","tone":"clear warm pro","avoid":"flat robot","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear warm pro. Pace: measured. Opening: Warm-professionell Outbound. Never: flat robot. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/d0d4a906a0ad42ebaefbe6bb9f939abd.mp3"},{"id":"f151b508e68d4af98251f3f41d65b4fd","title":"BS · Sk Warm Pro","sex":"f","lang":"bs","note":"Warm-friendly conversational Pro (kontrolliert)","tags":["female","middle-aged","professional","telesales","warm","friendly","clear","expressive","smooth","natural","conversational","customer-service"],"age":"middle-aged","role":"relationship","group":"bs","source":"library","voice_instructions":{"opening":"Warm conversational, telefongeeignet","pace":"natural","tone":"warm friendly professional","avoid":"angry edge, breathy ASMR","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: warm friendly professional. Pace: natural. Opening: Warm conversational, telefongeeignet. Never: angry edge, breathy ASMR. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/050cec5cd83f4d4e8e340590c6be1e38.mp3"},{"id":"af29d14bf4114c258e335370877ef67b","title":"HR · Mirni Muški","sex":"m","lang":"hr","note":"Calm conversational professional — HR Callcenter","tags":["male","middle-aged","professional","telesales","call-center","calm","clear","conversational","trustworthy","natural","croatian"],"age":"middle-aged","role":"call-center","group":"hr","source":"library","voice_instructions":{"opening":"Ruhig und klar HR","pace":"measured","tone":"calm professional","avoid":"angry edge","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: calm professional. Pace: measured. Opening: Ruhig und klar HR. Never: angry edge. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/dc594dbe778a40cf91707829f7e6b39b.mp3"},{"id":"aabfa168f35645af9aaa3cdaa442a66c","title":"HR · Deep Conversational","sex":"m","lang":"hr","note":"Conversational deep male — consultative","tags":["male","middle-aged","professional","telesales","conversational","confident","warm","deep","natural","premium","croatian"],"age":"middle-aged","role":"consultative","group":"hr","source":"library","voice_instructions":{"opening":"Conversational deep, warm","pace":"natural","tone":"confident warm","avoid":"shout","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: confident warm. Pace: natural. Opening: Conversational deep, warm. Never: shout. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/fe37aa8228b94ac584cb75f538f6f0c2.mp3"},{"id":"82036e17ed4e4538b454c09d694c7286","title":"HR · Direktni Sales","sex":"m","lang":"hr","note":"Direct confident sales — Outbound","tags":["male","middle-aged","professional","telesales","outbound","confident","energetic","persuasive","clear","natural","croatian"],"age":"middle-aged","role":"outbound","group":"hr","source":"library","voice_instructions":{"opening":"Direkt aber höflich","pace":"brisk","tone":"direct confident","avoid":"aggressive close","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: direct confident. Pace: brisk. Opening: Direkt aber höflich. Never: aggressive close. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/17426e0de2da46839523e0b4473cc1cc.mp3"},{"id":"d7dc6b903e89473b9000d06a872ca70c","title":"HR · Stariji Clear Pro","sex":"m","lang":"hr","note":"Mature clear professional narrator","tags":["male","mature","professional","telesales","clear","crisp","calm","measured","corporate","authoritative","natural","croatian"],"age":"mature","role":"corporate","group":"hr","source":"library","voice_instructions":{"opening":"Reif, klar, corporate","pace":"measured","tone":"clear mature pro","avoid":"character, raspy","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear mature pro. Pace: measured. Opening: Reif, klar, corporate. Never: character, raspy. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/de3c4b97e3fc4228af749a6895c933a5.mp3"},{"id":"f4a8102b8cfb42e9861bc653b358bd3d","title":"HR · Duboki Authority","sex":"m","lang":"hr","note":"Deep calm authority — Enterprise HR","tags":["male","mature","professional","telesales","deep","authoritative","calm","corporate","trustworthy","clear","croatian"],"age":"mature","role":"enterprise","group":"hr","source":"library","voice_instructions":{"opening":"Ruhige Autorität ohne Härte","pace":"slow-measured","tone":"deep calm authority","avoid":"drama, politician tone","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: deep calm authority. Pace: slow-measured. Opening: Ruhige Autorität ohne Härte. Never: drama, politician tone. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/c98e909ecd764d5a932d87c918558d60.mp3"},{"id":"5c78ae5c74a24f87a9f232073641ab08","title":"HR · Topli Gentle","sex":"f","lang":"hr","note":"Warm gentle female — Inbound","tags":["female","middle-aged","professional","customer-service","inbound","warm","calm","friendly","soft","trustworthy","natural","croatian"],"age":"middle-aged","role":"inbound","group":"hr","source":"library","voice_instructions":{"opening":"Sanft und warm","pace":"relaxed","tone":"warm gentle","avoid":"loud pitch","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: warm gentle. Pace: relaxed. Opening: Sanft und warm. Never: loud pitch. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/286f2d5c660745059baf29455443e70c.mp3"},{"id":"d30566a322d04a838ca3426219b46c13","title":"HR · Topli Soft Pro","sex":"f","lang":"hr","note":"Warm soft professional — Relationship","tags":["female","middle-aged","professional","customer-service","warm","soft","friendly","clear","natural","premium","croatian","telesales"],"age":"middle-aged","role":"relationship","group":"hr","source":"library","voice_instructions":{"opening":"Weich professionell","pace":"natural","tone":"warm soft pro","avoid":"sexy intimate","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: warm soft pro. Pace: natural. Opening: Weich professionell. Never: sexy intimate. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/355b5a455d7b4ec694c8e88e59ab9726.mp3"},{"id":"f9ce273371064cff93081d046afebb86","title":"HR · Mirna Empathic","sex":"f","lang":"hr","note":"Calm empathetic — Objection handling","tags":["female","mature","professional","customer-service","inbound","calm","warm","empathetic","trustworthy","gentle","natural","croatian"],"age":"mature","role":"empathy","group":"hr","source":"library","voice_instructions":{"opening":"Empathisch ruhig bei Einwand","pace":"slow-measured","tone":"empathetic calm","avoid":"rushed pitch","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: empathetic calm. Pace: slow-measured. Opening: Empathisch ruhig bei Einwand. Never: rushed pitch. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/b43c25e7acc34416ac67c0b0c30c027a.mp3"},{"id":"da1f9cb818c0459aacfd36ad137053ef","title":"HR · Snažan Confident","sex":"f","lang":"hr","note":"Strong confident female Outbound","tags":["female","middle-aged","professional","telesales","outbound","confident","professional","dynamic","persuasive","natural","croatian"],"age":"middle-aged","role":"outbound","group":"hr","source":"library","voice_instructions":{"opening":"Stark und sicher, nie hart","pace":"natural-brisk","tone":"confident strong pro","avoid":"harsh","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: confident strong pro. Pace: natural-brisk. Opening: Stark und sicher, nie hart. Never: harsh. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/b4d358312e064650a601cc557644a932.mp3"},{"id":"d418491e5ad14320aaf35ddf4168a4f0","title":"HR · Srdačan Friendly","sex":"f","lang":"hr","note":"Cordial friendly — Service + Soft Sales","tags":["female","middle-aged","professional","telesales","customer-service","friendly","warm","relaxed","natural","outbound","croatian"],"age":"middle-aged","role":"friendly-sales","group":"hr","source":"library","voice_instructions":{"opening":"Herzlich freundlich","pace":"natural","tone":"cordial friendly","avoid":"cold","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: cordial friendly. Pace: natural. Opening: Herzlich freundlich. Never: cold. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/a4eff9eb1a4349dfb924326b01888074.mp3"},{"id":"19468ccce84c4969b21ba097e849f228","title":"SR · Muški Calm Pro","sex":"m","lang":"sr","note":"Calm professional SR male — Callcenter","tags":["male","middle-aged","professional","telesales","call-center","calm","clear","confident","trustworthy","natural","serbian"],"age":"middle-aged","role":"call-center","group":"sr","source":"library","voice_instructions":{"opening":"Ruhig professionell SR","pace":"measured","tone":"calm confident pro","avoid":"announcer boom","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: calm confident pro. Pace: measured. Opening: Ruhig professionell SR. Never: announcer boom. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/be3e2c20b9aa4e01a4ceb535489f780a.mp3"},{"id":"a5afb69eab3b43c89ae01a98ab56d704","title":"SR · Duboki Authority","sex":"m","lang":"sr","note":"Deep authoritative SR — Enterprise","tags":["male","middle-aged","professional","telesales","deep","authoritative","calm","corporate","premium","serbian"],"age":"middle-aged","role":"enterprise","group":"sr","source":"library","voice_instructions":{"opening":"Tief autoritär warm","pace":"slow-measured","tone":"deep authority","avoid":"aggressive","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: deep authority. Pace: slow-measured. Opening: Tief autoritär warm. Never: aggressive. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/811f77f4c5f34e7d8237a11d1c886363.mp3"},{"id":"29372270cf0a45a6886ca7dd7accce6a","title":"SR · Marat Clear Pro","sex":"m","lang":"sr","note":"Clear crisp professional narrator (sr-capable)","tags":["male","middle-aged","professional","telesales","clear","crisp","calm","measured","corporate","announcer","natural","serbian"],"age":"middle-aged","role":"corporate","group":"sr","source":"library","voice_instructions":{"opening":"Klar und gemessen","pace":"measured","tone":"clear corporate","avoid":"character","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear corporate. Pace: measured. Opening: Klar und gemessen. Never: character. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/dc28784cd49845b29df4c8ca7b697664.mp3"},{"id":"02184c53a9d84d938196aeeb60eef74c","title":"SR · Opytnyi Warm Deep","sex":"m","lang":"sr","note":"Experienced deep warm male — Premium","tags":["male","mature","professional","telesales","deep","warm","calm","trustworthy","premium","natural","serbian"],"age":"mature","role":"premium","group":"sr","source":"library","voice_instructions":{"opening":"Erfahren und warm","pace":"slow-calm","tone":"deep warm premium","avoid":"gaming character","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: deep warm premium. Pace: slow-calm. Opening: Erfahren und warm. Never: gaming character. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/3c4f4c4d29534afabdde1bbe9f51ba00.mp3"},{"id":"796131c4f1c246568d6229191f5700af","title":"SR · Names Calm Pro","sex":"m","lang":"sr","note":"Calm measured deep — names/numbers stress fit","tags":["male","mature","professional","telesales","calm","measured","deep","clear","trustworthy","natural","serbian","outbound"],"age":"mature","role":"outbound","group":"sr","source":"library","voice_instructions":{"opening":"Ruhig gemessen, Namen/Zahlen klar","pace":"measured","tone":"calm deep professional","avoid":"Slavic caricature, politician","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: calm deep professional. Pace: measured. Opening: Ruhig gemessen, Namen/Zahlen klar. Never: Slavic caricature, politician. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/aad429f71f2641b2bb8a4d3fc02b5474.mp3"},{"id":"2625ff9fcb274801b86e2cbb0bf0bd69","title":"SR · Rimma Clear Pro","sex":"f","lang":"sr","note":"High-use clear professional female","tags":["female","young","professional","telesales","call-center","clear","crisp","calm","friendly","corporate","natural","premium","serbian"],"age":"young","role":"call-center","group":"sr","source":"library","voice_instructions":{"opening":"Klar und freundlich pro","pace":"measured","tone":"clear friendly pro","avoid":"robot","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear friendly pro. Pace: measured. Opening: Klar und freundlich pro. Never: robot. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/f739093607e04975b5fb6f116b49b37f.mp3"},{"id":"f9bf1b947e384d3ea7e3975b38955b9e","title":"SR · Kutina Confident","sex":"f","lang":"sr","note":"Confident measured professional","tags":["female","middle-aged","professional","telesales","clear","calm","measured","confident","corporate","natural","serbian","outbound"],"age":"middle-aged","role":"outbound","group":"sr","source":"library","voice_instructions":{"opening":"Sicher gemessen","pace":"measured","tone":"confident measured","avoid":"breathy asmr","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: confident measured. Pace: measured. Opening: Sicher gemessen. Never: breathy asmr. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/5bc37466712f4a16802c9edceeb31812.mp3"},{"id":"426236a8085c477fbbc8c3b5bd906443","title":"SR · Molodoy Clear","sex":"f","lang":"sr","note":"Young clear conversational pro","tags":["female","young","professional","telesales","conversational","clear","calm","friendly","confident","natural","serbian"],"age":"young","role":"conversational","group":"sr","source":"library","voice_instructions":{"opening":"Conversational klar","pace":"natural","tone":"clear conversational pro","avoid":"anime","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear conversational pro. Pace: natural. Opening: Conversational klar. Never: anime. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/03be4a0b9e77449b9af17e4b4eda1439.mp3"},{"id":"7f54d1a573154e0ea470c621ab5845c5","title":"SR · Rimma Soft Pro","sex":"f","lang":"sr","note":"Soft professional narrative service","tags":["female","young","professional","customer-service","clear","calm","friendly","smooth","natural","premium","serbian","inbound"],"age":"young","role":"service","group":"sr","source":"library","voice_instructions":{"opening":"Weich professionell","pace":"measured","tone":"soft professional","avoid":"dramatic","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: soft professional. Pace: measured. Opening: Weich professionell. Never: dramatic. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/c1f4942011714809af08a2d5577f1604.mp3"},{"id":"532c1a46cadb4253a5aac85ac2de1067","title":"SR · Smiren Calm Pro","sex":"f","lang":"sr","note":"Calm clear measured SR female","tags":["female","middle-aged","professional","telesales","calm","clear","measured","smooth","professional","natural","serbian","call-center"],"age":"middle-aged","role":"call-center","group":"sr","source":"library","voice_instructions":{"opening":"Ruhig klar gemessen","pace":"measured","tone":"calm clear pro","avoid":"character entertainment","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: calm clear pro. Pace: measured. Opening: Ruhig klar gemessen. Never: character entertainment. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/2395f42b4c94481d96de40df7c456be5.mp3"},{"id":"c5f56a6cc2ec4fa8920cb4c5889a3fb7","title":"EN · Slax Neutral Pro","sex":"m","lang":"en","note":"Clear calm professional (high usage) — neutral","tags":["male","middle-aged","professional","telesales","call-center","clear","calm","measured","corporate","natural","premium","english","neutral-accent"],"age":"middle-aged","role":"call-center","group":"en","source":"library","voice_instructions":{"opening":"Neutral international pro; Ana/Marko clear","pace":"measured","tone":"clear calm professional","avoid":"gaming, accent caricature","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear calm professional. Pace: measured. Opening: Neutral international pro; Ana/Marko clear. Never: gaming, accent caricature. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/af2969f9d64f48f1a4bc16f15727f1a2.mp3"},{"id":"a1cacb329332495ea3a9f4511587f946","title":"EN · CS Assistant Pro","sex":"f","lang":"en","note":"Customer service assistant professional","tags":["female","middle-aged","professional","customer-service","call-center","inbound","clear","calm","friendly","corporate","natural","english"],"age":"middle-aged","role":"inbound","group":"en","source":"library","voice_instructions":{"opening":"Service-pro friendly","pace":"measured","tone":"friendly calm CS","avoid":"sales hard close","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: friendly calm CS. Pace: measured. Opening: Service-pro friendly. Never: sales hard close. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/3c0739207b114c5ab38f4fe68d2c42c2.mp3"},{"id":"4b1df6a7bdea433e805924fefdda2f8b","title":"EN · Outbound Call Male","sex":"m","lang":"en","note":"Outbound call professional male","tags":["male","young","professional","telesales","outbound","clear","calm","measured","corporate","natural","english"],"age":"young","role":"outbound","group":"en","source":"library","voice_instructions":{"opening":"Outbound calm, no hype","pace":"measured","tone":"clear outbound pro","avoid":"hype, military","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear outbound pro. Pace: measured. Opening: Outbound calm, no hype. Never: hype, military. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/0e96792274b64a16be3b537b0bf40913.mp3"},{"id":"ca1aed3abe3a4a2493d89072355a7fcf","title":"EN · Contact Center Female","sex":"f","lang":"en","note":"Professional contact center standard","tags":["female","middle-aged","professional","call-center","customer-service","clear","calm","friendly","corporate","natural","english"],"age":"middle-aged","role":"call-center","group":"en","source":"library","voice_instructions":{"opening":"Contact-center standard","pace":"measured","tone":"clear calm contact-center","avoid":"command-center robotic","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear calm contact-center. Pace: measured. Opening: Contact-center standard. Never: command-center robotic. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/701182cb4b25489a9f1828ca39a428d3.mp3"},{"id":"12dd91f58f55476da14d4f7a6e0e03db","title":"EN · Friendly Service Pro","sex":"f","lang":"en","note":"Friendly service voice — soft sales + support","tags":["female","middle-aged","professional","customer-service","friendly","clear","expressive","confident","professional","natural","english","telesales"],"age":"middle-aged","role":"friendly-sales","group":"en","source":"library","voice_instructions":{"opening":"Friendly service with soft upsell","pace":"natural","tone":"friendly professional CS","avoid":"animated entertainment","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: friendly professional CS. Pace: natural. Opening: Friendly service with soft upsell. Never: animated entertainment. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/5ad4871e511c4720bf4d55f7cdc8ca91.mp3"},{"id":"1dc098568e624b92819ef8181aae959b","title":"ML · Atomic BS+EN","sex":"m","lang":"ml","note":"Multilingual bs+en — energy dialed down for phone","tags":["male","mature","multilingual","professional","telesales","clear","confident","energetic","english","bs","natural","outbound"],"age":"mature","role":"multilingual-outbound","group":"ml","source":"library","voice_instructions":{"opening":"EN or BS clean; dial energy down for phone","pace":"measured-to-brisk","tone":"multilingual confident","avoid":"game announcer max","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: multilingual confident. Pace: measured-to-brisk. Opening: EN or BS clean; dial energy down for phone. Never: game announcer max. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio. Prefer measured phone cadence over host energy."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/1f7d3112697742a9b49dd824eaefe71f.mp3"},{"id":"802e868478214360a0495ff1ea9e3334","title":"ML · Shishkov EN+SR Pro","sex":"m","lang":"ml","note":"Multilingual en/sr clear announcer pro","tags":["male","middle-aged","multilingual","professional","clear","calm","measured","corporate","english","sr","natural","premium"],"age":"middle-aged","role":"multilingual-corp","group":"ml","source":"library","voice_instructions":{"opening":"Clear multilingual corporate","pace":"measured","tone":"clear multilingual pro","avoid":"raspy character","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear multilingual pro. Pace: measured. Opening: Clear multilingual corporate. Never: raspy character. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/e046cd22fac947baacfe132d61237b70.mp3"},{"id":"f281f234a1d04a929ade9f676ed7c441","title":"ML · Calm Deep EN Premium","sex":"m","lang":"ml","note":"Deep calm premium EN base for multi-agent","tags":["male","middle-aged","multilingual","professional","deep","warm","calm","premium","english","natural","trustworthy"],"age":"middle-aged","role":"multilingual-premium","group":"ml","source":"library","voice_instructions":{"opening":"Premium calm deep","pace":"slow-calm","tone":"deep warm premium multi","avoid":"cinematic overacting","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: deep warm premium multi. Pace: slow-calm. Opening: Premium calm deep. Never: cinematic overacting. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/0f60589cb2134675ba40842da50d1fba.mp3"},{"id":"9ebe5838ec4443449bf37d83fffaebdf","title":"ML · Ritta Multi Clear","sex":"f","lang":"ml","note":"Clear multi-lang female (sr/ru/de/bg capable)","tags":["female","young","multilingual","professional","clear","crisp","calm","measured","corporate","natural","sr","premium","call-center"],"age":"young","role":"multilingual-service","group":"ml","source":"library","voice_instructions":{"opening":"Clear multi-lang service pro","pace":"measured","tone":"clear multi pro","avoid":"entertainment character","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear multi pro. Pace: measured. Opening: Clear multi-lang service pro. Never: entertainment character. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/a0e6c192c48a41498c3de43a94f69de4.mp3"},{"id":"dabecb5a1f4d49349268bdf4fa2e5967","title":"ML · Rita Soft Multi","sex":"f","lang":"ml","note":"Soft multi-lang professional narrative","tags":["female","middle-aged","multilingual","professional","clear","calm","measured","smooth","natural","sr","customer-service","premium"],"age":"middle-aged","role":"multilingual-inbound","group":"ml","source":"library","voice_instructions":{"opening":"Soft multi-lang inbound","pace":"measured","tone":"calm multi pro","avoid":"monotone robot","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: calm multi pro. Pace: measured. Opening: Soft multi-lang inbound. Never: monotone robot. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/bbee773fa2324657a69cad3a5b76c60b.mp3"},{"id":"agent-a45966a2eaad-ana-closing-f","title":"Agent · Ana Closing (f)","sex":"f","lang":"bs","note":"Agent-Profil: Closing-Optimierung auf Motivacioni","tags":["female","middle-aged","professional","telesales","outbound","warm","confident","persuasive","agent-profile","premium","natural","closing"],"age":"middle-aged","role":"agent-closing","group":"agent","source":"agent-profile","voice_instructions":{"opening":"Always closing-warm; name Ana; refer to Marko as he/on","pace":"natural","tone":"warm confident closer","avoid":"hard pressure, cold script","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: warm confident closer. Pace: natural. Opening: Always closing-warm; name Ana; refer to Marko as he/on. Never: hard pressure, cold script. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio. Optimize for objection → soft close."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/9b91064669f143f5bd2d5560c8fe4d8f.mp3","library_voice_id":"a45966a2eaad4fb8a64bc844869aabcc","base_lang":"bs"},{"id":"agent-ff407d8678d9-ana-outbound-f","title":"Agent · Ana Outbound (f)","sex":"f","lang":"bs","note":"Agent-Profil: Standard Outbound Script","tags":["female","middle-aged","professional","telesales","outbound","call-center","clear","agent-profile","corporate","natural"],"age":"middle-aged","role":"agent-outbound","group":"agent","source":"agent-profile","voice_instructions":{"opening":"Scripted outbound with warmth; Ana","pace":"measured","tone":"clear outbound agent","avoid":"robot cadence","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear outbound agent. Pace: measured. Opening: Scripted outbound with warmth; Ana. Never: robot cadence. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/10bc71c57d6e45e4be0b6b0eecec5c1f.mp3","library_voice_id":"ff407d8678d940a584b614153c5f1a0f","base_lang":"bs"},{"id":"agent-e87d1b2fc7ed-ana-support-f","title":"Agent · Ana Support (f)","sex":"f","lang":"bs","note":"Agent-Profil: Inbound/Support first","tags":["female","middle-aged","professional","customer-service","inbound","calm","agent-profile","trustworthy","natural"],"age":"middle-aged","role":"agent-inbound","group":"agent","source":"agent-profile","voice_instructions":{"opening":"Support first, then soft upsell; Ana","pace":"measured","tone":"calm support agent","avoid":"hard sell","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: calm support agent. Pace: measured. Opening: Support first, then soft upsell; Ana. Never: hard sell. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/0e7c46c540284a7094f51a4422bea30f.mp3","library_voice_id":"e87d1b2fc7ed40d2940e69068b0ca726","base_lang":"bs"},{"id":"agent-91526c9cbb58-marko-b2b-m","title":"Agent · Marko B2B (m)","sex":"m","lang":"bs","note":"Agent-Profil: Marko B2B Enterprise","tags":["male","middle-aged","professional","telesales","outbound","corporate","agent-profile","confident","natural","enterprise"],"age":"middle-aged","role":"agent-b2b","group":"agent","source":"agent-profile","voice_instructions":{"opening":"Speak as Marko; refer to Ana as she/ona; B2B","pace":"measured","tone":"professional B2B Marko","avoid":"casual slang","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: professional B2B Marko. Pace: measured. Opening: Speak as Marko; refer to Ana as she/ona; B2B. Never: casual slang. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/82b4eede89f741dcaca7c05cb647fcd5.mp3","library_voice_id":"91526c9cbb5841858a34cb87ae739e89","base_lang":"bs"},{"id":"agent-5d664201f86b-marko-clear-m","title":"Agent · Marko Clear (m)","sex":"m","lang":"bs","note":"Agent-Profil: Marko klar/neutral Callcenter","tags":["male","middle-aged","professional","call-center","clear","agent-profile","corporate","natural"],"age":"middle-aged","role":"agent-neutral","group":"agent","source":"agent-profile","voice_instructions":{"opening":"Neutral Marko agent","pace":"measured","tone":"clear neutral Marko","avoid":"emotionless robot","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear neutral Marko. Pace: measured. Opening: Neutral Marko agent. Never: emotionless robot. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/e8ee1857bc2c44a58407646b4463261c.mp3","library_voice_id":"5d664201f86b4182bf758f6040c409fa","base_lang":"bs"},{"id":"agent-c5f56a6cc2ec-alex-en-pro-m","title":"Agent · Alex EN Pro (m)","sex":"m","lang":"en","note":"Agent-Profil: English pro agent, neutral accent","tags":["male","middle-aged","professional","telesales","call-center","english","agent-profile","clear","corporate","natural","neutral-accent"],"age":"middle-aged","role":"agent-en","group":"agent","source":"agent-profile","voice_instructions":{"opening":"English pro agent; neutral accent; names Ana/Marko correctly","pace":"measured","tone":"clear EN agent","avoid":"regional slang heavy","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional tele-sales / contact-center voice agent. Tone: clear EN agent. Pace: measured. Opening: English pro agent; neutral accent; names Ana/Marko correctly. Never: regional slang heavy. Pronounce names Ana (she/ona) and Marko (he/on) naturally. Speak numbers, dates, times, emails and URLs clearly for phone audio."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/af2969f9d64f48f1a4bc16f15727f1a2.mp3","library_voice_id":"c5f56a6cc2ec4fa8920cb4c5889a3fb7","base_lang":"en"},{"id":"7711397491604c688b6210b54383deb7","title":"CLONE · TS 01 Warm Opener","sex":"f","lang":"bs","note":"Eigener Fish-Clone (Sample 001/11) · Telesales · Bosnisch ijekavisch · Tags [friendly][confident] Dobar dan! Zovem s…","tags":["female","young","warm","friendly","telesales","outbound","bosnian","clear","confident","clone","own","ijekavian","sarajevo-fit"],"age":"young","role":"outbound","group":"bs-clone","source":"own-clone","voice_instructions":{"opening":"Topao pozdrav + ime + firma iz Sarajeva","pace":"measured","tone":"friendly confident professional bosnian","avoid":"croatian-only forms, rush, character, comedy, slang","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/2afe8f345af14f43bd78f4d60a167e4b.mp3","fish_voice_id":"7711397491604c688b6210b54383deb7","variant":"telesales-base"},{"id":"7711397491604c688b6210b54383deb7-iv-warm","title":"IV · Warm 01 Warm Opener","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante A (warm/empathisch) aus Clone 01","tags":["female","young","warm","friendly","telesales","outbound","bosnian","clear","confident","interview","warm","empathetic","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Zahvala na razgovor + blago predstavljanje","pace":"relaxed measured","tone":"warm empathetic friendly bosnian","avoid":"aggressive close, slang, character, monologue","bracket_defaults":"[warm][friendly][soft][empathetic]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/3840d6e6c9b4472fac63d2b44180b065.mp3","fish_voice_id":"7711397491604c688b6210b54383deb7","variant":"interview-warm"},{"id":"7711397491604c688b6210b54383deb7-iv-formal","title":"IV · Formal 01 Warm Opener","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante B (formal/professional) aus Clone 01","tags":["female","young","warm","friendly","telesales","outbound","bosnian","clear","confident","interview","formal","professional","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Formalan pozdrav + hvala na prilici","pace":"measured slow-clear","tone":"professional clear confident bosnian","avoid":"casual slang, rush, over-enthusiasm, character","bracket_defaults":"[professional][clear][measured][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/6a804f38d7584e9082567caae11eff76.mp3","fish_voice_id":"7711397491604c688b6210b54383deb7","variant":"interview-formal"},{"id":"8178825f40e14eb191a86b709e17e46f","title":"CLONE · TS 02 Confident Closer","sex":"f","lang":"bs","note":"Eigener Fish-Clone (Sample 002/11) · Telesales · Bosnisch ijekavisch · Tags [friendly][confident] Dobar dan! Zovem s…","tags":["female","young","confident","closing","telesales","persuasive","bosnian","clear","clone","own","ijekavian","sarajevo-fit"],"age":"young","role":"closing","group":"bs-clone","source":"own-clone","voice_instructions":{"opening":"Topao pozdrav + ime + firma iz Sarajeva","pace":"measured","tone":"friendly confident professional bosnian","avoid":"croatian-only forms, rush, character, comedy, slang","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/87ca3536727b46f597dd637edbf2d33d.mp3","fish_voice_id":"8178825f40e14eb191a86b709e17e46f","variant":"telesales-base"},{"id":"8178825f40e14eb191a86b709e17e46f-iv-warm","title":"IV · Warm 02 Confident Closer","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante A (warm/empathisch) aus Clone 02","tags":["female","young","confident","closing","telesales","persuasive","bosnian","clear","interview","warm","empathetic","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Zahvala na razgovor + blago predstavljanje","pace":"relaxed measured","tone":"warm empathetic friendly bosnian","avoid":"aggressive close, slang, character, monologue","bracket_defaults":"[warm][friendly][soft][empathetic]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/e3353fb46af8405f8c6d90aef77cc92c.mp3","fish_voice_id":"8178825f40e14eb191a86b709e17e46f","variant":"interview-warm"},{"id":"8178825f40e14eb191a86b709e17e46f-iv-formal","title":"IV · Formal 02 Confident Closer","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante B (formal/professional) aus Clone 02","tags":["female","young","confident","closing","telesales","persuasive","bosnian","clear","interview","formal","professional","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Formalan pozdrav + hvala na prilici","pace":"measured slow-clear","tone":"professional clear confident bosnian","avoid":"casual slang, rush, over-enthusiasm, character","bracket_defaults":"[professional][clear][measured][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/773030c6ecf642aaa1aaf7ff1312a52b.mp3","fish_voice_id":"8178825f40e14eb191a86b709e17e46f","variant":"interview-formal"},{"id":"d9b1befa09a34947b8c334268767abb6","title":"CLONE · TS 03 Friendly Advisor","sex":"f","lang":"bs","note":"Eigener Fish-Clone (Sample 003/11) · Telesales · Bosnisch ijekavisch · Tags [friendly][confident] Dobar dan! Zovem s…","tags":["female","young","friendly","advisory","telesales","warm","bosnian","conversational","clone","own","ijekavian","sarajevo-fit"],"age":"young","role":"consultative","group":"bs-clone","source":"own-clone","voice_instructions":{"opening":"Topao pozdrav + ime + firma iz Sarajeva","pace":"measured","tone":"friendly confident professional bosnian","avoid":"croatian-only forms, rush, character, comedy, slang","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/a3c91ee5ea344da296cd9dfd1a4f6e24.mp3","fish_voice_id":"d9b1befa09a34947b8c334268767abb6","variant":"telesales-base"},{"id":"d9b1befa09a34947b8c334268767abb6-iv-warm","title":"IV · Warm 03 Friendly Advisor","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante A (warm/empathisch) aus Clone 03","tags":["female","young","friendly","advisory","telesales","warm","bosnian","conversational","interview","warm","empathetic","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Zahvala na razgovor + blago predstavljanje","pace":"relaxed measured","tone":"warm empathetic friendly bosnian","avoid":"aggressive close, slang, character, monologue","bracket_defaults":"[warm][friendly][soft][empathetic]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/c137fce2ef5f48efbc3c419059c4e5b9.mp3","fish_voice_id":"d9b1befa09a34947b8c334268767abb6","variant":"interview-warm"},{"id":"d9b1befa09a34947b8c334268767abb6-iv-formal","title":"IV · Formal 03 Friendly Advisor","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante B (formal/professional) aus Clone 03","tags":["female","young","friendly","advisory","telesales","warm","bosnian","conversational","interview","formal","professional","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Formalan pozdrav + hvala na prilici","pace":"measured slow-clear","tone":"professional clear confident bosnian","avoid":"casual slang, rush, over-enthusiasm, character","bracket_defaults":"[professional][clear][measured][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/41a01f4a91514ec095fa41bfafc89367.mp3","fish_voice_id":"d9b1befa09a34947b8c334268767abb6","variant":"interview-formal"},{"id":"eb7c0f0a21d941f4a3df4b4bfebb7cc7","title":"CLONE · TS 04 Calm Professional","sex":"f","lang":"bs","note":"Eigener Fish-Clone (Sample 004/11) · Telesales · Bosnisch ijekavisch · Tags [friendly][confident] Dobar dan! Zovem s…","tags":["female","middle-aged","calm","professional","inbound","call-center","bosnian","measured","clone","own","ijekavian","sarajevo-fit"],"age":"middle-aged","role":"inbound","group":"bs-clone","source":"own-clone","voice_instructions":{"opening":"Topao pozdrav + ime + firma iz Sarajeva","pace":"measured","tone":"friendly confident professional bosnian","avoid":"croatian-only forms, rush, character, comedy, slang","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/d231cc53a4df400081269f57cdbe5aa7.mp3","fish_voice_id":"eb7c0f0a21d941f4a3df4b4bfebb7cc7","variant":"telesales-base"},{"id":"eb7c0f0a21d941f4a3df4b4bfebb7cc7-iv-warm","title":"IV · Warm 04 Calm Professional","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante A (warm/empathisch) aus Clone 04","tags":["female","middle-aged","calm","professional","inbound","call-center","bosnian","measured","interview","warm","empathetic","clone","ijekavian","job-interview"],"age":"middle-aged","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Zahvala na razgovor + blago predstavljanje","pace":"relaxed measured","tone":"warm empathetic friendly bosnian","avoid":"aggressive close, slang, character, monologue","bracket_defaults":"[warm][friendly][soft][empathetic]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/e0fa086a1fa048c6920bbb923190ea6c.mp3","fish_voice_id":"eb7c0f0a21d941f4a3df4b4bfebb7cc7","variant":"interview-warm"},{"id":"eb7c0f0a21d941f4a3df4b4bfebb7cc7-iv-formal","title":"IV · Formal 04 Calm Professional","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante B (formal/professional) aus Clone 04","tags":["female","middle-aged","calm","professional","inbound","call-center","bosnian","measured","interview","formal","professional","clone","ijekavian","job-interview"],"age":"middle-aged","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Formalan pozdrav + hvala na prilici","pace":"measured slow-clear","tone":"professional clear confident bosnian","avoid":"casual slang, rush, over-enthusiasm, character","bracket_defaults":"[professional][clear][measured][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/5a6f2379c9a44db3a897d20f6fb6857d.mp3","fish_voice_id":"eb7c0f0a21d941f4a3df4b4bfebb7cc7","variant":"interview-formal"},{"id":"3697d5f9227e412ba1c3e8543a2111f1","title":"CLONE · TS 05 Energetic Pitch","sex":"f","lang":"bs","note":"Eigener Fish-Clone (Sample 005/11) · Telesales · Bosnisch ijekavisch · Tags [friendly][confident] Dobar dan! Zovem s…","tags":["female","young","energetic","pitch","telesales","dynamic","bosnian","enthusiastic","clone","own","ijekavian","sarajevo-fit"],"age":"young","role":"outbound","group":"bs-clone","source":"own-clone","voice_instructions":{"opening":"Topao pozdrav + ime + firma iz Sarajeva","pace":"measured","tone":"friendly confident professional bosnian","avoid":"croatian-only forms, rush, character, comedy, slang","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/2a3476735f4f4108a478619b12e73600.mp3","fish_voice_id":"3697d5f9227e412ba1c3e8543a2111f1","variant":"telesales-base"},{"id":"3697d5f9227e412ba1c3e8543a2111f1-iv-warm","title":"IV · Warm 05 Energetic Pitch","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante A (warm/empathisch) aus Clone 05","tags":["female","young","energetic","pitch","telesales","dynamic","bosnian","enthusiastic","interview","warm","empathetic","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Zahvala na razgovor + blago predstavljanje","pace":"relaxed measured","tone":"warm empathetic friendly bosnian","avoid":"aggressive close, slang, character, monologue","bracket_defaults":"[warm][friendly][soft][empathetic]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/05f1cde05e8141a79c6d9714e16b3c3c.mp3","fish_voice_id":"3697d5f9227e412ba1c3e8543a2111f1","variant":"interview-warm"},{"id":"3697d5f9227e412ba1c3e8543a2111f1-iv-formal","title":"IV · Formal 05 Energetic Pitch","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante B (formal/professional) aus Clone 05","tags":["female","young","energetic","pitch","telesales","dynamic","bosnian","enthusiastic","interview","formal","professional","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Formalan pozdrav + hvala na prilici","pace":"measured slow-clear","tone":"professional clear confident bosnian","avoid":"casual slang, rush, over-enthusiasm, character","bracket_defaults":"[professional][clear][measured][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/99dfc82b5f25490a95f646b423d64745.mp3","fish_voice_id":"3697d5f9227e412ba1c3e8543a2111f1","variant":"interview-formal"},{"id":"7b30095d66134622a8696ec331d7efe0","title":"CLONE · TS 06 Soft Persuasion","sex":"f","lang":"bs","note":"Eigener Fish-Clone (Sample 006/11) · Telesales · Bosnisch ijekavisch · Tags [friendly][confident] Dobar dan! Zovem s…","tags":["female","young","soft","persuasive","gentle","telesales","bosnian","empathetic","clone","own","ijekavian","sarajevo-fit"],"age":"young","role":"consultative","group":"bs-clone","source":"own-clone","voice_instructions":{"opening":"Topao pozdrav + ime + firma iz Sarajeva","pace":"measured","tone":"friendly confident professional bosnian","avoid":"croatian-only forms, rush, character, comedy, slang","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/1209cc27d484436f85f942734299ce19.mp3","fish_voice_id":"7b30095d66134622a8696ec331d7efe0","variant":"telesales-base"},{"id":"7b30095d66134622a8696ec331d7efe0-iv-warm","title":"IV · Warm 06 Soft Persuasion","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante A (warm/empathisch) aus Clone 06","tags":["female","young","soft","persuasive","gentle","telesales","bosnian","empathetic","interview","warm","empathetic","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Zahvala na razgovor + blago predstavljanje","pace":"relaxed measured","tone":"warm empathetic friendly bosnian","avoid":"aggressive close, slang, character, monologue","bracket_defaults":"[warm][friendly][soft][empathetic]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/b8ca37c7ea9a46488ddcf77b3c605e0d.mp3","fish_voice_id":"7b30095d66134622a8696ec331d7efe0","variant":"interview-warm"},{"id":"7b30095d66134622a8696ec331d7efe0-iv-formal","title":"IV · Formal 06 Soft Persuasion","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante B (formal/professional) aus Clone 06","tags":["female","young","soft","persuasive","gentle","telesales","bosnian","empathetic","interview","formal","professional","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Formalan pozdrav + hvala na prilici","pace":"measured slow-clear","tone":"professional clear confident bosnian","avoid":"casual slang, rush, over-enthusiasm, character","bracket_defaults":"[professional][clear][measured][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/df7fa44c536c4727b203a8db431c3ef4.mp3","fish_voice_id":"7b30095d66134622a8696ec331d7efe0","variant":"interview-formal"},{"id":"d9c925b5833b430881f33e72e591048a","title":"CLONE · TS 07 Trust Builder","sex":"f","lang":"bs","note":"Eigener Fish-Clone (Sample 007/11) · Telesales · Bosnisch ijekavisch · Tags [friendly][confident] Dobar dan! Zovem s…","tags":["female","young","trustworthy","transparent","telesales","bosnian","clear","confident","clone","own","ijekavian","sarajevo-fit"],"age":"young","role":"consultative","group":"bs-clone","source":"own-clone","voice_instructions":{"opening":"Topao pozdrav + ime + firma iz Sarajeva","pace":"measured","tone":"friendly confident professional bosnian","avoid":"croatian-only forms, rush, character, comedy, slang","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/8aa6f5b216e7477685c5d10a8a7879df.mp3","fish_voice_id":"d9c925b5833b430881f33e72e591048a","variant":"telesales-base"},{"id":"d9c925b5833b430881f33e72e591048a-iv-warm","title":"IV · Warm 07 Trust Builder","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante A (warm/empathisch) aus Clone 07","tags":["female","young","trustworthy","transparent","telesales","bosnian","clear","confident","interview","warm","empathetic","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Zahvala na razgovor + blago predstavljanje","pace":"relaxed measured","tone":"warm empathetic friendly bosnian","avoid":"aggressive close, slang, character, monologue","bracket_defaults":"[warm][friendly][soft][empathetic]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/c4e452574b144f4e8e9aceca09957077.mp3","fish_voice_id":"d9c925b5833b430881f33e72e591048a","variant":"interview-warm"},{"id":"d9c925b5833b430881f33e72e591048a-iv-formal","title":"IV · Formal 07 Trust Builder","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante B (formal/professional) aus Clone 07","tags":["female","young","trustworthy","transparent","telesales","bosnian","clear","confident","interview","formal","professional","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Formalan pozdrav + hvala na prilici","pace":"measured slow-clear","tone":"professional clear confident bosnian","avoid":"casual slang, rush, over-enthusiasm, character","bracket_defaults":"[professional][clear][measured][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/c508fa85ff334a7883ae7fa7ff172bab.mp3","fish_voice_id":"d9c925b5833b430881f33e72e591048a","variant":"interview-formal"},{"id":"21ea146fedef4d36a274c39f8be0763b","title":"CLONE · TS 08 Product Explainer","sex":"f","lang":"bs","note":"Eigener Fish-Clone (Sample 008/11) · Telesales · Bosnisch ijekavisch · Tags [friendly][confident] Dobar dan! Zovem s…","tags":["female","young","explanatory","product","educational","telesales","bosnian","clear","clone","own","ijekavian","sarajevo-fit"],"age":"young","role":"inbound","group":"bs-clone","source":"own-clone","voice_instructions":{"opening":"Topao pozdrav + ime + firma iz Sarajeva","pace":"measured","tone":"friendly confident professional bosnian","avoid":"croatian-only forms, rush, character, comedy, slang","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/ad2996644d67455b9c200e6f09c74c13.mp3","fish_voice_id":"21ea146fedef4d36a274c39f8be0763b","variant":"telesales-base"},{"id":"21ea146fedef4d36a274c39f8be0763b-iv-warm","title":"IV · Warm 08 Product Explainer","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante A (warm/empathisch) aus Clone 08","tags":["female","young","explanatory","product","educational","telesales","bosnian","clear","interview","warm","empathetic","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Zahvala na razgovor + blago predstavljanje","pace":"relaxed measured","tone":"warm empathetic friendly bosnian","avoid":"aggressive close, slang, character, monologue","bracket_defaults":"[warm][friendly][soft][empathetic]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/1617071563f54f3f8f791dd946d700b9.mp3","fish_voice_id":"21ea146fedef4d36a274c39f8be0763b","variant":"interview-warm"},{"id":"21ea146fedef4d36a274c39f8be0763b-iv-formal","title":"IV · Formal 08 Product Explainer","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante B (formal/professional) aus Clone 08","tags":["female","young","explanatory","product","educational","telesales","bosnian","clear","interview","formal","professional","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Formalan pozdrav + hvala na prilici","pace":"measured slow-clear","tone":"professional clear confident bosnian","avoid":"casual slang, rush, over-enthusiasm, character","bracket_defaults":"[professional][clear][measured][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/0c7b5300c9f94b0ca5932cfb128221f6.mp3","fish_voice_id":"21ea146fedef4d36a274c39f8be0763b","variant":"interview-formal"},{"id":"c5afb13d207d4d929b8ae5c767cb1821","title":"CLONE · TS 09 Premium Offer","sex":"f","lang":"bs","note":"Eigener Fish-Clone (Sample 009/11) · Telesales · Bosnisch ijekavisch · Tags [friendly][confident] Dobar dan! Zovem s…","tags":["female","young","premium","professional","closing","telesales","bosnian","confident","clone","own","ijekavian","sarajevo-fit"],"age":"young","role":"closing","group":"bs-clone","source":"own-clone","voice_instructions":{"opening":"Topao pozdrav + ime + firma iz Sarajeva","pace":"measured","tone":"friendly confident professional bosnian","avoid":"croatian-only forms, rush, character, comedy, slang","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/6830eab455b14731b0cdc7242b0640bd.mp3","fish_voice_id":"c5afb13d207d4d929b8ae5c767cb1821","variant":"telesales-base"},{"id":"c5afb13d207d4d929b8ae5c767cb1821-iv-warm","title":"IV · Warm 09 Premium Offer","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante A (warm/empathisch) aus Clone 09","tags":["female","young","premium","professional","closing","telesales","bosnian","confident","interview","warm","empathetic","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Zahvala na razgovor + blago predstavljanje","pace":"relaxed measured","tone":"warm empathetic friendly bosnian","avoid":"aggressive close, slang, character, monologue","bracket_defaults":"[warm][friendly][soft][empathetic]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/80ae671015af4b61808cb143775b7829.mp3","fish_voice_id":"c5afb13d207d4d929b8ae5c767cb1821","variant":"interview-warm"},{"id":"c5afb13d207d4d929b8ae5c767cb1821-iv-formal","title":"IV · Formal 09 Premium Offer","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante B (formal/professional) aus Clone 09","tags":["female","young","premium","professional","closing","telesales","bosnian","confident","interview","formal","professional","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Formalan pozdrav + hvala na prilici","pace":"measured slow-clear","tone":"professional clear confident bosnian","avoid":"casual slang, rush, over-enthusiasm, character","bracket_defaults":"[professional][clear][measured][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/1e3a14790ea4457db5d1fbacba4158e0.mp3","fish_voice_id":"c5afb13d207d4d929b8ae5c767cb1821","variant":"interview-formal"},{"id":"d079eb87f43b459b9c7455b03a0b8f1e","title":"CLONE · TS 10 B2B Authority","sex":"f","lang":"bs","note":"Eigener Fish-Clone (Sample 010/11) · Telesales · Bosnisch ijekavisch · Tags [friendly][confident] Dobar dan! Zovem s…","tags":["female","middle-aged","b2b","authoritative","professional","telesales","bosnian","measured","clone","own","ijekavian","sarajevo-fit"],"age":"middle-aged","role":"b2b","group":"bs-clone","source":"own-clone","voice_instructions":{"opening":"Topao pozdrav + ime + firma iz Sarajeva","pace":"measured","tone":"friendly confident professional bosnian","avoid":"croatian-only forms, rush, character, comedy, slang","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/f04f72212c0043079564e5da8688748c.mp3","fish_voice_id":"d079eb87f43b459b9c7455b03a0b8f1e","variant":"telesales-base"},{"id":"d079eb87f43b459b9c7455b03a0b8f1e-iv-warm","title":"IV · Warm 10 B2B Authority","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante A (warm/empathisch) aus Clone 10","tags":["female","middle-aged","b2b","authoritative","professional","telesales","bosnian","measured","interview","warm","empathetic","clone","ijekavian","job-interview"],"age":"middle-aged","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Zahvala na razgovor + blago predstavljanje","pace":"relaxed measured","tone":"warm empathetic friendly bosnian","avoid":"aggressive close, slang, character, monologue","bracket_defaults":"[warm][friendly][soft][empathetic]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/4695c509cc77433a86dffe4392e801ec.mp3","fish_voice_id":"d079eb87f43b459b9c7455b03a0b8f1e","variant":"interview-warm"},{"id":"d079eb87f43b459b9c7455b03a0b8f1e-iv-formal","title":"IV · Formal 10 B2B Authority","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante B (formal/professional) aus Clone 10","tags":["female","middle-aged","b2b","authoritative","professional","telesales","bosnian","measured","interview","formal","professional","clone","ijekavian","job-interview"],"age":"middle-aged","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Formalan pozdrav + hvala na prilici","pace":"measured slow-clear","tone":"professional clear confident bosnian","avoid":"casual slang, rush, over-enthusiasm, character","bracket_defaults":"[professional][clear][measured][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/1fe6dc5d173f47d9baf4723349655b7f.mp3","fish_voice_id":"d079eb87f43b459b9c7455b03a0b8f1e","variant":"interview-formal"},{"id":"96da74dbfc12414280fa72a23d9eab0d","title":"CLONE · TS 11 Follow-up Call","sex":"f","lang":"bs","note":"Eigener Fish-Clone (Sample 011/11) · Telesales · Bosnisch ijekavisch · Tags [friendly][confident] Dobar dan! Zovem s…","tags":["female","young","follow-up","friendly","telesales","bosnian","soft","clear","clone","own","ijekavian","sarajevo-fit"],"age":"young","role":"follow-up","group":"bs-clone","source":"own-clone","voice_instructions":{"opening":"Topao pozdrav + ime + firma iz Sarajeva","pace":"measured","tone":"friendly confident professional bosnian","avoid":"croatian-only forms, rush, character, comedy, slang","bracket_defaults":"[friendly][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/24f65da5d2fb4cfa8271605250084bef.mp3","fish_voice_id":"96da74dbfc12414280fa72a23d9eab0d","variant":"telesales-base"},{"id":"96da74dbfc12414280fa72a23d9eab0d-iv-warm","title":"IV · Warm 11 Follow-up Call","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante A (warm/empathisch) aus Clone 11","tags":["female","young","follow-up","friendly","telesales","bosnian","soft","clear","interview","warm","empathetic","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Zahvala na razgovor + blago predstavljanje","pace":"relaxed measured","tone":"warm empathetic friendly bosnian","avoid":"aggressive close, slang, character, monologue","bracket_defaults":"[warm][friendly][soft][empathetic]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/0b2709a90e4b4c44ac549a784c1a3519.mp3","fish_voice_id":"96da74dbfc12414280fa72a23d9eab0d","variant":"interview-warm"},{"id":"96da74dbfc12414280fa72a23d9eab0d-iv-formal","title":"IV · Formal 11 Follow-up Call","sex":"f","lang":"bs","note":"Bewerbungsgespräch-Variante B (formal/professional) aus Clone 11","tags":["female","young","follow-up","friendly","telesales","bosnian","soft","clear","interview","formal","professional","clone","ijekavian","job-interview"],"age":"young","role":"interview","group":"bs-interview","source":"own-clone-variant","voice_instructions":{"opening":"Formalan pozdrav + hvala na prilici","pace":"measured slow-clear","tone":"professional clear confident bosnian","avoid":"casual slang, rush, over-enthusiasm, character","bracket_defaults":"[professional][clear][measured][confident]","agent_system":"You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."},"audio":"https://platform.r2.fish.audio/tasks/2026-07-31/f94436d80a9c4c34b4b5787212a75908.mp3","fish_voice_id":"96da74dbfc12414280fa72a23d9eab0d","variant":"interview-formal"}],"sampleBatch":"2026-07-31-clones-v5","sampleNote":"v5: 11 eigene Fish-Clones (Telesales, fair script) + 22 Bewerbungsgespräch-Varianten (warm vs formal Tags). Bosnisch ijekavisch, Fish bracket-tags optimiert.","portfolioMeta":{"targets":{"bs_m":10,"bs_f":10,"hr_m":5,"hr_f":5,"sr_m":5,"sr_f":5,"en":5,"ml":5,"agent":6},"exclusions":["politicians","pikachu","character-gags","vulgar titles","asmr-intimate","gaming announcers","historical war figures"],"synthetic_note":"Echte Voice-Clones brauchen Consent + 10–60s Audio. Stattdessen 6 Agent-Instruction-Profile mit separaten Rating-IDs.","new_vs_v2":["Längeres Vollskript (Einwand, Termin, Ref-Nr., EUR/KM)","BS: Narativni + Alex Marco statt Autoritet/Mladi","BS: Sk Warm Pro statt Laya Bright","HR: Stariji Clear + Duboki Authority","SR: Names Calm + Smiren Calm","EN: Friendly Service Pro","ML: Ritta + Rita multi females"],"script_version":"v4-extended","stress_tests":["long sentences","numbers","times","dates","emails","URLs","company/product names","emotions","dialog turns","objections","sales situations","Ana/Marko names + pronouns"],"clone_batch":{"telesales_clones":11,"interview_variants":22,"scripts":{"base_telesales":"[friendly][confident] Dobar dan! Zovem se Ana Hadžić, prodajna savjetnica u Activi Soft iz Sarajeva. [pause] Marko Petrović i ja smo dostupni petnaestog marta u četrnaest sati i trideset minuta, referentni broj AS-2026. [soft][clear] Ušteda je trideset dva zarez pet posto — oko sto osamdeset i pet KM. [friendly] Pišite na ana@activi.io. Da li imate jednu minutu?","interview_warm":"[warm][friendly] Dobar dan, hvala što ste me primili na razgovor. [soft][empathetic] Zovem se Lejla Hadžić. [pause] Tražim poziciju u prodaji jer volim jasan i pošten razgovor s klijentima na bosanskom jeziku. [confident] Rado ću ispričati kako vodim pozive, slušam potrebe i dogovaram sljedeći korak.","interview_formal":"[professional][clear] Dobar dan. [pause] Hvala na prilici za razgovor. [measured][confident] U prethodnoj firmi vodila sam outbound pozive za tržište BiH. [emphasis] Moja snaga je strpljivo slušanje, precizna ponuda i dogovor bez pritiska. [soft] Otvorena sam za vaša pitanja."},"groups":["bs-clone","bs-interview"]},"fish_tags_note":"Fish Audio nutzt eckige Performance-Tags (kein klassisches SSML): [friendly][confident][soft][warm][pause][long pause][emphasis][empathetic][professional][clear][measured][excited]. Tags werden gespielt, nicht vorgelesen."}};/*__END_EMBED__*/;
 
-const CFG_KEY = "bs-voice-config-v1";
+const APP_VERSION = "7.2.0";
+const EMBEDDED_CONFIG = null; // always prefer config.json from worker pin
 const RATE_KEY = "bs-voice-ratings-v1";
 const REV_KEY = "bs-voice-reviewer";
-let lockedReviewer = null;
+const UI_KEY = "bs-voice-ui-v7";
 const BLIND_KEY = "bs-voice-blind";
-function blindEnabled(){
+const CFG_KEY = "bs-voice-cfg-override";
+const API_BASE = "";
+const PAGE_SIZE = 10;
+
+let CONFIG = null, FILE_CONFIG = null, state = {};
+let currentUser = null; // {name, role, token, id}
+let lockedReviewer = null;
+let cloudOnline = false, cloudCount = 0;
+let archivedIds = new Set();
+let archivePending = {}; // voice_id -> [{voter,ts}]
+let usersList = [];
+let currentTab = "rate";
+let editId = null;
+let saveTimers = {}, pollTimer = null;
+let selectedVoices = [];
+let minAvg = 0, sexFilter = "all", langFilter = "all", highOnly = false;
+
+function defaultUi() {
+  return { page: 1, q: "", group: "all", sex: "all", sort: "default", scrollY: 0, tab: "rate" };
+}
+function loadUi() {
+  try { return { ...defaultUi(), ...JSON.parse(sessionStorage.getItem(UI_KEY) || "{}") }; }
+  catch { return defaultUi(); }
+}
+function saveUi( partial ) {
+  const u = { ...loadUi(), ...partial };
+  try { sessionStorage.setItem(UI_KEY, JSON.stringify(u)); } catch {}
+  return u;
+}
+function ui() { return loadUi(); }
+
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.display = "block";
+  setTimeout(() => t.style.display = "none", 2600);
+}
+function esc(s) {
+  return String(s ?? "").replace(/&/g,"&").replace(/</g,"<").replace(/>/g,">").replace(/"/g,""");
+}
+function blindEnabled() {
   try {
     const q = new URLSearchParams(location.search).get("blind");
     if (q === "0") return false;
@@ -95,137 +153,92 @@ function blindEnabled(){
   } catch {}
   return true;
 }
-function hasMyRating(vid, rev){
-  const r = state[vid + "|" + rev];
-  if (!r) return false;
-  return CATS().some(c => +(r[c.k]||0) > 0) || !!(r.comment||"").trim();
+function isMain() { return currentUser?.role === "main"; }
+function isTester() { return currentUser?.role === "tester"; }
+function authHeaders(extra = {}) {
+  const h = { "content-type": "application/json", ...extra };
+  if (currentUser?.token) h["x-user-token"] = currentUser.token;
+  if (currentUser?.name) h["x-reviewer"] = currentUser.name;
+  return h;
 }
-function teamBoxHtml(vid, rev, cloudOnlineFlag){
-  const all = voiceRatings(vid);
-  const mineDone = hasMyRating(vid, rev);
-  const blind = blindEnabled() && !mineDone;
-  if (blind) {
-    const pending = REVIEWERS().filter(n => n !== rev).length;
-    return `<h3>Team-Wertungen (Blind)</h3>
-      <p class="meta" style="margin:0">Peer-Scores versteckt, bis <strong>du</strong> diese Stimme speicherst.</p>
-      <div class="rating-row pending"><strong>${esc(rev)}</strong> — deine Bewertung ausstehend</div>
-      <div class="rating-row pending">übrige ${pending} Reviewer — ausgeblendet</div>`;
-  }
-  return `<h3>Team-Wertungen (${all.length}/${REVIEWERS().length})${cloudOnlineFlag?"":" · ⚠ Cloud offline"}</h3>
-    ${all.length?"":`<p class="meta" style="margin:0 0 8px">Noch niemand hat diese Stimme bewertet. Sterne = Auto-Save.</p>`}
-    ${REVIEWERS().map(name=>{
-      const r = all.find(x=>x.reviewer===name);
-      if (!r) return `<div class="rating-row pending"><strong>${esc(name)}</strong> — ausstehend</div>`;
-      const av = avg(r);
-      return `<div class="rating-row"><div style="display:flex;justify-content:space-between"><strong>${esc(name)}</strong><span class="avg" style="font-size:.95rem">Ø ${av.toFixed(2)}</span></div>
-        <div class="grid2" style="margin-top:6px">${CATS().map(c=>`<div style="font-size:.75rem;display:flex;justify-content:space-between"><span class="meta">${esc(c.s)}</span><span>${r[c.k]}/5</span></div>`).join("")}</div>
-        ${r.comment?`<div style="margin-top:6px;font-size:.85rem">„${esc(r.comment)}“</div>`:""}
-      </div>`;
-    }).join("")}`;
+function authQuery() {
+  if (currentUser?.token) return "u=" + encodeURIComponent(currentUser.token);
+  if (currentUser?.name) return "me=" + encodeURIComponent(currentUser.name);
+  return "";
 }
 
+function loadRatings() { try { return JSON.parse(localStorage.getItem(RATE_KEY) || "{}"); } catch { return {}; } }
+function saveRatingsLocal(data) { try { localStorage.setItem(RATE_KEY, JSON.stringify(data)); } catch {} }
 
-let CONFIG = null;       // active config (file + optional browser override)
-let FILE_CONFIG = null;  // from config.json / embed
-let state = {};
-let selectedVoices = [];
-let minAvg = 0, sexFilter = "all", langFilter = "all", highOnly = false;
-let currentTab = "rate";
-let editId = null; // voice id being edited in admin form
-let cloudOnline = false;
-let cloudCount = 0;
-const API_BASE = ""; // same-origin /api/*
-
-function toast(msg){
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.style.display = "block";
-  setTimeout(() => t.style.display = "none", 2400);
+async function api(path, opts = {}) {
+  const q = authQuery();
+  const url = API_BASE + path + (path.includes("?") ? "&" : "?") + "_=" + Date.now() + (q ? "&" + q : "");
+  const res = await fetch(url, { cache: "no-store", ...opts, headers: { ...authHeaders(opts.headers || {}) } });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || ("HTTP " + res.status));
+  return data;
 }
-function esc(s){return String(s??"").replace(/&/g,"&"+"amp;").replace(/</g,"&"+"lt;").replace(/>/g,"&"+"gt;").replace(/"/g,"&"+"quot;")}
-function loadRatings(){ try{return JSON.parse(localStorage.getItem(RATE_KEY)||"{}")}catch{return{}} }
-function saveRatingsLocal(data){ try{ localStorage.setItem(RATE_KEY, JSON.stringify(data)); }catch{} }
-function saveRatings(data){ saveRatingsLocal(data); }
 
-async function fetchCloudRatings(){
+async function fetchCloudRatings() {
   try {
-    const res = await fetch(API_BASE + "/api/ratings?_=" + Date.now(), { cache: "no-store" });
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    const data = await res.json();
-    const ratings = data.ratings || {};
+    const data = await api("/api/ratings");
     cloudOnline = true;
-    cloudCount = data.count != null ? data.count : Object.keys(ratings).length;
-    return ratings;
+    cloudCount = data.count ?? Object.keys(data.ratings || {}).length;
+    if (Array.isArray(data.archivedIds)) archivedIds = new Set(data.archivedIds);
+    return data.ratings || {};
   } catch (e) {
-    console.warn("Cloud ratings load failed", e);
+    console.warn(e);
     cloudOnline = false;
     return null;
   }
 }
 
-async function pushRating(voiceId, reviewer, payload){
+async function pushRating(voiceId, reviewer, payload) {
   try {
-    if (lockedReviewer && reviewer !== lockedReviewer) { toast("Name gesperrt (persönlicher Link)"); return false; }
-    if (!REVIEWERS().includes(reviewer)) { toast("Unbekannter Reviewer"); return false; }
-    const body = {
-      voice_id: voiceId,
-      reviewer,
-      pron: +(payload.pron||0),
-      prof: +(payload.prof||0),
-      warm: +(payload.warm||0),
-      clar: +(payload.clar||0),
-      emo: +(payload.emo||0),
-      comment: payload.comment || "",
-      ts: payload.ts || Date.now(),
-    };
-    const res = await fetch(API_BASE + "/api/ratings", {
+    if (lockedReviewer && reviewer !== lockedReviewer) { toast("Name gesperrt"); return false; }
+    await api("/api/ratings", {
       method: "PUT",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(body),
+      body: JSON.stringify({
+        voice_id: voiceId, reviewer,
+        pron: +(payload.pron||0), prof: +(payload.prof||0), warm: +(payload.warm||0),
+        clar: +(payload.clar||0), emo: +(payload.emo||0),
+        comment: payload.comment || "", ts: payload.ts || Date.now(),
+      }),
     });
-    if (!res.ok) throw new Error("HTTP " + res.status);
     cloudOnline = true;
     return true;
   } catch (e) {
-    console.warn("Cloud save failed", e);
+    console.warn(e);
     cloudOnline = false;
+    toast(e.message || "Cloud save failed");
     return false;
   }
 }
 
-async function deleteCloudRating(voiceId, reviewer){
+async function deleteCloudRating(voiceId, reviewer) {
   try {
-    const res = await fetch(API_BASE + "/api/ratings?voice_id=" + encodeURIComponent(voiceId) + "&reviewer=" + encodeURIComponent(reviewer), { method: "DELETE" });
-    return res.ok;
+    await api("/api/ratings?voice_id=" + encodeURIComponent(voiceId) + "&reviewer=" + encodeURIComponent(reviewer), { method: "DELETE" });
+    return true;
   } catch { return false; }
 }
 
-async function bulkPushRatings(map){
+async function bulkPushRatings(map) {
   try {
-    const res = await fetch(API_BASE + "/api/ratings/bulk", {
-      method: "PUT",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ ratings: map }),
-    });
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    cloudOnline = true;
+    await api("/api/ratings/bulk", { method: "PUT", body: JSON.stringify({ ratings: map }) });
     return true;
-  } catch {
-    cloudOnline = false;
-    return false;
-  }
+  } catch { return false; }
 }
 
-async function clearCloudRatings(){
-  const key = prompt("Admin-Key zum Löschen ALLER Cloud-Bewertungen (leer = Abbruch):");
+async function clearCloudRatings() {
+  const key = prompt("Admin-Key zum Löschen ALLER Cloud-Bewertungen:");
   if (!key) return false;
   try {
-    const res = await fetch(API_BASE + "/api/ratings?all=1", { method: "DELETE", headers: { "x-admin-key": key } });
-    return res.ok;
-  } catch { return false; }
+    await api("/api/ratings?all=1", { method: "DELETE", headers: { "x-admin-key": key } });
+    return true;
+  } catch (e) { toast(e.message); return false; }
 }
 
-async function refreshFromCloud(){
+async function refreshFromCloud() {
   const cloud = await fetchCloudRatings();
   if (!cloud) return false;
   state = cloud;
@@ -234,195 +247,72 @@ async function refreshFromCloud(){
   return true;
 }
 
-function storageBadgeHtml(){
-  if (cloudOnline) {
-    return `<span style="display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:999px;background:rgb(52 211 153/.12);border:1px solid rgb(52 211 153/.35);color:#34d399">● Cloud-DB live · ${cloudCount} Team-Bewertungen</span>`;
-  }
-  return `<span style="display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:999px;background:rgb(245 197 66/.12);border:1px solid rgb(245 197 66/.35);color:var(--star)">○ Offline · nur Browser (nicht teamweit!)</span>`;
-}
-
-let saveTimers = {};
-let pollTimer = null;
-
-function collectScoresFromCard(card){
-  const scores = {};
-  card.querySelectorAll(".stars").forEach(row => {
-    scores[row.dataset.name] = +(row.dataset.value || 0);
-  });
-  const comment = card.querySelector("[data-comment]")?.value || "";
-  return { ...scores, comment };
-}
-
-async function saveVoiceRating(vid, rev, payload, { silent=false, refreshTeam=true } = {}){
-  const full = { ...payload, ts: Date.now() };
-  state[vid + "|" + rev] = full;
-  saveRatingsLocal(state);
-  const ok = await pushRating(vid, rev, full);
-  if (ok && refreshTeam) {
-    // re-pull so team box always matches DB truth
-    const cloud = await fetchCloudRatings();
-    if (cloud) {
-      state = { ...state, ...cloud };
-      // cloud wins for same keys by ts
-      for (const [k,v] of Object.entries(cloud)) {
-        const loc = state[k];
-        if (!loc || (v.ts||0) >= (loc.ts||0)) state[k] = v;
-      }
-      saveRatingsLocal(state);
-      cloudCount = Object.keys(state).filter(k => state[k] && typeof state[k]==='object').length;
-    }
-  } else {
-    cloudCount = Object.keys(state).length;
-  }
-  if (!silent) toast(ok ? ("✓ In Cloud · " + rev) : ("⚠ Nur lokal · " + rev + " (Cloud offline)"));
-  return ok;
-}
-
-function startCloudPoll(){
-  if (pollTimer) clearInterval(pollTimer);
-  pollTimer = setInterval(async () => {
-    if (document.hidden) return;
-    const cloud = await fetchCloudRatings();
-    if (!cloud) return;
-    let changed = false;
-    for (const [k,v] of Object.entries(cloud)) {
-      const cur = state[k];
-      if (!cur || (v.ts||0) > (cur.ts||0) || JSON.stringify(cur) !== JSON.stringify({...v})) {
-        // shallow compare fields
-        if (!cur || cur.pron!==v.pron || cur.prof!==v.prof || cur.warm!==v.warm || cur.clar!==v.clar || cur.emo!==v.emo || (cur.comment||"")!==(v.comment||"")) {
-          state[k] = v;
-          changed = true;
-        }
-      }
-    }
-    // also pick up new keys
-    for (const k of Object.keys(cloud)) {
-      if (!state[k]) { state[k]=cloud[k]; changed=true; }
-    }
-    if (changed) {
-      saveRatingsLocal(state);
-      cloudCount = Object.keys(cloud).length;
-      if (currentTab === "rate") renderRate();
-      else if (currentTab === "rank") renderRank();
-      // update badge without full header rebuild
-      const note = document.querySelector(".note");
-      if (note) {
-        // light touch: leave full re-render to tab switches
-      }
-    }
-  }, 8000);
-}
-function loadOverride(){ try{const raw=localStorage.getItem(CFG_KEY);return raw?JSON.parse(raw):null}catch{return null} }
-function saveOverride(cfg){ localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); }
-function clearOverride(){ localStorage.removeItem(CFG_KEY); }
-function hasOverride(){ return !!localStorage.getItem(CFG_KEY); }
-function clone(o){ return JSON.parse(JSON.stringify(o)); }
-
-function validateConfig(cfg){
-  const errs = [];
-  if (!cfg || typeof cfg !== "object") return ["Config ist kein Objekt"];
-  if (!cfg.project?.title) errs.push("project.title fehlt");
-  if (!cfg.script) errs.push("script fehlt");
-  if (!Array.isArray(cfg.reviewers) || !cfg.reviewers.length) errs.push("reviewers[] leer");
-  if (!Array.isArray(cfg.categories) || !cfg.categories.length) errs.push("categories[] leer");
-  if (!Array.isArray(cfg.voices) || !cfg.voices.length) errs.push("voices[] leer");
-  const ids = new Set();
-  (cfg.voices||[]).forEach((v,i)=>{
-    if (!v.id) errs.push(`voices[${i}].id fehlt`);
-    if (!v.title) errs.push(`voices[${i}].title fehlt`);
-    if (!v.audio) errs.push(`voices[${i}].audio fehlt`);
-    if (!["m","f","x"].includes(v.sex)) errs.push(`voices[${i}].sex muss m|f|x sein`);
-    if (v.id && ids.has(v.id)) errs.push(`doppelte id: ${v.id}`);
-    if (v.id) ids.add(v.id);
-  });
-  return errs;
-}
-
-function applyConfig(cfg, source){
-  const errs = validateConfig(cfg);
-  if (errs.length) throw new Error(errs.join("; "));
-  CONFIG = cfg;
-  if (!state || typeof state !== "object") state = loadRatings();
-  document.title = `${cfg.project.title} · Voice Compare`;
-  renderApp(source);
-}
-
-async function boot(){
-  let fileCfg = null;
+async function loadMe() {
   try {
-    const r = await fetch("config.json", { cache: "no-store" });
-    if (r.ok) fileCfg = await r.json();
+    const data = await api("/api/me");
+    if (data.ok && data.user) {
+      currentUser = data.user;
+      lockedReviewer = data.user.name;
+      try { localStorage.setItem(REV_KEY, data.user.name); } catch {}
+      return data.user;
+    }
   } catch {}
-  if (!fileCfg && EMBEDDED_CONFIG) fileCfg = EMBEDDED_CONFIG;
-  if (!fileCfg) {
-    document.getElementById("boot").textContent = "config.json fehlt und kein Embed vorhanden.";
-    return;
+  // fallback from URL without server
+  const params = new URLSearchParams(location.search);
+  const me = params.get("me") || params.get("reviewer");
+  const tok = params.get("u") || params.get("token");
+  if (me) {
+    currentUser = { name: me, role: ["Arman","Denis","Osoba 3"].includes(me) ? "main" : "tester", token: tok || "", via: "me" };
+    lockedReviewer = me;
   }
-  FILE_CONFIG = fileCfg;
+  return currentUser;
+}
 
-  const local = loadRatings();
-  const cloud = await fetchCloudRatings();
-  if (cloud) {
-    const merged = { ...local };
-    for (const [k, v] of Object.entries(cloud)) {
-      const loc = merged[k];
-      if (!loc || (v.ts || 0) >= (loc.ts || 0)) merged[k] = v;
-    }
-    const localOnly = {};
-    for (const [k, v] of Object.entries(local)) {
-      if (!cloud[k]) localOnly[k] = v;
-    }
-    if (Object.keys(localOnly).length) {
-      await bulkPushRatings(localOnly);
-      const again = await fetchCloudRatings();
-      if (again) for (const [k, v] of Object.entries(again)) merged[k] = v;
-    }
-    state = merged;
-    saveRatingsLocal(state);
-    cloudCount = Object.keys(state).length;
-  } else {
-    state = local;
-  }
-
-  const override = loadOverride();
+async function loadUsers() {
+  if (!currentUser) { usersList = []; return; }
   try {
-    applyConfig(override || fileCfg, override ? "browser-override" : "file");
-  } catch (e) {
-    if (override) {
-      clearOverride();
-      toast("Ungültige Browser-Config verworfen");
-      applyConfig(fileCfg, "file");
-    } else {
-      document.getElementById("boot").textContent = "Config ungültig: " + e.message;
-    }
-  }
-  startCloudPoll();
+    const data = await api("/api/users");
+    usersList = data.users || [];
+  } catch { usersList = []; }
+}
+
+async function loadArchive() {
+  if (!isMain()) { archivePending = {}; return; }
+  try {
+    const data = await api("/api/archive");
+    archivePending = data.pending || {};
+    archivedIds = new Set((data.archived || []).map(a => a.voice_id));
+  } catch {}
+}
+
+function storageBadgeHtml() {
   if (cloudOnline) {
-    const n = Object.keys(state).length;
-    setTimeout(() => toast(n ? (`Cloud: ${n} Team-Bewertungen geladen`) : "Cloud verbunden · noch keine Bewertungen"), 400);
-  } else {
-    setTimeout(() => toast("⚠ Cloud offline — Bewertungen nur lokal"), 400);
+    return `<span style="display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:999px;background:rgb(52 211 153/.12);border:1px solid rgb(52 211 153/.35);color:#34d399">● Cloud-DB live · ${cloudCount} Bewertungen · v${APP_VERSION}</span>`;
   }
+  return `<span style="display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:999px;background:rgb(245 197 66/.12);border:1px solid rgb(245 197 66/.35);color:var(--star)">○ Offline · nur Browser</span>`;
 }
 
 function CATS(){ return CONFIG.categories; }
-function REVIEWERS(){ return CONFIG.reviewers; }
-function VOICES(){ return CONFIG.voices; }
-function avg(r){
+function REVIEWERS(){
+  // main names + active testers for display of team boxes (main only sees all)
+  if (isMain() && usersList.length) return usersList.map(u => u.name);
+  return CONFIG.reviewers;
+}
+function VOICES(){ return CONFIG.voices || []; }
+function activeVoices() {
+  return VOICES().filter(v => !archivedIds.has(v.id));
+}
+function avg(r) {
   if (!r) return null;
   const v = CATS().map(c => +r[c.k] || 0);
   return v.reduce((a,b)=>a+b,0) / v.length;
 }
-function starsHtml(value, name, editable){
-  let h = `<div class="stars" data-name="${esc(name)}">`;
-  if (editable) h += `<button type="button" class="zero" data-n="0" title="0 Sterne">0</button>`;
-  for (let n=1;n<=5;n++) {
-    h += `<button type="button" class="${n<=value?"on":""}" data-n="${n}" ${editable?"":"disabled"} aria-label="${n} Sterne">${n<=value?"★":"☆"}</button>`;
-  }
-  h += `<span style="margin-left:6px;font-size:.75rem;color:var(--muted)">${value}/5</span></div>`;
-  return h;
+function hasMyRating(vid, rev) {
+  const r = state[vid + "|" + rev];
+  if (!r) return false;
+  return CATS().some(c => +(r[c.k]||0) > 0) || !!(r.comment||"").trim();
 }
-function voiceRatings(vid){
+function voiceRatings(vid) {
   const out = [];
   for (const rev of REVIEWERS()) {
     const key = vid + "|" + rev;
@@ -430,35 +320,217 @@ function voiceRatings(vid){
   }
   return out;
 }
-function teamAvg(vid){
+function teamAvg(vid) {
   const rs = voiceRatings(vid);
   if (!rs.length) return null;
   return rs.map(avg).reduce((a,b)=>a+b,0)/rs.length;
 }
-function catAvg(vid,k){
+function catAvg(vid,k) {
   const rs = voiceRatings(vid);
   if (!rs.length) return null;
   return rs.reduce((s,r)=>s+(+r[k]||0),0)/rs.length;
 }
-
-function setTab(tab){
-  currentTab = tab;
-  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab===tab));
-  ["rate","rank","admin"].forEach(t => {
-    const el = document.getElementById("panel"+t[0].toUpperCase()+t.slice(1));
-    if (el) el.style.display = t===tab ? "" : "none";
-  });
-  if (tab==="rank") renderRank();
-  if (tab==="admin") renderAdmin();
-  if (tab==="rate") renderRate();
+function starsHtml(value, name, editable) {
+  let h = `<div class="stars" data-name="${esc(name)}">`;
+  if (editable) h += `<button type="button" class="zero" data-n="0" title="0">0</button>`;
+  for (let n=1;n<=5;n++) {
+    h += `<button type="button" class="${n<=value?"on":""}" data-n="${n}" ${editable?"":"disabled"}>${n<=value?"★":"☆"}</button>`;
+  }
+  h += `<span style="margin-left:6px;font-size:.75rem;color:var(--muted)">${value}/5</span></div>`;
+  return h;
+}
+function teamBoxHtml(vid, rev, cloudOnlineFlag) {
+  const all = voiceRatings(vid);
+  const mineDone = hasMyRating(vid, rev);
+  const blind = blindEnabled() && !mineDone;
+  if (blind) {
+    return `<h3>Team-Wertungen (Blind)</h3>
+      <p class="meta" style="margin:0">Peer-Scores versteckt, bis <strong>du</strong> speicherst.</p>
+      <div class="rating-row pending"><strong>${esc(rev)}</strong> — ausstehend</div>`;
+  }
+  // testers: after own rating, show averages only (not others' comments if we want strict) — show team like main
+  return `<h3>Team-Wertungen (${all.length})${cloudOnlineFlag?"":" · ⚠ offline"}</h3>
+    ${all.length?"":`<p class="meta">Noch keine Bewertungen.</p>`}
+    ${all.map(r => {
+      const av = avg(r);
+      return `<div class="rating-row"><div style="display:flex;justify-content:space-between"><strong>${esc(r.reviewer)}</strong><span class="avg" style="font-size:.95rem">Ø ${av.toFixed(2)}</span></div>
+        <div class="grid2" style="margin-top:6px">${CATS().map(c=>`<div style="font-size:.75rem;display:flex;justify-content:space-between"><span class="meta">${esc(c.s)}</span><span>${r[c.k]}/5</span></div>`).join("")}</div>
+        ${r.comment?`<div style="margin-top:6px;font-size:.85rem">„${esc(r.comment)}“</div>`:""}
+      </div>`;
+    }).join("")}`;
 }
 
-function renderApp(source){
+function collectScoresFromCard(card) {
+  const scores = {};
+  card.querySelectorAll(".stars").forEach(row => { scores[row.dataset.name] = +(row.dataset.value || 0); });
+  const comment = card.querySelector("[data-comment]")?.value || "";
+  return { ...scores, comment };
+}
+
+async function saveVoiceRating(vid, rev, payload, { silent=false } = {}) {
+  const full = { ...payload, ts: Date.now() };
+  state[vid + "|" + rev] = full;
+  saveRatingsLocal(state);
+  const ok = await pushRating(vid, rev, full);
+  if (ok) {
+    const cloud = await fetchCloudRatings();
+    if (cloud) {
+      for (const [k,v] of Object.entries(cloud)) {
+        const loc = state[k];
+        if (!loc || (v.ts||0) >= (loc.ts||0)) state[k] = v;
+      }
+      saveRatingsLocal(state);
+      cloudCount = Object.keys(state).length;
+    }
+  }
+  if (!silent) toast(ok ? ("✓ In Cloud · " + rev) : ("⚠ Nur lokal · " + rev));
+  return ok;
+}
+
+function updateCardAfterSave(card, vid, rev) {
+  const a = avg(state[vid+"|"+rev]);
+  const avgEl = card.querySelector(".head-row .avg");
+  if (a != null) {
+    if (avgEl) avgEl.innerHTML = a.toFixed(1) + ' <span style="font-size:.7rem;color:var(--muted)">dein Ø</span>';
+    else {
+      const hr = card.querySelector(".head-row");
+      if (hr) {
+        const d = document.createElement("div");
+        d.className = "avg";
+        d.innerHTML = a.toFixed(1) + ' <span style="font-size:.7rem;color:var(--muted)">dein Ø</span>';
+        hr.appendChild(d);
+      }
+    }
+  }
+  const team = card.querySelector(".team-box");
+  if (team) team.innerHTML = teamBoxHtml(vid, rev, cloudOnline);
+  let st = card.querySelector("[data-sync-status]");
+  if (!st) {
+    st = document.createElement("div");
+    st.dataset.syncStatus = "1";
+    st.style.cssText = "font-size:.75rem;margin-top:8px;color:var(--muted)";
+    card.querySelector(".actions")?.after(st);
+  }
+  st.textContent = cloudOnline ? "✓ In Cloud-DB · Seite & Scroll bleiben" : "⚠ Nur lokal";
+  st.style.color = cloudOnline ? "#34d399" : "var(--star)";
+  // show delete if rated
+  const actions = card.querySelector(".actions");
+  if (actions && state[vid+"|"+rev] && !card.querySelector("[data-del]")) {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "btn btn-d"; b.dataset.del = "1"; b.textContent = "Löschen";
+    actions.appendChild(b);
+    b.onclick = async () => {
+      delete state[vid+"|"+rev];
+      saveRatingsLocal(state);
+      await deleteCloudRating(vid, rev);
+      const cloud = await fetchCloudRatings();
+      if (cloud) { state = { ...state, ...cloud }; saveRatingsLocal(state); }
+      toast("Gelöscht");
+      // soft refresh card scores without page jump
+      renderRate(true);
+    };
+  }
+}
+
+function getFilteredRateVoices() {
+  const u = ui();
+  let list = activeVoices().slice();
+  if (u.group !== "all") list = list.filter(v => (v.group || v.lang) === u.group || v.lang === u.group);
+  if (u.sex !== "all") list = list.filter(v => v.sex === u.sex);
+  if (u.q) {
+    const q = u.q.toLowerCase();
+    list = list.filter(v =>
+      (v.title||"").toLowerCase().includes(q) ||
+      (v.note||"").toLowerCase().includes(q) ||
+      (v.id||"").toLowerCase().includes(q) ||
+      (v.tags||[]).some(t => String(t).toLowerCase().includes(q))
+    );
+  }
+  if (u.sort === "title") list.sort((a,b) => (a.title||"").localeCompare(b.title||""));
+  else if (u.sort === "group") list.sort((a,b) => String(a.group||a.lang||"").localeCompare(String(b.group||b.lang||"")));
+  else if (u.sort === "unrated") {
+    const rev = currentUser?.name || REVIEWERS()[0];
+    list.sort((a,b) => (hasMyRating(a.id,rev)?1:0) - (hasMyRating(b.id,rev)?1:0));
+  } else if (u.sort === "avg") {
+    list.sort((a,b) => (teamAvg(b.id)??-1) - (teamAvg(a.id)??-1));
+  }
+  return list;
+}
+
+function pageSlice(list) {
+  const u = ui();
+  const total = list.length;
+  const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  let page = Math.min(Math.max(1, u.page || 1), pages);
+  if (page !== u.page) saveUi({ page });
+  const start = (page - 1) * PAGE_SIZE;
+  return { page, pages, total, slice: list.slice(start, start + PAGE_SIZE), start };
+}
+
+function pagerHtml(page, pages, total) {
+  if (pages <= 1) return `<div class="pager"><span class="meta">${total} Stimmen · ${PAGE_SIZE}/Seite</span></div>`;
+  let buttons = "";
+  for (let p = 1; p <= pages; p++) {
+    if (pages > 12 && Math.abs(p - page) > 2 && p !== 1 && p !== pages) {
+      if (p === 2 || p === pages - 1) buttons += `<span class="meta">…</span>`;
+      continue;
+    }
+    buttons += `<button type="button" class="btn btn-g ${p===page?"on":""}" data-page="${p}">${p}</button>`;
+  }
+  return `<div class="pager">
+    <span class="meta">Seite ${page}/${pages} · ${total} Stimmen · je ${PAGE_SIZE}</span>
+    <div class="pages">
+      <button type="button" class="btn btn-g" data-page="${Math.max(1,page-1)}" ${page<=1?"disabled":""}>←</button>
+      ${buttons}
+      <button type="button" class="btn btn-g" data-page="${Math.min(pages,page+1)}" ${page>=pages?"disabled":""}>→</button>
+    </div>
+  </div>`;
+}
+
+function bindPager(root) {
+  root.querySelectorAll("[data-page]").forEach(btn => {
+    btn.onclick = () => {
+      const p = +btn.dataset.page;
+      saveUi({ page: p, scrollY: 0 });
+      window.scrollTo(0, 0);
+      renderRate();
+    };
+  });
+}
+
+function setTab(tab) {
+  if (isTester() && (tab === "admin" || tab === "archive" || tab === "users")) {
+    toast("Nur Hauptbenutzer");
+    tab = "rate";
+  }
+  currentTab = tab;
+  saveUi({ tab });
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
+  ["rate","rank","admin","users","archive"].forEach(t => {
+    const el = document.getElementById("panel" + t[0].toUpperCase() + t.slice(1));
+    if (el) el.style.display = t === tab ? "" : "none";
+  });
+  if (tab === "rate") renderRate();
+  if (tab === "rank") renderRank();
+  if (tab === "admin") renderAdmin();
+  if (tab === "users") renderUsers();
+  if (tab === "archive") renderArchive();
+}
+
+async function renderApp() {
   const p = CONFIG.project;
   const app = document.getElementById("app");
-  const srcBadge = hasOverride()
-    ? `<span class="badge draft">Browser-Entwurf (nicht committed)</span>`
-    : `<span class="badge live">config.json</span>`;
+  const role = currentUser?.role || "guest";
+  const name = currentUser?.name || "—";
+  const tabs = [
+    ["rate","Bewerten"],
+    ["rank","Ranking"],
+  ];
+  if (isMain()) {
+    tabs.push(["users","Benutzer"]);
+    tabs.push(["archive","Archiv"]);
+    tabs.push(["admin","Stimmen"]);
+  }
   app.innerHTML = `
 <header>
   <p style="margin:0 0 4px;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)">${esc(p.brand||"Voice Compare")}</p>
@@ -466,140 +538,162 @@ function renderApp(source){
     <div>
       <h1>${esc(p.title)}</h1>
       <p class="sub">${esc(p.subtitle||"")}</p>
+      <div class="version-bar">Tool v${APP_VERSION} · Rollback: versions/ · ${esc(name)}
+        <span class="role-badge ${role==="main"?"role-main":"role-tester"}">${esc(role)}</span>
+      </div>
     </div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">${srcBadge}<span class="badge">${VOICES().length} Stimmen</span></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+      <span class="badge">${activeVoices().length} aktiv</span>
+      ${archivedIds.size && isMain() ? `<span class="badge archived-tag">${archivedIds.size} archiviert</span>`:""}
+    </div>
   </div>
   <div class="row">
-    <label class="field">Teammitglied (wer bewertet gerade)
-      <select id="reviewer">${REVIEWERS().map((r,i)=>`<option ${i===Math.min(1,REVIEWERS().length-1)?"selected":""}>${esc(r)}</option>`).join("")}</select>
+    <label class="field">Teammitglied
+      <select id="reviewer" ${lockedReviewer?"disabled":""}>
+        ${(isMain() ? REVIEWERS() : [name]).filter(Boolean).map(r =>
+          `<option ${r===name?"selected":""}>${esc(r)}</option>`).join("")}
+      </select>
     </label>
   </div>
-  <div class="script" id="scriptBox"><strong>Skript (gleich für alle):</strong><br/>${esc(CONFIG.script)}</div>
+  <div class="script" id="scriptBox"><strong>Skript:</strong><br/>${esc(CONFIG.script)}</div>
   <div class="tabs">
-    <button type="button" data-tab="rate" class="${currentTab==="rate"?"on":""}">Bewerten</button>
-    <button type="button" data-tab="rank" class="${currentTab==="rank"?"on":""}">Ranking</button>
-    <button type="button" data-tab="admin" class="${currentTab==="admin"?"on":""}">Stimmen</button>
+    ${tabs.map(([t,l]) => `<button type="button" data-tab="${t}" class="${currentTab===t?"on":""}">${l}</button>`).join("")}
   </div>
-  <div class="note">💡 <strong>56 Stimmen · Portfolio v4</strong> (bs/hr/sr/en/ml + Agent) · Bewertungen → <strong>Cloud-Datenbank</strong> (teamweit). Stimmen-Katalog → <div style="margin-top:8px">${storageBadgeHtml()}</div><strong>config.json</strong> (oder Browser-Entwurf unter Tab „Stimmen“). Export-Config committen = neue Stimmen fürs Team live. · <a href="/theme-test.html" style="color:var(--accent)">Theme-Test (Option A)</a></div>
+  <div class="note">${storageBadgeHtml()} · Persönlicher Link sperrt Identität · Blind: Peer-Ø erst nach eigener Bewertung
+    <div style="margin-top:8px" class="meta">Links Main:
+      <a href="?me=Arman" style="color:var(--primary)">Arman</a> ·
+      <a href="?me=Denis" style="color:var(--primary)">Denis</a> ·
+      <a href="?me=Osoba%203" style="color:var(--primary)">Osoba 3</a>
+    </div>
+  </div>
 </header>
 <div id="panelRate" style="display:${currentTab==="rate"?"":"none"}"></div>
 <div id="panelRank" style="display:${currentTab==="rank"?"":"none"}"></div>
+<div id="panelUsers" style="display:${currentTab==="users"?"":"none"}"></div>
+<div id="panelArchive" style="display:${currentTab==="archive"?"":"none"}"></div>
 <div id="panelAdmin" style="display:${currentTab==="admin"?"":"none"}"></div>
-<div class="card">
+${isMain()?`<div class="card">
   <strong style="font-size:.9rem">Team-Cloud & Backup</strong>
-  <p class="meta" style="margin:6px 0 10px">Speichern schreibt in die <strong>gemeinsame Cloud-DB</strong> (alle Geräte). Export/Import als Backup. Gefilterte Liste: Tab Ranking.</p>
-  <div class="actions">
+  <div class="actions" style="margin-top:10px">
     <button type="button" class="btn btn-p" id="btnRefreshCloud">Cloud neu laden</button>
-    <button type="button" class="btn btn-g" id="btnExport">Export Backup (JSON)</button>
+    <button type="button" class="btn btn-g" id="btnExport">Export Backup</button>
     <button type="button" class="btn btn-g" id="btnImport">Import → Cloud</button>
     <button type="button" class="btn btn-d" id="btnClear">Alle in Cloud löschen</button>
   </div>
-</div>`;
+</div>`:""}`;
 
-  // personal link ?me= locks identity
+  document.querySelectorAll(".tabs button").forEach(b => { b.onclick = () => setTab(b.dataset.tab); });
   const reviewerEl = document.getElementById("reviewer");
-  try {
-    const params = new URLSearchParams(location.search);
-    const me = params.get("me") || params.get("reviewer");
-    if (me && REVIEWERS().includes(me)) {
-      lockedReviewer = me;
-      reviewerEl.value = me;
-      try { localStorage.setItem(REV_KEY, me); } catch {}
-      reviewerEl.disabled = true;
-      if (!document.getElementById("personalLinkNote")) {
-        const lockNote = document.createElement("div");
-        lockNote.id = "personalLinkNote";
-        lockNote.className = "meta";
-        lockNote.style.marginTop = "6px";
-        lockNote.innerHTML = "Persönlicher Link: <strong>" + esc(me) + "</strong> · " +
-          REVIEWERS().map(r => '<a href="?me=' + encodeURIComponent(r) + '" style="color:var(--primary)">' + esc(r) + "</a>").join(" · ") +
-          ' · Blind <a href="?me=' + encodeURIComponent(me) + '&blind=1" style="color:var(--primary)">an</a>/<a href="?me=' + encodeURIComponent(me) + '&blind=0" style="color:var(--primary)">aus</a>';
-        reviewerEl.parentElement && reviewerEl.parentElement.appendChild(lockNote);
-      }
-    } else {
-      lockedReviewer = null;
-      const r = localStorage.getItem(REV_KEY);
-      if (r && REVIEWERS().includes(r)) reviewerEl.value = r;
-      reviewerEl.disabled = false;
-    }
-  } catch {}
-  reviewerEl.onchange = () => {
-    if (lockedReviewer) { reviewerEl.value = lockedReviewer; return; }
-    try { localStorage.setItem(REV_KEY, reviewerEl.value); } catch {}
-    if (currentTab==="rate") renderRate();
+  if (reviewerEl) {
+    reviewerEl.onchange = () => {
+      if (lockedReviewer) { reviewerEl.value = lockedReviewer; return; }
+      try { localStorage.setItem(REV_KEY, reviewerEl.value); } catch {}
+      if (currentTab === "rate") renderRate();
+    };
+  }
+  const btnRef = document.getElementById("btnRefreshCloud");
+  if (btnRef) btnRef.onclick = async () => {
+    await refreshFromCloud();
+    await loadArchive();
+    toast(cloudOnline ? ("Cloud: " + cloudCount) : "Offline");
+    renderRate(true);
   };
-
-  document.querySelectorAll(".tabs button").forEach(b => {
-    b.onclick = () => setTab(b.dataset.tab);
-  });
-
-  document.getElementById("btnExport").onclick = async () => {
-    const payload = JSON.stringify({ v:1, storage: cloudOnline?"d1":"local", ratings: state }, null, 2);
-    try { await navigator.clipboard.writeText(payload); toast("Backup in Zwischenablage"); }
-    catch { prompt("Kopiere Export:", payload); }
+  const btnEx = document.getElementById("btnExport");
+  if (btnEx) btnEx.onclick = async () => {
+    const payload = JSON.stringify({ v:1, storage: cloudOnline?"d1":"local", ratings: state, appVersion: APP_VERSION }, null, 2);
+    try { await navigator.clipboard.writeText(payload); toast("Backup kopiert"); }
+    catch { prompt("Export:", payload); }
   };
-  document.getElementById("btnImport").onclick = async () => {
-    const raw = prompt("Export-JSON hier einfügen (wird in Cloud übernommen):");
+  const btnIm = document.getElementById("btnImport");
+  if (btnIm) btnIm.onclick = async () => {
+    const raw = prompt("Export-JSON:");
     if (!raw) return;
     try {
       const data = JSON.parse(raw);
       const incoming = data.ratings || data;
       state = { ...state, ...incoming };
       saveRatingsLocal(state);
-      const ok = await bulkPushRatings(incoming);
-      toast(ok ? "Import in Cloud OK" : "Lokal importiert (Cloud offline)");
+      await bulkPushRatings(incoming);
       await refreshFromCloud();
-      renderRate();
+      toast("Import OK");
+      renderRate(true);
     } catch { toast("Import fehlgeschlagen"); }
   };
-  document.getElementById("btnClear").onclick = async () => {
-    if (!confirm("Wirklich ALLE Team-Bewertungen in der Cloud löschen?")) return;
+  const btnCl = document.getElementById("btnClear");
+  if (btnCl) btnCl.onclick = async () => {
+    if (!confirm("ALLE Cloud-Bewertungen löschen?")) return;
     const ok = await clearCloudRatings();
-    state = {};
-    saveRatingsLocal(state);
-    cloudCount = 0;
-    toast(ok ? "Cloud geleert" : "Lokal geleert (Cloud offline)");
-    renderApp(hasOverride() ? "browser-override" : "file");
-  };
-  const btnRef = document.getElementById("btnRefreshCloud");
-  if (btnRef) btnRef.onclick = async () => {
-    toast("Lade Cloud…");
-    await refreshFromCloud();
-    renderApp(hasOverride() ? "browser-override" : "file");
-    toast(cloudOnline ? ("Cloud: " + cloudCount + " Bewertungen") : "Cloud offline");
+    if (ok) { state = {}; saveRatingsLocal(state); cloudCount = 0; toast("Geleert"); renderRate(); }
   };
 
-  if (currentTab==="rate") renderRate();
-  else if (currentTab==="rank") renderRank();
-  else renderAdmin();
+  setTab(ui().tab || currentTab || "rate");
 }
 
-function renderRate(){
-  const rev = document.getElementById("reviewer")?.value || REVIEWERS()[0];
+function renderRate(keepScroll) {
+  const prevY = keepScroll ? window.scrollY : (ui().scrollY || 0);
+  const rev = lockedReviewer || document.getElementById("reviewer")?.value || currentUser?.name || REVIEWERS()[0];
   const root = document.getElementById("panelRate");
   if (!root) return;
-  root.innerHTML = VOICES().map((v,i) => {
+  const list = getFilteredRateVoices();
+  const { page, pages, total, slice, start } = pageSlice(list);
+  const u = ui();
+  const groups = [...new Set(VOICES().map(v => v.group || v.lang || "other"))].sort();
+
+  root.innerHTML = `
+  <div class="card">
+    <strong>Filter · Suche · ${PAGE_SIZE}/Seite</strong>
+    <div class="toolbar" style="margin-top:10px">
+      <label class="field">Suche<input id="rateQ" value="${esc(u.q)}" placeholder="Titel, Tag, ID…"/></label>
+      <label class="field">Gruppe
+        <select id="rateGroup">
+          <option value="all">alle</option>
+          ${groups.map(g => `<option value="${esc(g)}" ${u.group===g?"selected":""}>${esc(g)}</option>`).join("")}
+        </select>
+      </label>
+      <label class="field">Geschlecht
+        <select id="rateSex">
+          <option value="all">alle</option>
+          <option value="m" ${u.sex==="m"?"selected":""}>m</option>
+          <option value="f" ${u.sex==="f"?"selected":""}>f</option>
+        </select>
+      </label>
+      <label class="field">Sort
+        <select id="rateSort">
+          <option value="default" ${u.sort==="default"?"selected":""}>Katalog</option>
+          <option value="title" ${u.sort==="title"?"selected":""}>Titel</option>
+          <option value="group" ${u.sort==="group"?"selected":""}>Gruppe</option>
+          <option value="unrated" ${u.sort==="unrated"?"selected":""}>Unbewertet zuerst</option>
+          <option value="avg" ${u.sort==="avg"?"selected":""}>Team-Ø</option>
+        </select>
+      </label>
+    </div>
+  </div>
+  ${pagerHtml(page, pages, total)}
+  ${slice.map((v, i) => {
     const key = v.id + "|" + rev;
     const mine = state[key] || Object.fromEntries([...CATS().map(c=>[c.k,0]), ["comment",""]]);
     const a = avg(mine);
-    const all = voiceRatings(v.id);
+    const votes = archivePending[v.id] || [];
     return `<article class="card" data-vid="${esc(v.id)}">
       <div class="head-row">
         <div>
-          <h2>${i+1}. ${esc(v.title)}</h2>
+          <h2>${start + i + 1}. ${esc(v.title)}</h2>
           <p class="meta">${esc(v.note||"")}${v.role?` · <em>${esc(v.role)}</em>`:""}</p>
-          <div class="tags"><span class="tag ${esc(v.sex)}">${v.sex==="m"?"männlich":v.sex==="f"?"weiblich":"divers"}</span>${v.lang?`<span class="tag">${esc(v.lang)}</span>`:""}${v.group?`<span class="tag">${esc(v.group)}</span>`:""}${(v.tags||[]).filter(t=>t!==v.lang&&t!==v.group).slice(0,8).map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>
-          ${v.voice_instructions?`<div class="note" style="margin-top:8px"><strong>Voice Instructions:</strong> ${esc(v.voice_instructions.agent_system||"")}<br/><span class="muted-code">pace=${esc(v.voice_instructions.pace||"")} · tags ${esc((v.voice_instructions.bracket_defaults||""))}</span></div>`:""}
+          <div class="tags">
+            <span class="tag ${esc(v.sex)}">${v.sex==="m"?"männlich":v.sex==="f"?"weiblich":"divers"}</span>
+            ${v.lang?`<span class="tag">${esc(v.lang)}</span>`:""}
+            ${v.group?`<span class="tag">${esc(v.group)}</span>`:""}
+          </div>
         </div>
         ${a!=null&&state[key]?`<div class="avg">${a.toFixed(1)} <span style="font-size:.7rem;color:var(--muted)">dein Ø</span></div>`:""}
       </div>
       <audio controls preload="metadata" src="${esc(v.audio)}"></audio>
       <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px">
-        <div class="meta" style="margin-bottom:8px;font-weight:600;text-transform:uppercase;font-size:.72rem">Deine Bewertung als ${esc(rev)}</div>
+        <div class="meta" style="margin-bottom:8px;font-weight:600">Deine Bewertung als ${esc(rev)}</div>
         <div class="grid2">
           ${CATS().map(c=>`<div class="cat"><div class="cat-label">${esc(c.l)}</div>${starsHtml(+mine[c.k]||0,c.k,true)}</div>`).join("")}
         </div>
-        <label class="field" style="margin-top:10px">Kommentar (optional)
+        <label class="field" style="margin-top:10px">Kommentar
           <textarea rows="2" maxlength="1000" data-comment>${esc(mine.comment||"")}</textarea>
         </label>
         <div class="actions">
@@ -607,11 +701,33 @@ function renderRate(){
           ${state[key]?`<button type="button" class="btn btn-d" data-del>Löschen</button>`:""}
         </div>
       </div>
-      <div class="team-box">
-        ${teamBoxHtml(v.id, rev, cloudOnline)}
-      </div>
+      <div class="team-box">${teamBoxHtml(v.id, rev, cloudOnline)}</div>
+      ${isMain()?`<div class="vote-bar">
+        <span class="meta">Archiv-Freigabe (2 von 3 Main):</span>
+        ${votes.map(x=>`<span class="vote-pill yes">${esc(x.voter)}</span>`).join("") || `<span class="meta">0 Stimmen</span>`}
+        <button type="button" class="btn btn-d" data-archive-vote>Archiv-Stimme abgeben</button>
+      </div>`:""}
     </article>`;
-  }).join("");
+  }).join("") || `<div class="card meta">Keine Stimmen für Filter.</div>`}
+  ${pagerHtml(page, pages, total)}`;
+
+  // filters
+  const applyFilters = () => {
+    saveUi({
+      q: document.getElementById("rateQ").value.trim(),
+      group: document.getElementById("rateGroup").value,
+      sex: document.getElementById("rateSex").value,
+      sort: document.getElementById("rateSort").value,
+      page: 1,
+    });
+    renderRate();
+  };
+  document.getElementById("rateQ").onchange = applyFilters;
+  document.getElementById("rateQ").onkeydown = (e) => { if (e.key === "Enter") applyFilters(); };
+  document.getElementById("rateGroup").onchange = applyFilters;
+  document.getElementById("rateSex").onchange = applyFilters;
+  document.getElementById("rateSort").onchange = applyFilters;
+  bindPager(root);
 
   root.querySelectorAll("article").forEach(card => {
     const vid = card.dataset.vid;
@@ -622,112 +738,86 @@ function renderRate(){
           row.querySelectorAll("button[data-n]").forEach(b => {
             if (b.classList.contains("zero")) return;
             const bn = +b.dataset.n;
-            b.classList.toggle("on", bn<=n && bn>0);
-            b.textContent = bn<=n && bn>0 ? "★" : "☆";
+            b.classList.toggle("on", bn <= n && bn > 0);
+            b.textContent = bn <= n && bn > 0 ? "★" : "☆";
           });
           row.dataset.value = String(n);
           const span = row.querySelector("span");
           if (span) span.textContent = n + "/5";
+          scheduleAutosave();
         };
       });
-      const onCount = [...row.querySelectorAll("button.on")].filter(b=>!b.classList.contains("zero")).length;
+      const onCount = [...row.querySelectorAll("button.on")].filter(b => !b.classList.contains("zero")).length;
       row.dataset.value = String(onCount);
     });
     const scheduleAutosave = () => {
-      const revNow = document.getElementById("reviewer").value;
+      const revNow = lockedReviewer || document.getElementById("reviewer").value;
       const key = vid + "|" + revNow;
       clearTimeout(saveTimers[key]);
       saveTimers[key] = setTimeout(async () => {
         const payload = collectScoresFromCard(card);
-        // only autosave if at least one star > 0 or existing rating
         const hasScore = CATS().some(c => +(payload[c.k]||0) > 0);
         if (!hasScore && !state[key]) return;
-        await saveVoiceRating(vid, revNow, payload, { silent: true, refreshTeam: true });
-        // update team box + avg without full list rebuild (keep scroll)
-        const a = avg(state[vid+"|"+revNow]);
-        const avgEl = card.querySelector(".head-row .avg");
-        if (a != null) {
-          if (avgEl) avgEl.innerHTML = a.toFixed(1) + ' <span style="font-size:.7rem;color:var(--muted)">dein Ø</span>';
-          else {
-            const hr = card.querySelector(".head-row");
-            if (hr) {
-              const d = document.createElement("div");
-              d.className = "avg";
-              d.innerHTML = a.toFixed(1) + ' <span style="font-size:.7rem;color:var(--muted)">dein Ø</span>';
-              hr.appendChild(d);
-            }
-          }
-        }
-        // refresh team section HTML for this card only
-        const all = voiceRatings(vid);
-        const team = card.querySelector(".team-box");
-        if (team) {
-          team.innerHTML = teamBoxHtml(vid, revNow, cloudOnline);
-        }
-        // subtle status under actions
-        let st = card.querySelector("[data-sync-status]");
-        if (!st) {
-          st = document.createElement("div");
-          st.dataset.syncStatus = "1";
-          st.style.cssText = "font-size:.75rem;margin-top:8px;color:var(--muted)";
-          card.querySelector(".actions")?.after(st);
-        }
-        st.textContent = cloudOnline ? "✓ In Cloud-DB fürs Team sichtbar" : "⚠ Nur lokal gespeichert";
-        st.style.color = cloudOnline ? "#34d399" : "var(--star)";
+        saveUi({ scrollY: window.scrollY });
+        await saveVoiceRating(vid, revNow, payload, { silent: true });
+        updateCardAfterSave(card, vid, revNow);
       }, 500);
     };
-
-    card.querySelectorAll(".stars").forEach(row => {
-      row.querySelectorAll("button").forEach(btn => {
-        const prev = btn.onclick;
-        btn.addEventListener("click", () => scheduleAutosave());
-      });
-    });
     const ta = card.querySelector("[data-comment]");
     if (ta) {
-      ta.addEventListener("change", () => scheduleAutosave());
-      ta.addEventListener("blur", () => scheduleAutosave());
+      ta.addEventListener("change", scheduleAutosave);
+      ta.addEventListener("blur", scheduleAutosave);
     }
-
     card.querySelector("[data-save]").onclick = async () => {
-      const revNow = document.getElementById("reviewer").value;
+      const revNow = lockedReviewer || document.getElementById("reviewer").value;
       const payload = collectScoresFromCard(card);
-      await saveVoiceRating(vid, revNow, payload, { silent: false, refreshTeam: true });
-      renderRate();
+      saveUi({ scrollY: window.scrollY, page: ui().page });
+      await saveVoiceRating(vid, revNow, payload, { silent: false });
+      // NO full renderRate — keep page & scroll
+      updateCardAfterSave(card, vid, revNow);
+      requestAnimationFrame(() => window.scrollTo(0, ui().scrollY || window.scrollY));
     };
     const del = card.querySelector("[data-del]");
     if (del) del.onclick = async () => {
-      const revNow = document.getElementById("reviewer").value;
+      const revNow = lockedReviewer || document.getElementById("reviewer").value;
       delete state[vid+"|"+revNow];
       saveRatingsLocal(state);
       await deleteCloudRating(vid, revNow);
-      const cloud = await fetchCloudRatings();
-      if (cloud) { state = cloud; saveRatingsLocal(state); cloudCount = Object.keys(state).length; }
       toast("Gelöscht");
-      renderRate();
+      renderRate(true);
+    };
+    const av = card.querySelector("[data-archive-vote]");
+    if (av) av.onclick = async () => {
+      if (!confirm("Archiv-Stimme für diese Voice? (2 Main-User nötig)")) return;
+      try {
+        const res = await api("/api/archive/vote", { method: "POST", body: JSON.stringify({ voice_id: vid }) });
+        toast(res.archived ? "Archiviert (2/3 erreicht)" : ("Stimme gezählt: " + res.votes + "/2"));
+        await loadArchive();
+        if (res.archived) renderRate();
+        else {
+          // refresh vote bar only via re-render keep page
+          renderRate(true);
+        }
+      } catch (e) { toast(e.message); }
     };
   });
-}
 
-
-function getActiveFilters(){
-  return {
-    minAvg,
-    sexFilter,
-    langFilter,
-    highOnly,
-    selectedVoiceIds: selectedVoices.slice(),
+  if (keepScroll || prevY) {
+    requestAnimationFrame(() => window.scrollTo(0, prevY));
+  }
+  // persist scroll on scroll end
+  window.onscroll = () => {
+    if (currentTab === "rate") saveUi({ scrollY: window.scrollY });
   };
 }
 
-function getFilteredRankRows(){
-  let rows = VOICES().map(v => ({ v, ta: teamAvg(v.id), n: voiceRatings(v.id).length }));
+function getFilteredRankRows() {
+  let rows = activeVoices().map(v => ({ v, ta: teamAvg(v.id), n: voiceRatings(v.id).length }));
   if (sexFilter !== "all") rows = rows.filter(r => r.v.sex === sexFilter);
   if (langFilter !== "all") rows = rows.filter(r => {
-      if (langFilter === "agent") return r.v.group === "agent" || r.v.source === "agent-profile";
-      if (langFilter === "ml") return r.v.lang === "ml" || r.v.group === "ml";
-      return r.v.lang === langFilter && r.v.group !== "agent";
-    });
+    if (langFilter === "agent") return r.v.group === "agent";
+    return (r.v.lang === langFilter || r.v.group === langFilter);
+  });
   if (selectedVoices.length) rows = rows.filter(r => selectedVoices.includes(r.v.id));
   if (highOnly) rows = rows.filter(r => r.ta != null && r.ta >= 4);
   if (minAvg > 0) rows = rows.filter(r => r.ta != null && r.ta >= minAvg);
@@ -735,393 +825,381 @@ function getFilteredRankRows(){
   return rows;
 }
 
-function buildFilteredRankingExport(rows){
-  const filters = getActiveFilters();
-  return {
-    v: 1,
-    type: "filtered_ranking",
-    exportedAt: new Date().toISOString(),
-    filters,
-    count: rows.length,
-    ranking: rows.map((row, i) => {
-      const cats = {};
-      CATS().forEach(c => { cats[c.k] = catAvg(row.v.id, c.k); });
-      return {
-        rank: i + 1,
-        id: row.v.id,
-        title: row.v.title,
-        sex: row.v.sex,
-        lang: row.v.lang || null,
-        note: row.v.note || "",
-        tags: row.v.tags || [],
-        audio: row.v.audio,
-        teamAvg: row.ta,
-        ratingCount: row.n,
-        categories: cats,
-        ratings: voiceRatings(row.v.id),
-      };
-    }),
-  };
-}
-
-function rankingToCsv(rows){
-  const catKeys = CATS().map(c => c.k);
-  const headers = ["rank","id","title","sex","lang","teamAvg","ratingCount",...catKeys,"audio","note"];
-  const lines = [headers.join(",")];
-  rows.forEach((row, i) => {
-    const cats = catKeys.map(k => {
-      const v = catAvg(row.v.id, k);
-      return v == null ? "" : v.toFixed(2);
-    });
-    const cells = [
-      i + 1,
-      row.v.id,
-      JSON.stringify(row.v.title || ""),
-      row.v.sex || "",
-      row.v.lang || "",
-      row.ta == null ? "" : row.ta.toFixed(2),
-      row.n,
-      ...cats,
-      JSON.stringify(row.v.audio || ""),
-      JSON.stringify(row.v.note || ""),
-    ];
-    lines.push(cells.join(","));
-  });
-  return lines.join("\n");
-}
-
-function downloadText(filename, text, mime){
-  const blob = new Blob([text], { type: mime || "text/plain;charset=utf-8" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
-
-async function exportFilteredRanking(format){
+function renderRank() {
   const rows = getFilteredRankRows();
-  if (!rows.length) {
-    toast("Keine Stimmen mit aktuellen Filtern — nichts zu exportieren");
-    return;
-  }
-  const stamp = new Date().toISOString().slice(0,19).replace(/[:T]/g,"-");
-  if (format === "csv") {
-    const csv = rankingToCsv(rows);
-    downloadText("ranking-filter-" + stamp + ".csv", csv, "text/csv;charset=utf-8");
-    try { await navigator.clipboard.writeText(csv); toast(rows.length + " Stimmen als CSV exportiert (+ Zwischenablage)"); }
-    catch { toast(rows.length + " Stimmen als CSV heruntergeladen"); }
-    return;
-  }
-  const payload = JSON.stringify(buildFilteredRankingExport(rows), null, 2);
-  downloadText("ranking-filter-" + stamp + ".json", payload, "application/json");
-  try { await navigator.clipboard.writeText(payload); toast(rows.length + " gefilterte Stimmen exportiert (JSON + Zwischenablage)"); }
-  catch { toast(rows.length + " gefilterte Stimmen als JSON heruntergeladen"); }
-}
-
-function renderRank(){
-  const rows = getFilteredRankRows();
-
   const root = document.getElementById("panelRank");
+  // paginate ranking too
+  const total = rows.length;
+  const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  let page = Math.min(ui().page || 1, pages);
+  const start = (page - 1) * PAGE_SIZE;
+  const slice = rows.slice(start, start + PAGE_SIZE);
+
   root.innerHTML = `<div class="card">
-    <strong>Filter & Sortierung</strong>
-    <p class="meta">Sortiert nach Team-Ø (höchste zuerst) · <strong>${rows.length}</strong> von ${VOICES().length} Stimmen sichtbar</p>
+    <strong>Filter & Ranking</strong>
+    <p class="meta">${total} Stimmen · Team-Ø absteigend · Blind gilt im Bewerten-Tab</p>
     <div class="filters" style="margin-top:10px">
-      <label class="field">Mindest-Ø (Team)
+      <label class="field">Mindest-Ø
         <select id="minAvg">
           <option value="0">Alle</option>
-          <option value="3">≥ 3 Sterne</option>
-          <option value="3.5">≥ 3,5 Sterne</option>
-          <option value="4">≥ 4 Sterne</option>
-          <option value="4.5">≥ 4,5 Sterne</option>
-          <option value="5">≥ 5 Sterne (nur 5,0)</option>
+          <option value="3">≥ 3</option>
+          <option value="3.5">≥ 3,5</option>
+          <option value="4">≥ 4</option>
+          <option value="4.5">≥ 4,5</option>
+          <option value="5">≥ 5</option>
         </select>
       </label>
       <label class="field">Geschlecht
-        <select id="sexF">
-          <option value="all">Alle</option>
-          <option value="m">Nur männlich</option>
-          <option value="f">Nur weiblich</option>
-        </select>
+        <select id="sexF"><option value="all">Alle</option><option value="m">m</option><option value="f">f</option></select>
       </label>
-      <label class="field">Sprache
+      <label class="field">Sprache/Gruppe
         <select id="langF">
-          <option value="all">alle Sprachen</option>
-          <option value="bs">bs / ba</option>
-          <option value="hr">hr</option>
-          <option value="sr">sr</option>
-          <option value="en">en</option>
-          <option value="ml">multilingual</option>
-          <option value="agent">agent-profile</option>
+          <option value="all">alle</option>
+          <option value="bs">bs</option><option value="bs-clone">bs-clone</option><option value="bs-interview">bs-interview</option>
+          <option value="hr">hr</option><option value="sr">sr</option><option value="en">en</option>
+          <option value="ml">ml</option><option value="agent">agent</option>
         </select>
       </label>
     </div>
-    <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size:.9rem;cursor:pointer">
-      <input type="checkbox" id="highOnly"/> Nur Top-Stimmen (Ø ≥ 4)
+    <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size:.9rem">
+      <input type="checkbox" id="highOnly"/> Nur Top (Ø ≥ 4)
     </label>
-    <div style="margin-top:12px">
-      <div class="meta" style="margin-bottom:6px">Stimmen multi-select (leer = alle)</div>
-      <div class="chips" id="voiceChips">${VOICES().map(v=>`<button type="button" class="chip ${selectedVoices.includes(v.id)?"on":""}" data-id="${esc(v.id)}">${esc(v.title)}</button>`).join("")}</div>
-    </div>
-    <div class="actions" style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
-      <button type="button" class="btn btn-p" id="btnExportRankJson">Gefilterte Liste exportieren (JSON)</button>
-      <button type="button" class="btn btn-g" id="btnExportRankCsv">Gefilterte Liste exportieren (CSV)</button>
-    </div>
-    <p class="help" style="margin-top:8px">Export enthält <strong>nur die ${rows.length} aktuell angezeigten</strong> Stimmen (aktive Filter). Beispiel: Mindest-Ø ≥ 5 Sterne → nur diese landen im Export.</p>
   </div>
-  ${rows.length ? rows.map((row,i)=>`
+  ${pagerHtml(page, pages, total)}
+  ${slice.map((row,i) => `
     <div class="card">
       <div class="head-row">
-        <div style="display:flex;gap:12px;align-items:flex-start">
-          <div class="rank-num ${i===0?"gold":""}">#${i+1}</div>
+        <div style="display:flex;gap:12px">
+          <div class="rank-num ${start+i===0?"gold":""}">#${start+i+1}</div>
           <div>
             <h2 style="margin:0">${esc(row.v.title)}</h2>
-            <p class="meta">${row.v.sex==="m"?"männlich":row.v.sex==="f"?"weiblich":"divers"}${row.v.lang?" · "+row.v.lang:""} · ${row.n}/${REVIEWERS().length} Bewertungen</p>
+            <p class="meta">${row.n} Bewertungen · ${esc(row.v.group||row.v.lang||"")}</p>
           </div>
         </div>
-        <div style="text-align:right"><div class="avg" style="font-size:1.6rem">${row.ta!=null?row.ta.toFixed(2):"—"}</div><div class="meta" style="font-size:.65rem;text-transform:uppercase">Team-Ø</div></div>
+        <div class="avg">${row.ta!=null?row.ta.toFixed(2):"—"}</div>
       </div>
       <audio controls preload="metadata" src="${esc(row.v.audio)}"></audio>
-      <div class="grid2">${CATS().map(c=>{const ca=catAvg(row.v.id,c.k);return `<div style="display:flex;justify-content:space-between;font-size:.8rem;background:var(--bg);padding:6px 8px;border-radius:8px"><span class="meta">${esc(c.s)}</span><span>${ca!=null?ca.toFixed(1)+" ★":"—"}</span></div>`}).join("")}</div>
-    </div>`).join("") : `<div class="card meta">Keine Stimmen passen zu den Filtern.</div>`}`;
+    </div>`).join("") || `<div class="card meta">Keine Treffer</div>`}`;
 
-  const minEl = document.getElementById("minAvg");
-  minEl.value = String(minAvg);
-  minEl.onchange = () => { minAvg = +minEl.value; renderRank(); };
-  const sexEl = document.getElementById("sexF");
-  sexEl.value = sexFilter;
-  sexEl.onchange = () => { sexFilter = sexEl.value; renderRank(); };
-  const langEl = document.getElementById("langF");
-  if (langEl) { langEl.value = langFilter; langEl.onchange = () => { langFilter = langEl.value; renderRank(); }; }
-  const hi = document.getElementById("highOnly");
-  hi.checked = highOnly;
-  hi.onchange = () => { highOnly = hi.checked; renderRank(); };
-  document.querySelectorAll("#voiceChips .chip").forEach(ch => {
-    ch.onclick = () => {
-      const id = ch.dataset.id;
-      selectedVoices = selectedVoices.includes(id) ? selectedVoices.filter(x=>x!==id) : [...selectedVoices, id];
-      renderRank();
+  document.getElementById("minAvg").value = String(minAvg);
+  document.getElementById("minAvg").onchange = () => { minAvg = +document.getElementById("minAvg").value; renderRank(); };
+  document.getElementById("sexF").value = sexFilter;
+  document.getElementById("sexF").onchange = () => { sexFilter = document.getElementById("sexF").value; renderRank(); };
+  document.getElementById("langF").value = langFilter;
+  document.getElementById("langF").onchange = () => { langFilter = document.getElementById("langF").value; renderRank(); };
+  document.getElementById("highOnly").checked = highOnly;
+  document.getElementById("highOnly").onchange = () => { highOnly = document.getElementById("highOnly").checked; renderRank(); };
+  bindPager(root);
+  // pager should set page and re-render rank
+  root.querySelectorAll("[data-page]").forEach(btn => {
+    btn.onclick = () => { saveUi({ page: +btn.dataset.page }); renderRank(); };
+  });
+}
+
+async function renderUsers() {
+  const root = document.getElementById("panelUsers");
+  if (!isMain()) { root.innerHTML = `<div class="card">Kein Zugriff</div>`; return; }
+  await loadUsers();
+  const origin = location.origin;
+  root.innerHTML = `<div class="card">
+    <strong>Benutzer & persönliche Links</strong>
+    <p class="meta">Hauptbenutzer: voller Zugriff. Testbenutzer: nur eigener Bereich, kein Archiv/Admin.</p>
+    <div class="actions" style="margin-top:10px">
+      <input id="newUserName" placeholder="Name Testbenutzer" style="flex:1;min-width:160px;padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--fg)"/>
+      <button type="button" class="btn btn-p" id="btnAddUser">+ Testbenutzer</button>
+    </div>
+  </div>
+  ${usersList.map(u => {
+    const link = origin + "/" + (u.linkPath || (u.role==="main" ? "?me="+encodeURIComponent(u.name) : "?u="+encodeURIComponent(u.token)));
+    // fix double slash
+    const full = origin + (u.linkPath?.startsWith("?") ? u.linkPath : "?" + (u.role==="main"?"me="+encodeURIComponent(u.name):"u="+encodeURIComponent(u.token)));
+    return `<div class="user-row">
+      <div>
+        <strong>${esc(u.name)}</strong>
+        <span class="role-badge ${u.role==="main"?"role-main":"role-tester"}">${esc(u.role)}</span>
+        <div class="link-box" data-link="${esc(full)}">${esc(full)}</div>
+      </div>
+      <div class="actions" style="margin:0">
+        <button type="button" class="btn btn-g" data-copy="${esc(full)}">Copy Link</button>
+        ${u.role==="tester"?`<button type="button" class="btn btn-d" data-rm-user="${esc(u.id)}">Deaktivieren</button>`:""}
+      </div>
+    </div>`;
+  }).join("")}`;
+
+  document.getElementById("btnAddUser").onclick = async () => {
+    const name = document.getElementById("newUserName").value.trim();
+    if (!name) return toast("Name eingeben");
+    try {
+      const res = await api("/api/users", { method: "POST", body: JSON.stringify({ name }) });
+      toast("Angelegt: " + res.user.name);
+      await renderUsers();
+    } catch (e) { toast(e.message); }
+  };
+  root.querySelectorAll("[data-copy]").forEach(btn => {
+    btn.onclick = async () => {
+      try { await navigator.clipboard.writeText(btn.dataset.copy); toast("Link kopiert"); }
+      catch { prompt("Link:", btn.dataset.copy); }
     };
   });
-  const btnJ = document.getElementById("btnExportRankJson");
-  const btnC = document.getElementById("btnExportRankCsv");
-  if (btnJ) btnJ.onclick = () => exportFilteredRanking("json");
-  if (btnC) btnC.onclick = () => exportFilteredRanking("csv");
+  root.querySelectorAll("[data-rm-user]").forEach(btn => {
+    btn.onclick = async () => {
+      if (!confirm("Testbenutzer deaktivieren?")) return;
+      try {
+        await api("/api/users?id=" + encodeURIComponent(btn.dataset.rmUser), { method: "DELETE" });
+        toast("Deaktiviert");
+        await renderUsers();
+      } catch (e) { toast(e.message); }
+    };
+  });
 }
 
-function emptyVoice(){
-  return { id: "", title: "", sex: "m", note: "", tags: [], audio: "" };
+async function renderArchive() {
+  const root = document.getElementById("panelArchive");
+  if (!isMain()) { root.innerHTML = `<div class="card">Kein Zugriff</div>`; return; }
+  await loadArchive();
+  let audit = [];
+  try { const a = await api("/api/audit"); audit = a.entries || []; } catch {}
+  const archived = [...archivedIds];
+  const pendingIds = Object.keys(archivePending);
+
+  root.innerHTML = `<div class="card">
+    <strong>Archiv (2-von-3 Main-Freigabe)</strong>
+    <p class="meta">Eine Stimme archiviert nicht. Zwei verschiedene Hauptbenutzer → Voice verschwindet aus aktiven Listen. Ratings bleiben erhalten.</p>
+  </div>
+  <div class="card"><strong>Archiviert (${archived.length})</strong>
+    ${archived.length ? archived.map(id => {
+      const v = VOICES().find(x => x.id === id);
+      const ratings = voiceRatings(id);
+      return `<div class="user-row">
+        <div>
+          <strong>${esc(v?.title || id)}</strong>
+          <div class="meta">${ratings.length} Bewertungen gespeichert · ID ${esc(id)}</div>
+        </div>
+        <button type="button" class="btn btn-g" data-restore="${esc(id)}">Wiederherstellen</button>
+      </div>`;
+    }).join("") : `<p class="meta">Leer</p>`}
+  </div>
+  <div class="card"><strong>Offene Archiv-Stimmen</strong>
+    ${pendingIds.length ? pendingIds.map(id => {
+      const v = VOICES().find(x => x.id === id);
+      const votes = archivePending[id] || [];
+      return `<div class="user-row"><div><strong>${esc(v?.title||id)}</strong>
+        <div class="vote-bar">${votes.map(x=>`<span class="vote-pill yes">${esc(x.voter)}</span>`).join("")} (${votes.length}/2)</div>
+      </div></div>`;
+    }).join("") : `<p class="meta">Keine offenen Votes</p>`}
+  </div>
+  <div class="card"><strong>Audit-Historie (letzte 50)</strong>
+    <div style="max-height:280px;overflow:auto;font-size:.8rem">
+      ${audit.slice(0,50).map(e => `<div class="meta" style="padding:4px 0;border-bottom:1px solid var(--border)">
+        ${new Date(e.ts).toLocaleString()} · <strong>${esc(e.actor)}</strong> · ${esc(e.action)} · ${esc(e.voice_id)} ${esc(e.detail)}
+      </div>`).join("") || "—"}
+    </div>
+  </div>`;
+
+  root.querySelectorAll("[data-restore]").forEach(btn => {
+    btn.onclick = async () => {
+      if (!confirm("Voice aus Archiv holen?")) return;
+      try {
+        await api("/api/archive/restore", { method: "POST", body: JSON.stringify({ voice_id: btn.dataset.restore }) });
+        toast("Wiederhergestellt");
+        await loadArchive();
+        await fetchCloudRatings();
+        renderArchive();
+      } catch (e) { toast(e.message); }
+    };
+  });
 }
 
-function renderAdmin(){
+function loadOverride(){ try{const raw=localStorage.getItem(CFG_KEY);return raw?JSON.parse(raw):null}catch{return null} }
+function saveOverride(cfg){ localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); }
+function clearOverride(){ localStorage.removeItem(CFG_KEY); }
+function hasOverride(){ return !!localStorage.getItem(CFG_KEY); }
+function clone(o){ return JSON.parse(JSON.stringify(o)); }
+function persistDraft(cfg){ saveOverride(cfg); applyConfig(cfg, "browser-override"); toast("Browser-Entwurf gespeichert"); }
+function emptyVoice(){ return { id:"", title:"", sex:"m", note:"", tags:[], audio:"" }; }
+
+function validateConfig(cfg) {
+  const errs = [];
+  if (!cfg?.project?.title) errs.push("project.title fehlt");
+  if (!cfg.script) errs.push("script fehlt");
+  if (!Array.isArray(cfg.reviewers) || !cfg.reviewers.length) errs.push("reviewers[] leer");
+  if (!Array.isArray(cfg.categories) || !cfg.categories.length) errs.push("categories[] leer");
+  if (!Array.isArray(cfg.voices) || !cfg.voices.length) errs.push("voices[] leer");
+  return errs;
+}
+
+function applyConfig(cfg, source) {
+  const errs = validateConfig(cfg);
+  if (errs.length) throw new Error(errs.join("; "));
+  CONFIG = cfg;
+  if (!state || typeof state !== "object") state = loadRatings();
+  document.title = cfg.project.title + " · v" + APP_VERSION;
+  renderApp();
+}
+
+function renderAdmin() {
   const root = document.getElementById("panelAdmin");
+  if (!isMain()) { root.innerHTML = `<div class="card">Kein Zugriff</div>`; return; }
   const editing = editId ? VOICES().find(v => v.id === editId) : null;
   const form = editing || emptyVoice();
-  const tagsStr = (form.tags||[]).join(", ");
-
-  root.innerHTML = `
-<div class="card">
-  <strong>Stimmen verwalten</strong>
-  <p class="help">Einfachste Wege: (1) hier hinzufügen/bearbeiten → <em>Config exportieren</em> → in Repo als <code>config.json</code> speichern, oder (2) direkt <code>config.json</code> editieren und deployen. Agenten nutzen MCP/Skill im Repo.</p>
-  <div class="actions">
-    <button type="button" class="btn btn-ok" id="btnExportCfg">Config exportieren (JSON)</button>
-    <button type="button" class="btn btn-g" id="btnImportCfg">Config importieren</button>
-    <button type="button" class="btn btn-g" id="btnCopyCfg">Config in Zwischenablage</button>
-    ${hasOverride()?`<button type="button" class="btn btn-d" id="btnResetCfg">Browser-Entwurf verwerfen</button>`:""}
+  root.innerHTML = `<div class="card">
+    <strong>Stimmen-Katalog (Main)</strong>
+    <p class="help">Änderungen hier = Browser-Entwurf. Fürs Team: Config exportieren → Repo committen → Worker-Pin.</p>
+    <div class="actions">
+      <button type="button" class="btn btn-ok" id="btnExportCfg">Config exportieren</button>
+      <button type="button" class="btn btn-g" id="btnImportCfg">Config importieren</button>
+      ${hasOverride()?`<button type="button" class="btn btn-d" id="btnResetCfg">Entwurf verwerfen</button>`:""}
+    </div>
   </div>
-</div>
-
-<div class="card">
-  <strong>${editing ? "Stimme bearbeiten" : "Neue Stimme hinzufügen"}</strong>
-  <p class="help">Felder: <code>id</code> (Fish voice_id oder eigene stabile ID), <code>title</code>, <code>sex</code> m|f|x, <code>audio</code> (MP3-URL), optional note/tags.</p>
-  <div class="form-grid" id="voiceForm">
-    <label class="field">Titel<input id="fTitle" value="${esc(form.title)}" placeholder="z.B. Warme Sales-Stimme"/></label>
-    <label class="field">ID (stabil)<input id="fId" value="${esc(form.id)}" placeholder="fish-voice-id oder slug" ${editing?"readonly":""}/></label>
-    <label class="field">Geschlecht
-      <select id="fSex">
-        <option value="m" ${form.sex==="m"?"selected":""}>männlich (m)</option>
-        <option value="f" ${form.sex==="f"?"selected":""}>weiblich (f)</option>
-        <option value="x" ${form.sex==="x"?"selected":""}>divers (x)</option>
-      </select>
-    </label>
-    <label class="field">Tags (Komma-getrennt)<input id="fTags" value="${esc(tagsStr)}" placeholder="confident, sales"/></label>
-    <label class="field full">Audio-URL (mp3)<input id="fAudio" value="${esc(form.audio)}" placeholder="https://...mp3"/></label>
-    <label class="field full">Notiz<input id="fNote" value="${esc(form.note||"")}" placeholder="Kurzbeschreibung fürs Team"/></label>
+  <div class="card">
+    <strong>${editing?"Bearbeiten":"Neue Stimme"}</strong>
+    <div class="form-grid">
+      <label class="field">Titel<input id="fTitle" value="${esc(form.title)}"/></label>
+      <label class="field">ID<input id="fId" value="${esc(form.id)}" ${editing?"readonly":""}/></label>
+      <label class="field">Sex
+        <select id="fSex"><option value="m" ${form.sex==="m"?"selected":""}>m</option>
+        <option value="f" ${form.sex==="f"?"selected":""}>f</option>
+        <option value="x" ${form.sex==="x"?"selected":""}>x</option></select>
+      </label>
+      <label class="field full">Audio URL<input id="fAudio" value="${esc(form.audio)}"/></label>
+      <label class="field full">Notiz<input id="fNote" value="${esc(form.note||"")}"/></label>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn btn-p" id="btnSaveVoice">Speichern</button>
+      ${editing?`<button type="button" class="btn btn-g" id="btnCancelEdit">Abbrechen</button>`:""}
+    </div>
   </div>
-  <div class="actions">
-    <button type="button" class="btn btn-p" id="btnSaveVoice">${editing?"Änderungen speichern":"Stimme hinzufügen"}</button>
-    ${editing?`<button type="button" class="btn btn-g" id="btnCancelEdit">Abbrechen</button>`:""}
-  </div>
-</div>
-
-<div class="card">
-  <strong>Skript & Reviewer</strong>
-  <label class="field" style="margin-top:8px">TTS / Vergleichs-Skript
-    <textarea id="fScript" rows="3">${esc(CONFIG.script)}</textarea>
-  </label>
-  <label class="field" style="margin-top:8px">Reviewer (Komma-getrennt)
-    <input id="fReviewers" value="${esc(REVIEWERS().join(", "))}"/>
-  </label>
-  <div class="actions">
-    <button type="button" class="btn btn-p" id="btnSaveMeta">Skript/Reviewer speichern</button>
-  </div>
-</div>
-
-<div class="card">
-  <strong>Aktuelle Stimmen (${VOICES().length})</strong>
-  <div class="voice-admin" style="margin-top:10px">
-    ${VOICES().map((v,i)=>`
-      <div class="va-card" data-id="${esc(v.id)}">
-        <div class="va-head">
-          <div>
-            <strong>${i+1}. ${esc(v.title)}</strong>
-            <div class="muted-code">${esc(v.id)}</div>
-            <div class="meta">${v.sex==="m"?"♂":v.sex==="f"?"♀":"·"} ${esc(v.note||"")} ${(v.tags||[]).map(t=>`#${esc(t)}`).join(" ")}</div>
-          </div>
-          <div class="actions" style="margin:0">
-            <button type="button" class="btn btn-g" data-up title="Nach oben">↑</button>
-            <button type="button" class="btn btn-g" data-down title="Nach unten">↓</button>
-            <button type="button" class="btn btn-g" data-edit>Edit</button>
-            <button type="button" class="btn btn-d" data-rm>Entfernen</button>
-          </div>
-        </div>
-        <audio controls preload="metadata" src="${esc(v.audio)}" style="margin-top:8px"></audio>
-      </div>`).join("")}
-  </div>
-</div>
-
-<div class="card">
-  <strong>Für Agenten (Claude / Grok / OpenAI / Hermes)</strong>
-  <p class="help">Im Repo: <code>agents/SKILL.md</code> + <code>mcp/server.mjs</code>. Workflow: Stimme via Fish TTS erzeugen → <code>audio</code>-URL + <code>id</code> in <code>config.json</code> eintragen → deploy.</p>
-  <pre class="muted-code" style="white-space:pre-wrap;background:var(--bg);padding:10px;border-radius:8px;border:1px solid var(--border)"># Stimme hinzufügen (manuell)
-1. Fish Audio TTS mit voice_id + script
-2. MP3-URL + voice_id in config.json unter voices[]
-3. commit & deploy → live auf ${esc(CONFIG.project.liveUrl||"")}</pre>
-</div>`;
-
-  const persistDraft = (cfg) => {
-    const errs = validateConfig(cfg);
-    if (errs.length) { toast("Ungültig: " + errs[0]); return false; }
-    saveOverride(cfg);
-    applyConfig(cfg, "browser-override");
-    toast("Als Browser-Entwurf gespeichert — Config exportieren zum Committen");
-    return true;
-  };
+  <div class="card"><strong>Stimmen (${VOICES().length})</strong>
+    ${VOICES().map((v,i)=>`<div class="va-card" style="padding:10px;border:1px solid var(--border);border-radius:10px;margin:8px 0">
+      <strong>${i+1}. ${esc(v.title)}</strong> ${archivedIds.has(v.id)?'<span class="archived-tag">ARCHIV</span>':''}
+      <div class="meta">${esc(v.id)}</div>
+      <div class="actions"><button type="button" class="btn btn-g" data-edit="${esc(v.id)}">Edit</button>
+      <button type="button" class="btn btn-d" data-rm="${esc(v.id)}">Entfernen</button></div>
+    </div>`).join("")}
+  </div>`;
 
   document.getElementById("btnSaveVoice").onclick = () => {
-    const title = document.getElementById("fTitle").value.trim();
-    let id = document.getElementById("fId").value.trim();
-    const sex = document.getElementById("fSex").value;
-    const audio = document.getElementById("fAudio").value.trim();
-    const note = document.getElementById("fNote").value.trim();
-    const tags = document.getElementById("fTags").value.split(",").map(s=>s.trim()).filter(Boolean);
-    if (!title || !audio) { toast("Titel und Audio-URL nötig"); return; }
-    if (!id) id = "voice-" + Date.now().toString(36);
+    const v = {
+      id: document.getElementById("fId").value.trim(),
+      title: document.getElementById("fTitle").value.trim(),
+      sex: document.getElementById("fSex").value,
+      audio: document.getElementById("fAudio").value.trim(),
+      note: document.getElementById("fNote").value.trim(),
+      tags: [],
+    };
+    if (!v.id || !v.title || !v.audio) return toast("id, title, audio Pflicht");
     const cfg = clone(CONFIG);
-    if (editId) {
-      const idx = cfg.voices.findIndex(v => v.id === editId);
-      if (idx < 0) { toast("Stimme nicht gefunden"); return; }
-      cfg.voices[idx] = { ...cfg.voices[idx], title, sex, audio, note, tags, id: editId };
-      editId = null;
-    } else {
-      if (cfg.voices.some(v => v.id === id)) { toast("ID existiert bereits"); return; }
-      cfg.voices.push({ id, title, sex, audio, note, tags });
-    }
+    const idx = cfg.voices.findIndex(x => x.id === v.id);
+    if (idx >= 0) cfg.voices[idx] = { ...cfg.voices[idx], ...v };
+    else cfg.voices.push(v);
+    editId = null;
     persistDraft(cfg);
-    currentTab = "admin";
-    setTab("admin");
   };
-
   const cancel = document.getElementById("btnCancelEdit");
   if (cancel) cancel.onclick = () => { editId = null; renderAdmin(); };
-
-  document.getElementById("btnSaveMeta").onclick = () => {
-    const script = document.getElementById("fScript").value.trim();
-    const reviewers = document.getElementById("fReviewers").value.split(",").map(s=>s.trim()).filter(Boolean);
-    if (!script || !reviewers.length) { toast("Skript und mind. 1 Reviewer"); return; }
-    const cfg = clone(CONFIG);
-    cfg.script = script;
-    cfg.reviewers = reviewers;
-    persistDraft(cfg);
-    currentTab = "admin";
-    setTab("admin");
-  };
-
-  root.querySelectorAll(".va-card").forEach(card => {
-    const id = card.dataset.id;
-    card.querySelector("[data-edit]").onclick = () => { editId = id; renderAdmin(); };
-    card.querySelector("[data-rm]").onclick = () => {
-      if (!confirm("Stimme entfernen?")) return;
+  root.querySelectorAll("[data-edit]").forEach(b => { b.onclick = () => { editId = b.dataset.edit; renderAdmin(); }; });
+  root.querySelectorAll("[data-rm]").forEach(b => {
+    b.onclick = () => {
+      if (!confirm("Aus Katalog entfernen?")) return;
       const cfg = clone(CONFIG);
-      cfg.voices = cfg.voices.filter(v => v.id !== id);
-      if (!cfg.voices.length) { toast("Mindestens 1 Stimme behalten"); return; }
-      if (editId === id) editId = null;
+      cfg.voices = cfg.voices.filter(v => v.id !== b.dataset.rm);
       persistDraft(cfg);
-      currentTab = "admin";
-      setTab("admin");
-    };
-    card.querySelector("[data-up]").onclick = () => {
-      const cfg = clone(CONFIG);
-      const i = cfg.voices.findIndex(v => v.id === id);
-      if (i <= 0) return;
-      [cfg.voices[i-1], cfg.voices[i]] = [cfg.voices[i], cfg.voices[i-1]];
-      persistDraft(cfg);
-      currentTab = "admin";
-      setTab("admin");
-    };
-    card.querySelector("[data-down]").onclick = () => {
-      const cfg = clone(CONFIG);
-      const i = cfg.voices.findIndex(v => v.id === id);
-      if (i < 0 || i >= cfg.voices.length-1) return;
-      [cfg.voices[i], cfg.voices[i+1]] = [cfg.voices[i+1], cfg.voices[i]];
-      persistDraft(cfg);
-      currentTab = "admin";
-      setTab("admin");
     };
   });
-
-  const download = (filename, text) => {
-    const blob = new Blob([text], { type: "application/json" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(a.href);
-  };
-
-  document.getElementById("btnExportCfg").onclick = () => {
-    download("config.json", JSON.stringify(CONFIG, null, 2));
-    toast("config.json heruntergeladen");
-  };
-  document.getElementById("btnCopyCfg").onclick = async () => {
+  document.getElementById("btnExportCfg").onclick = async () => {
     const text = JSON.stringify(CONFIG, null, 2);
     try { await navigator.clipboard.writeText(text); toast("Config kopiert"); }
     catch { prompt("Config:", text); }
   };
   document.getElementById("btnImportCfg").onclick = () => {
-    const raw = prompt("Gesamte config.json hier einfügen:");
+    const raw = prompt("config.json:");
     if (!raw) return;
     try {
       const cfg = JSON.parse(raw);
-      if (!cfg.version) cfg.version = 1;
       persistDraft(cfg);
       currentTab = "admin";
       setTab("admin");
-    } catch (e) { toast("JSON-Fehler: " + e.message); }
+    } catch (e) { toast(e.message); }
   };
   const reset = document.getElementById("btnResetCfg");
   if (reset) reset.onclick = () => {
-    if (!confirm("Browser-Entwurf verwerfen und config.json laden?")) return;
     clearOverride();
-    editId = null;
     applyConfig(clone(FILE_CONFIG), "file");
-    currentTab = "admin";
-    setTab("admin");
     toast("Zurück zu config.json");
   };
 }
 
+function startCloudPoll() {
+  if (pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(async () => {
+    if (document.hidden) return;
+    const cloud = await fetchCloudRatings();
+    if (!cloud) return;
+    let changed = false;
+    for (const [k,v] of Object.entries(cloud)) {
+      const cur = state[k];
+      if (!cur || cur.pron!==v.pron || cur.prof!==v.prof || cur.warm!==v.warm || cur.clar!==v.clar || cur.emo!==v.emo || (cur.comment||"")!==(v.comment||"")) {
+        state[k] = v; changed = true;
+      }
+    }
+    if (changed) {
+      saveRatingsLocal(state);
+      cloudCount = Object.keys(cloud).length;
+      if (currentTab === "rate") renderRate(true);
+      else if (currentTab === "rank") renderRank();
+    }
+  }, 10000);
+}
+
+async function boot() {
+  document.getElementById("boot").textContent = "Lade v" + APP_VERSION + "…";
+  let fileCfg = null;
+  try {
+    const r = await fetch("config.json?_=" + Date.now(), { cache: "no-store" });
+    if (r.ok) fileCfg = await r.json();
+  } catch {}
+  if (!fileCfg && EMBEDDED_CONFIG) fileCfg = EMBEDDED_CONFIG;
+  if (!fileCfg) {
+    document.getElementById("boot").textContent = "config.json fehlt.";
+    return;
+  }
+  FILE_CONFIG = fileCfg;
+
+  await loadMe();
+  const local = loadRatings();
+  const cloud = await fetchCloudRatings();
+  if (cloud) {
+    state = { ...local, ...cloud };
+    // merge by ts
+    for (const [k,v] of Object.entries(cloud)) {
+      const loc = local[k];
+      if (!loc || (v.ts||0) >= (loc.ts||0)) state[k] = v;
+    }
+    saveRatingsLocal(state);
+    cloudCount = Object.keys(state).length;
+  } else state = local;
+
+  await loadUsers();
+  if (isMain()) await loadArchive();
+
+  // if tester locked, ensure name
+  if (currentUser?.name) lockedReviewer = currentUser.name;
+
+  const override = loadOverride();
+  try {
+    applyConfig(override || fileCfg, override ? "browser-override" : "file");
+  } catch (e) {
+    if (override) { clearOverride(); applyConfig(fileCfg, "file"); }
+    else document.getElementById("boot").textContent = "Config ungültig: " + e.message;
+  }
+  startCloudPoll();
+  document.getElementById("boot").style.display = "none";
+  if (cloudOnline) toast("Cloud · v" + APP_VERSION + " · " + (currentUser?.name || "Gast"));
+  else toast("⚠ Cloud offline");
+}
+
 boot();
+
 </script>
 </body>
 </html>
