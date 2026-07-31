@@ -1,18 +1,18 @@
 {
-  "version": 5,
+  "version": 6,
   "project": {
-    "title": "Voice Compare · Portfolio v5 · Clones + Interview",
-    "subtitle": "89 Stimmen · +11 Clones Telesales · +22 Interview-Varianten · BS Dialekt",
+    "title": "Voice Compare · Portfolio v6 · Fish-Tags + BS Dialekt",
+    "subtitle": "89 Stimmen · 11 Clones · 22 Interview · Fish [tags] · ijekavisch",
     "brand": "Fish Audio s2.x · Activi",
     "liveUrl": "https://voice-compare.activi.io/",
     "repo": "https://github.com/dsactivi-2/bosnian-sales-voice-compare",
-    "sampleBatch": "2026-07-31-clones-v5"
+    "sampleBatch": "2026-07-31-clones-v6-fish-tags"
   },
-  "script": "[friendly][confident] Dobar dan! Zovem se Ana Hadžić, viša prodajna savjetnica u Activi Soft d.o.o. sa sjedištem u Sarajevu, Zmaja od Bosne broj sedam, sprat tri.\n[pause] Zovem vas u vezi vašeg zahtjeva od petnaestog marta dvije hiljade dvadeset šeste godine, tačno u četrnaest sati i trideset minuta, referentni broj AS-2026-0847-B.\n[soft] Moj kolega Marko Petrović vodi tehničku evaluaciju. On je dostupan od devet do sedamnaest sati, od ponedjeljka do petka. Ona — dakle ja, Ana — vodi onboarding, ugovore i naplatu; on — Marko — vodi integracije, API ključeve i sigurnost.\n[confident] Uz paket Enterprise Pro Plus možete uštedjeti trideset dva zarez pet posto na mjesečnim troškovima: to je približno stotinu osamdeset i pet KM, odnosno devedeset četiri eura i pedeset centi, ili oko sto dva američka dolara.\n[pause] Pišite nam na ana.hadzic@activi-soft.ba ili marko.petrovic@activi-soft.ba. Tehničku dokumentaciju šaljemo na support@activi.io. Demo rezervišete na https://activi.io/demo-bosna?ref=AS-2026-0847&utm=voice.\n[soft][empathetic] Razumijem da sada niste slobodni — to je potpuno u redu. Recite mi samo preferirani termin: utorak, dvadeset drugog aprila, u deset sati i petnaest minuta, ili četvrtak, dvadeset četvrtog, u šesnaest sati?\n[confident] Ako vam se cijena čini visokom: u prva tri mjeseca nema setup naknade od dvije stotine pedeset KM, a prioritetna podrška je uključena. Bez pritiska — odluka je vaša, a ja sam tu ako zatreba.\n[pause] Još jedna napomena: ugovor se aktivira automatski petog maja u nula nula sati, osim ako do trećeg maja do osamnaest sati ne pošaljete otkaz na legal@activi-soft.ba.\n[friendly] Hvala na vremenu. Lijep pozdrav iz Activi Soft-a — Ana Hadžić, u ime tima s Markom Petrovićem.",
+  "script": "[friendly][confident][clear] Dobar dan! Zovem se Ana Hadžić, viša prodajna savjetnica u Activi Soft d.o.o. sa sjedištem u Sarajevu, Zmaja od Bosne broj sedam, sprat tri.\n[pause][clear] Zovem vas u vezi vašeg zahtjeva od petnaestog marta dvije hiljade dvadeset šeste godine, tačno u četrnaest sati i trideset minuta, referentni broj A S dva nula dva šest nula osam četiri sedam B.\n[soft][clear] Moj kolega Marko Petrović vodi tehničku evaluaciju. On je dostupan od devet do sedamnaest sati, od ponedjeljka do petka. Ona — dakle ja, Ana — vodi onboarding, ugovore i naplatu; on — Marko — vodi integracije, A P I ključeve i sigurnost.\n[confident][clear] Uz paket Enterprise Pro Plus možete uštedjeti trideset dva zarez pet posto na mjesečnim troškovima: to je približno stotinu osamdeset i pet KM, odnosno devedeset četiri eura i pedeset centi, ili oko sto dva američka dolara.\n[pause][clear] Pišite nam na ana tačka hadžić et activi crtica soft tačka ba ili marko tačka petrović et activi crtica soft tačka ba. Tehničku dokumentaciju šaljemo na support et activi tačka io. Demo rezervišete na aktiv i tačka io kosa crta demo crtica bosna.\n[soft][empathetic][warm] Razumijem da sada niste slobodni — to je potpuno u redu. Recite mi samo preferirani termin: utorak, dvadeset drugog aprila, u deset sati i petnaest minuta, ili četvrtak, dvadeset četvrtog, u šesnaest sati?\n[confident][friendly] Ako vam se cijena čini visokom: u prva tri mjeseca nema setup naknade od dvije stotine pedeset KM, a prioritetna podrška je uključena. Bez pritiska — odluka je vaša, a ja sam tu ako zatreba.\n[pause][clear] Još jedna napomena: ugovor se aktivira automatski petog maja u nula nula sati, osim ako do trećeg maja do osamnaest sati ne pošaljete otkaz na legal et activi crtica soft tačka ba.\n[friendly][warm] Hvala na vremenu. Lijep pozdrav iz Activi Soft-a — Ana Hadžić, u ime tima s Markom Petrovićem.",
   "script_en": "[friendly][confident] Good afternoon! My name is Ana Hadzic, senior sales advisor at Activi Soft LLC, based in Sarajevo at Zmaja od Bosne number seven, third floor.\n[pause] I'm calling about your request from March fifteenth, twenty twenty-six, at exactly two thirty p.m., reference number AS-2026-0847-B.\n[soft] My colleague Marko Petrovic leads technical evaluation. He is available from nine to five, Monday through Friday. She — that is me, Ana — leads onboarding, contracts and billing; he — Marko — leads integrations, API keys and security.\n[confident] With the Enterprise Pro Plus package you can save thirty-two point five percent on monthly costs: about one hundred eighty-five convertible marks, or ninety-four euros and fifty cents, or roughly one hundred two US dollars.\n[pause] Email us at ana.hadzic@activi-soft.ba or marko.petrovic@activi-soft.ba. Technical docs go to support@activi.io. Book a demo at https://activi.io/demo-bosnia?ref=AS-2026-0847&utm=voice.\n[soft][empathetic] I understand now is not a good time — that is completely fine. Just tell me a preferred slot: Tuesday, April twenty-second, at ten fifteen a.m., or Thursday, April twenty-fourth, at four p.m.?\n[confident] If the price feels high: the first three months have no setup fee of two hundred fifty marks, and priority support is included. No pressure — the decision is yours, and I am here if you need me.\n[pause] One more note: the contract activates automatically on May fifth at midnight, unless you cancel by May third at six p.m. via legal@activi-soft.ba.\n[friendly] Thank you for your time. Best regards from Activi Soft — Ana Hadzic, on behalf of the team with Marko Petrovic.",
-  "script_tts_bs": "[friendly][confident] Dobar dan! Zovem se Ana Hadžić, prodajna savjetnica u Activi Soft iz Sarajeva. [pause] Marko Petrović i ja smo dostupni petnaestog marta u četrnaest sati i trideset minuta, referentni broj AS-2026. [soft][clear] Ušteda je trideset dva zarez pet posto — oko sto osamdeset i pet KM. [friendly] Pišite na ana@activi.io. Da li imate jednu minutu?",
+  "script_tts_bs": "[friendly][confident][clear] Dobar dan! [soft] Zovem se Ana Hadžić, prodajna savjetnica u Activi Soft iz Sarajeva. [pause][clear] Marko Petrović i ja smo dostupni petnaestog marta u četrnaest sati i trideset minuta, referentni broj A S dvije nule dvadeset šest. [soft][clear] Ušteda je trideset dva zarez pet posto — oko sto osamdeset i pet KM. [friendly][confident] Pišite na ana et activi tačka io. [pause][warm] Da li imate jednu minutu?",
   "script_tts_en": "[friendly][confident] Hello! Ana Hadzic, Activi Soft. Marko and I, March 15 at 2:30, AS-2026. Save 32.5%. ana@activi.io — one minute?",
-  "scriptNote": "Vollskript (UI/Bewertung): lange Sätze, Ana+Marko + Pronomen, Datum/Uhrzeit, Ref-Nr., Prozent, KM/EUR/USD, E-Mails, URL mit Query, Einwand, Terminwahl, Vertragsdatum, Emotionen [friendly]/confident]/soft]/empathetic]. Audio-Samples: gekürztes Stress-Skript (Free-Plan TTS ≤500 Bytes).",
+  "scriptNote": "Fish Audio nutzt KEINE SSML — nur [bracket]-Performance-Tags. v6: optimiert für bosnisch ijekavisch (BiH): hiljada/firma/da li, Zahlen/Daten/E-Mails ausgeschrieben, [clear]/pause]/measured] für Telefon. Telesales [friendly][confident][clear]; Interview-warm [warm][soft][empathetic]; Interview-formal [professional][clear][measured].",
   "reviewers": [
     "Arman",
     "Denis",
@@ -1967,10 +1967,13 @@
         "pace": "measured",
         "tone": "friendly confident professional bosnian",
         "avoid": "croatian-only forms, rush, character, comedy, slang",
-        "bracket_defaults": "[friendly][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."
+        "bracket_defaults": "[friendly][confident][clear]",
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words.",
+        "tts_script_key": "base_telesales",
+        "dialect": "bosnian-ijekavian",
+        "fish_note": "Fish uses [bracket] tags not SSML; prefer clear phone delivery, spell numbers."
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/2afe8f345af14f43bd78f4d60a167e4b.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/cbd441f46c7644a29e6aad783289a9f0.mp3",
       "fish_voice_id": "7711397491604c688b6210b54383deb7",
       "variant": "telesales-base"
     },
@@ -2007,9 +2010,11 @@
         "tone": "warm empathetic friendly bosnian",
         "avoid": "aggressive close, slang, character, monologue",
         "bracket_defaults": "[warm][friendly][soft][empathetic]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation.",
+        "tts_script_key": "interview_warm",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/3840d6e6c9b4472fac63d2b44180b065.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/9281bfa582114bbd96126f1837645f67.mp3",
       "fish_voice_id": "7711397491604c688b6210b54383deb7",
       "variant": "interview-warm"
     },
@@ -2046,9 +2051,11 @@
         "tone": "professional clear confident bosnian",
         "avoid": "casual slang, rush, over-enthusiasm, character",
         "bracket_defaults": "[professional][clear][measured][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear.",
+        "tts_script_key": "interview_formal",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/6a804f38d7584e9082567caae11eff76.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/98c052d180fb439cb2fe8ef8356af102.mp3",
       "fish_voice_id": "7711397491604c688b6210b54383deb7",
       "variant": "interview-formal"
     },
@@ -2081,10 +2088,13 @@
         "pace": "measured",
         "tone": "friendly confident professional bosnian",
         "avoid": "croatian-only forms, rush, character, comedy, slang",
-        "bracket_defaults": "[friendly][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."
+        "bracket_defaults": "[friendly][confident][clear]",
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words.",
+        "tts_script_key": "base_telesales",
+        "dialect": "bosnian-ijekavian",
+        "fish_note": "Fish uses [bracket] tags not SSML; prefer clear phone delivery, spell numbers."
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/87ca3536727b46f597dd637edbf2d33d.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/5e0496a830194e518f460733ba20f2b6.mp3",
       "fish_voice_id": "8178825f40e14eb191a86b709e17e46f",
       "variant": "telesales-base"
     },
@@ -2120,9 +2130,11 @@
         "tone": "warm empathetic friendly bosnian",
         "avoid": "aggressive close, slang, character, monologue",
         "bracket_defaults": "[warm][friendly][soft][empathetic]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation.",
+        "tts_script_key": "interview_warm",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/e3353fb46af8405f8c6d90aef77cc92c.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/fed3ad1ecd0f4ef8a0e02f30c9f799bb.mp3",
       "fish_voice_id": "8178825f40e14eb191a86b709e17e46f",
       "variant": "interview-warm"
     },
@@ -2158,9 +2170,11 @@
         "tone": "professional clear confident bosnian",
         "avoid": "casual slang, rush, over-enthusiasm, character",
         "bracket_defaults": "[professional][clear][measured][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear.",
+        "tts_script_key": "interview_formal",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/773030c6ecf642aaa1aaf7ff1312a52b.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/e641cd845e3e4e259363ef0431c1c847.mp3",
       "fish_voice_id": "8178825f40e14eb191a86b709e17e46f",
       "variant": "interview-formal"
     },
@@ -2193,10 +2207,13 @@
         "pace": "measured",
         "tone": "friendly confident professional bosnian",
         "avoid": "croatian-only forms, rush, character, comedy, slang",
-        "bracket_defaults": "[friendly][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."
+        "bracket_defaults": "[friendly][confident][clear]",
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words.",
+        "tts_script_key": "base_telesales",
+        "dialect": "bosnian-ijekavian",
+        "fish_note": "Fish uses [bracket] tags not SSML; prefer clear phone delivery, spell numbers."
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/a3c91ee5ea344da296cd9dfd1a4f6e24.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/e9f5e10051bd4bf58d92076ebb7729e2.mp3",
       "fish_voice_id": "d9b1befa09a34947b8c334268767abb6",
       "variant": "telesales-base"
     },
@@ -2232,9 +2249,11 @@
         "tone": "warm empathetic friendly bosnian",
         "avoid": "aggressive close, slang, character, monologue",
         "bracket_defaults": "[warm][friendly][soft][empathetic]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation.",
+        "tts_script_key": "interview_warm",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/c137fce2ef5f48efbc3c419059c4e5b9.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/4e7d6062a29e44eeacd0bd1d3f7844ef.mp3",
       "fish_voice_id": "d9b1befa09a34947b8c334268767abb6",
       "variant": "interview-warm"
     },
@@ -2270,9 +2289,11 @@
         "tone": "professional clear confident bosnian",
         "avoid": "casual slang, rush, over-enthusiasm, character",
         "bracket_defaults": "[professional][clear][measured][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear.",
+        "tts_script_key": "interview_formal",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/41a01f4a91514ec095fa41bfafc89367.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/f1731aed4e3c478d92545987c04578f0.mp3",
       "fish_voice_id": "d9b1befa09a34947b8c334268767abb6",
       "variant": "interview-formal"
     },
@@ -2305,10 +2326,13 @@
         "pace": "measured",
         "tone": "friendly confident professional bosnian",
         "avoid": "croatian-only forms, rush, character, comedy, slang",
-        "bracket_defaults": "[friendly][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."
+        "bracket_defaults": "[friendly][confident][clear]",
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words.",
+        "tts_script_key": "base_telesales",
+        "dialect": "bosnian-ijekavian",
+        "fish_note": "Fish uses [bracket] tags not SSML; prefer clear phone delivery, spell numbers."
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/d231cc53a4df400081269f57cdbe5aa7.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/de1f414fe8e14925856631d735332a05.mp3",
       "fish_voice_id": "eb7c0f0a21d941f4a3df4b4bfebb7cc7",
       "variant": "telesales-base"
     },
@@ -2344,9 +2368,11 @@
         "tone": "warm empathetic friendly bosnian",
         "avoid": "aggressive close, slang, character, monologue",
         "bracket_defaults": "[warm][friendly][soft][empathetic]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation.",
+        "tts_script_key": "interview_warm",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/e0fa086a1fa048c6920bbb923190ea6c.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/5a4a99df20b3433b9e0e0be2edc84ce4.mp3",
       "fish_voice_id": "eb7c0f0a21d941f4a3df4b4bfebb7cc7",
       "variant": "interview-warm"
     },
@@ -2382,9 +2408,11 @@
         "tone": "professional clear confident bosnian",
         "avoid": "casual slang, rush, over-enthusiasm, character",
         "bracket_defaults": "[professional][clear][measured][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear.",
+        "tts_script_key": "interview_formal",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/5a6f2379c9a44db3a897d20f6fb6857d.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/3319cba24aa84ea9aa1a2c9c725089a7.mp3",
       "fish_voice_id": "eb7c0f0a21d941f4a3df4b4bfebb7cc7",
       "variant": "interview-formal"
     },
@@ -2417,10 +2445,13 @@
         "pace": "measured",
         "tone": "friendly confident professional bosnian",
         "avoid": "croatian-only forms, rush, character, comedy, slang",
-        "bracket_defaults": "[friendly][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."
+        "bracket_defaults": "[friendly][confident][clear]",
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words.",
+        "tts_script_key": "base_telesales",
+        "dialect": "bosnian-ijekavian",
+        "fish_note": "Fish uses [bracket] tags not SSML; prefer clear phone delivery, spell numbers."
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/2a3476735f4f4108a478619b12e73600.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/ff54213189624d139f3ea1f1995f9e95.mp3",
       "fish_voice_id": "3697d5f9227e412ba1c3e8543a2111f1",
       "variant": "telesales-base"
     },
@@ -2456,9 +2487,11 @@
         "tone": "warm empathetic friendly bosnian",
         "avoid": "aggressive close, slang, character, monologue",
         "bracket_defaults": "[warm][friendly][soft][empathetic]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation.",
+        "tts_script_key": "interview_warm",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/05f1cde05e8141a79c6d9714e16b3c3c.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/bbfb59c02ec343728a26417fec51f1eb.mp3",
       "fish_voice_id": "3697d5f9227e412ba1c3e8543a2111f1",
       "variant": "interview-warm"
     },
@@ -2494,9 +2527,11 @@
         "tone": "professional clear confident bosnian",
         "avoid": "casual slang, rush, over-enthusiasm, character",
         "bracket_defaults": "[professional][clear][measured][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear.",
+        "tts_script_key": "interview_formal",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/99dfc82b5f25490a95f646b423d64745.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/b5da57d54e2b4869af7c1ea338936476.mp3",
       "fish_voice_id": "3697d5f9227e412ba1c3e8543a2111f1",
       "variant": "interview-formal"
     },
@@ -2529,10 +2564,13 @@
         "pace": "measured",
         "tone": "friendly confident professional bosnian",
         "avoid": "croatian-only forms, rush, character, comedy, slang",
-        "bracket_defaults": "[friendly][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."
+        "bracket_defaults": "[friendly][confident][clear]",
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words.",
+        "tts_script_key": "base_telesales",
+        "dialect": "bosnian-ijekavian",
+        "fish_note": "Fish uses [bracket] tags not SSML; prefer clear phone delivery, spell numbers."
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/1209cc27d484436f85f942734299ce19.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/2045435a58894b8ab6bf4280a2cf794e.mp3",
       "fish_voice_id": "7b30095d66134622a8696ec331d7efe0",
       "variant": "telesales-base"
     },
@@ -2568,9 +2606,11 @@
         "tone": "warm empathetic friendly bosnian",
         "avoid": "aggressive close, slang, character, monologue",
         "bracket_defaults": "[warm][friendly][soft][empathetic]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation.",
+        "tts_script_key": "interview_warm",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/b8ca37c7ea9a46488ddcf77b3c605e0d.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/c889b8ee36a644afa2948b947497b4f0.mp3",
       "fish_voice_id": "7b30095d66134622a8696ec331d7efe0",
       "variant": "interview-warm"
     },
@@ -2606,9 +2646,11 @@
         "tone": "professional clear confident bosnian",
         "avoid": "casual slang, rush, over-enthusiasm, character",
         "bracket_defaults": "[professional][clear][measured][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear.",
+        "tts_script_key": "interview_formal",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/df7fa44c536c4727b203a8db431c3ef4.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/01deac24407241eeb5605fb6bb35dd7e.mp3",
       "fish_voice_id": "7b30095d66134622a8696ec331d7efe0",
       "variant": "interview-formal"
     },
@@ -2641,10 +2683,13 @@
         "pace": "measured",
         "tone": "friendly confident professional bosnian",
         "avoid": "croatian-only forms, rush, character, comedy, slang",
-        "bracket_defaults": "[friendly][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."
+        "bracket_defaults": "[friendly][confident][clear]",
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words.",
+        "tts_script_key": "base_telesales",
+        "dialect": "bosnian-ijekavian",
+        "fish_note": "Fish uses [bracket] tags not SSML; prefer clear phone delivery, spell numbers."
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/8aa6f5b216e7477685c5d10a8a7879df.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/2ca87a705f814ccdadf0bcba7142de41.mp3",
       "fish_voice_id": "d9c925b5833b430881f33e72e591048a",
       "variant": "telesales-base"
     },
@@ -2680,9 +2725,11 @@
         "tone": "warm empathetic friendly bosnian",
         "avoid": "aggressive close, slang, character, monologue",
         "bracket_defaults": "[warm][friendly][soft][empathetic]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation.",
+        "tts_script_key": "interview_warm",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/c4e452574b144f4e8e9aceca09957077.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/aae2b57589c24115aca109591c6872e2.mp3",
       "fish_voice_id": "d9c925b5833b430881f33e72e591048a",
       "variant": "interview-warm"
     },
@@ -2718,9 +2765,11 @@
         "tone": "professional clear confident bosnian",
         "avoid": "casual slang, rush, over-enthusiasm, character",
         "bracket_defaults": "[professional][clear][measured][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear.",
+        "tts_script_key": "interview_formal",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/c508fa85ff334a7883ae7fa7ff172bab.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/755ee7b056f2463b98679dcd0fa1ef7c.mp3",
       "fish_voice_id": "d9c925b5833b430881f33e72e591048a",
       "variant": "interview-formal"
     },
@@ -2753,10 +2802,13 @@
         "pace": "measured",
         "tone": "friendly confident professional bosnian",
         "avoid": "croatian-only forms, rush, character, comedy, slang",
-        "bracket_defaults": "[friendly][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."
+        "bracket_defaults": "[friendly][confident][clear]",
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words.",
+        "tts_script_key": "base_telesales",
+        "dialect": "bosnian-ijekavian",
+        "fish_note": "Fish uses [bracket] tags not SSML; prefer clear phone delivery, spell numbers."
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/ad2996644d67455b9c200e6f09c74c13.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/f1a675e635e34ca0ba2a5259508f0f42.mp3",
       "fish_voice_id": "21ea146fedef4d36a274c39f8be0763b",
       "variant": "telesales-base"
     },
@@ -2792,9 +2844,11 @@
         "tone": "warm empathetic friendly bosnian",
         "avoid": "aggressive close, slang, character, monologue",
         "bracket_defaults": "[warm][friendly][soft][empathetic]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation.",
+        "tts_script_key": "interview_warm",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/1617071563f54f3f8f791dd946d700b9.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/42a0bbc4499c434baf82c62810c8bc52.mp3",
       "fish_voice_id": "21ea146fedef4d36a274c39f8be0763b",
       "variant": "interview-warm"
     },
@@ -2830,9 +2884,11 @@
         "tone": "professional clear confident bosnian",
         "avoid": "casual slang, rush, over-enthusiasm, character",
         "bracket_defaults": "[professional][clear][measured][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear.",
+        "tts_script_key": "interview_formal",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/0c7b5300c9f94b0ca5932cfb128221f6.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/bbb79ffac8124a1fb2132b2716b364aa.mp3",
       "fish_voice_id": "21ea146fedef4d36a274c39f8be0763b",
       "variant": "interview-formal"
     },
@@ -2865,10 +2921,13 @@
         "pace": "measured",
         "tone": "friendly confident professional bosnian",
         "avoid": "croatian-only forms, rush, character, comedy, slang",
-        "bracket_defaults": "[friendly][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."
+        "bracket_defaults": "[friendly][confident][clear]",
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words.",
+        "tts_script_key": "base_telesales",
+        "dialect": "bosnian-ijekavian",
+        "fish_note": "Fish uses [bracket] tags not SSML; prefer clear phone delivery, spell numbers."
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/6830eab455b14731b0cdc7242b0640bd.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/db6afc9d7c124f16a2155777b19d1a65.mp3",
       "fish_voice_id": "c5afb13d207d4d929b8ae5c767cb1821",
       "variant": "telesales-base"
     },
@@ -2904,9 +2963,11 @@
         "tone": "warm empathetic friendly bosnian",
         "avoid": "aggressive close, slang, character, monologue",
         "bracket_defaults": "[warm][friendly][soft][empathetic]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation.",
+        "tts_script_key": "interview_warm",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/80ae671015af4b61808cb143775b7829.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/c46d50ec8d9143bdb3241e9281affe28.mp3",
       "fish_voice_id": "c5afb13d207d4d929b8ae5c767cb1821",
       "variant": "interview-warm"
     },
@@ -2942,9 +3003,11 @@
         "tone": "professional clear confident bosnian",
         "avoid": "casual slang, rush, over-enthusiasm, character",
         "bracket_defaults": "[professional][clear][measured][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear.",
+        "tts_script_key": "interview_formal",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/1e3a14790ea4457db5d1fbacba4158e0.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/3532cc417eaf483f8c7d46e94d16deb1.mp3",
       "fish_voice_id": "c5afb13d207d4d929b8ae5c767cb1821",
       "variant": "interview-formal"
     },
@@ -2977,10 +3040,13 @@
         "pace": "measured",
         "tone": "friendly confident professional bosnian",
         "avoid": "croatian-only forms, rush, character, comedy, slang",
-        "bracket_defaults": "[friendly][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."
+        "bracket_defaults": "[friendly][confident][clear]",
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words.",
+        "tts_script_key": "base_telesales",
+        "dialect": "bosnian-ijekavian",
+        "fish_note": "Fish uses [bracket] tags not SSML; prefer clear phone delivery, spell numbers."
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/f04f72212c0043079564e5da8688748c.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/e66302044fdc4e73ac79c0644a22b79a.mp3",
       "fish_voice_id": "d079eb87f43b459b9c7455b03a0b8f1e",
       "variant": "telesales-base"
     },
@@ -3016,9 +3082,11 @@
         "tone": "warm empathetic friendly bosnian",
         "avoid": "aggressive close, slang, character, monologue",
         "bracket_defaults": "[warm][friendly][soft][empathetic]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation.",
+        "tts_script_key": "interview_warm",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/4695c509cc77433a86dffe4392e801ec.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/4318f86435c44e9890e623b5558d2567.mp3",
       "fish_voice_id": "d079eb87f43b459b9c7455b03a0b8f1e",
       "variant": "interview-warm"
     },
@@ -3054,9 +3122,11 @@
         "tone": "professional clear confident bosnian",
         "avoid": "casual slang, rush, over-enthusiasm, character",
         "bracket_defaults": "[professional][clear][measured][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear.",
+        "tts_script_key": "interview_formal",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/1fe6dc5d173f47d9baf4723349655b7f.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/7d05dbd375bc4fd393ff5cbba12f25a0.mp3",
       "fish_voice_id": "d079eb87f43b459b9c7455b03a0b8f1e",
       "variant": "interview-formal"
     },
@@ -3089,10 +3159,13 @@
         "pace": "measured",
         "tone": "friendly confident professional bosnian",
         "avoid": "croatian-only forms, rush, character, comedy, slang",
-        "bracket_defaults": "[friendly][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words."
+        "bracket_defaults": "[friendly][confident][clear]",
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: friendly confident professional bosnian. Pace: measured. Opening: Topao pozdrav + ime + firma iz Sarajeva. Never: croatian-only forms, rush, character, comedy, slang. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Use Fish Audio performance tags in brackets; do not speak tag words.",
+        "tts_script_key": "base_telesales",
+        "dialect": "bosnian-ijekavian",
+        "fish_note": "Fish uses [bracket] tags not SSML; prefer clear phone delivery, spell numbers."
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/24f65da5d2fb4cfa8271605250084bef.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/66b5aec956f94c5791555fd9120895a6.mp3",
       "fish_voice_id": "96da74dbfc12414280fa72a23d9eab0d",
       "variant": "telesales-base"
     },
@@ -3128,9 +3201,11 @@
         "tone": "warm empathetic friendly bosnian",
         "avoid": "aggressive close, slang, character, monologue",
         "bracket_defaults": "[warm][friendly][soft][empathetic]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: warm empathetic friendly bosnian. Pace: relaxed measured. Opening: Zahvala na razgovor + blago predstavljanje. Never: aggressive close, slang, character, monologue. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: sincere, clear BS pronunciation.",
+        "tts_script_key": "interview_warm",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/0b2709a90e4b4c44ac549a784c1a3519.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/d99ba914e70e43f9a6a7499e5eba967d.mp3",
       "fish_voice_id": "96da74dbfc12414280fa72a23d9eab0d",
       "variant": "interview-warm"
     },
@@ -3166,15 +3241,17 @@
         "tone": "professional clear confident bosnian",
         "avoid": "casual slang, rush, over-enthusiasm, character",
         "bracket_defaults": "[professional][clear][measured][confident]",
-        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear."
+        "agent_system": "You are a professional Bosnian-speaking voice agent (ijekavian BiH). Tone: professional clear confident bosnian. Pace: measured slow-clear. Opening: Formalan pozdrav + hvala na prilici. Never: casual slang, rush, over-enthusiasm, character. Pronounce Ana (ona) and Marko (on) naturally. Speak numbers, dates, emails clearly for phone. Prefer Bosnian lexicon: firma, hiljada, da li, ušteda, ponuda. Interview candidate mode: structured, phone-clear.",
+        "tts_script_key": "interview_formal",
+        "dialect": "bosnian-ijekavian"
       },
-      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/f94436d80a9c4c34b4b5787212a75908.mp3",
+      "audio": "https://platform.r2.fish.audio/tasks/2026-07-31/2d5fbd6e5a2243678709681a49e99493.mp3",
       "fish_voice_id": "96da74dbfc12414280fa72a23d9eab0d",
       "variant": "interview-formal"
     }
   ],
-  "sampleBatch": "2026-07-31-clones-v5",
-  "sampleNote": "v5: 11 eigene Fish-Clones (Telesales, fair script) + 22 Bewerbungsgespräch-Varianten (warm vs formal Tags). Bosnisch ijekavisch, Fish bracket-tags optimiert.",
+  "sampleBatch": "2026-07-31-clones-v6-fish-tags",
+  "sampleNote": "v6: 11 eigene Fish-Clones + 22 Interview-Varianten. Fish bracket-tags (kein SSML) + bosnisch ijekavisch + klare Aussprache (Zahlen/E-Mail).",
   "portfolioMeta": {
     "targets": {
       "bs_m": 10,
@@ -3234,6 +3311,18 @@
         "bs-interview"
       ]
     },
-    "fish_tags_note": "Fish Audio nutzt eckige Performance-Tags (kein klassisches SSML): [friendly][confident][soft][warm][pause][long pause][emphasis][empathetic][professional][clear][measured][excited]. Tags werden gespielt, nicht vorgelesen."
+    "fish_tags_note": "Fish Audio nutzt eckige Performance-Tags (kein klassisches SSML): [friendly][confident][soft][warm][pause][long pause][emphasis][empathetic][professional][clear][measured][excited]. Tags werden gespielt, nicht vorgelesen.",
+    "fish_tags_v6": {
+      "note": "Fish Audio = bracket tags only (no SSML). Open-domain performance tags.",
+      "telesales": "[friendly][confident][clear] Dobar dan! [soft] Zovem se Ana Hadžić, prodajna savjetnica u Activi Soft iz Sarajeva. [pause][clear] Marko Petrović i ja smo dostupni petnaestog marta u četrnaest sati i trideset minuta, referentni broj A S dvije nule dvadeset šest. [soft][clear] Ušteda je trideset dva zarez pet posto — oko sto osamdeset i pet KM. [friendly][confident] Pišite na ana et activi tačka io. [pause][warm] Da li imate jednu minutu?",
+      "interview_warm": "[warm][friendly][soft] Dobar dan, hvala što ste me primili na razgovor. [empathetic][pause] Zovem se Lejla Hadžić. [soft][clear] Tražim poziciju u prodaji jer volim jasan i pošten razgovor s klijentima na bosanskom jeziku — ijekavski, iz Sarajeva. [confident][friendly] Rado ću ispričati kako vodim pozive, slušam potrebe i dogovaram sljedeći korak.",
+      "interview_formal": "[professional][clear][measured] Dobar dan. [pause] Hvala na prilici za razgovor. [confident][clear] U prethodnoj firmi vodila sam outbound pozive za tržište Bosne i Hercegovine. [emphasis][professional] Moja snaga je strpljivo slušanje, precizna ponuda i dogovor bez pritiska. [soft][friendly] Otvorena sam za vaša pitanja.",
+      "rules": [
+        "Use ijekavian BiH forms (lijep, sljedeći, hiljada, firma, da li)",
+        "Spell numbers/dates/emails for phone clarity",
+        "Tags are performed, never spoken aloud",
+        "Prefer [clear][pause][measured] for telesales phone quality"
+      ]
+    }
   }
 }
