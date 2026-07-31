@@ -141,7 +141,11 @@ function toast(msg) {
   setTimeout(() => t.style.display = "none", 2600);
 }
 function esc(s) {
-  return String(s ?? "").replace(/&/g,"&").replace(/</g,"<").replace(/>/g,">").replace(/"/g,""");
+  return String(s ?? "")
+    .replace(/&/g, "&" + "amp;")
+    .replace(/</g, "&" + "lt;")
+    .replace(/>/g, "&" + "gt;")
+    .replace(/"/g, "&" + "quot;");
 }
 function blindEnabled() {
   try {
