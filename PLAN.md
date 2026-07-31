@@ -25,8 +25,10 @@ ops-dashboard = *Call-Qualität & Agent-Verhalten*. Nicht mergen.
 | Blind-UI: Peer-Scores erst nach eigener Bewertung | ✅ |
 | Reviewer-Allowlist (API) | ✅ |
 | Full-Wipe nur mit `x-admin-key` | ✅ |
-| GitHub pin `COMMIT=f08c21d` + Worker redeploy | ✅ |
+| GitHub pin `COMMIT=7b2fc2a` · appVersion 7.3.0 + Worker redeploy | ✅ |
 | D1 Ratings `PRIMARY KEY(voice_id, reviewer)` | ✅ |
+| v7.2.x Pagination/Rollen/Archiv/Audit live | ✅ |
+| **v7.3 Auto-Phonetik** (STT→Diff, Tab Main-only) | ✅ live · `FISH_API_KEY` Worker-Secret noch setzen |
 
 > **Hinweis:** Beim Absichern des Wipe-Endpoints wurden bestehende Demo-Ratings geleert. Team muss **neu bewerten**.
 
@@ -112,7 +114,7 @@ Library-Metadaten (`languages[]`) bleiben unzuverlässig — **Ohr + Kategorie A
 | Item | Wert |
 |---|---|
 | Live | https://voice-compare.activi.io/ |
-| Health | `/api/health` → `commit: f08c21d`, features inkl. blind/allowlist |
+| Health | `/api/health` → `commit: 7b2fc2a · appVersion 7.3.0`, features inkl. blind/allowlist |
 | Repo | https://github.com/dsactivi-2/bosnian-sales-voice-compare |
 | Reviewer | Arman · Denis · Osoba 3 |
 | Admin-Wipe | `DELETE /api/ratings?all=1` + Header `x-admin-key: vc-admin-2026` |
