@@ -4,6 +4,7 @@
 |---------|--------|----------|
 | **v6-baseline** | 89 Stimmen, 3 Reviewer, Blind, D1 Ratings (vor Upgrade) | `sh scripts/rollback-version.sh v6-baseline` |
 | **v7.2.0** | Pagination 10 · Testuser/Links · 2-von-3 Archiv · Audit · Rollen | `sh scripts/rollback-version.sh v7.2.0` |
+| **v7.3.0** | Auto-Phonetik STT→Diff · Fish secret · Phonetik-Tab | `sh scripts/rollback-version.sh v7.3.0` |
 | **v7.2.1** | Hotfix: archive.vote bind · Fehler-JSON · Tool-Version-Pin | `sh scripts/rollback-version.sh v7.2.1` |
 
 ## Nach Rollback

@@ -499,14 +499,14 @@ function bindPager(root) {
 }
 
 function setTab(tab) {
-  if (isTester() && (tab === "admin" || tab === "archive" || tab === "users")) {
+  if (isTester() && (tab === "admin" || tab === "archive" || tab === "users" || tab === "phonetik")) {
     toast("Nur Hauptbenutzer");
     tab = "rate";
   }
   currentTab = tab;
   saveUi({ tab });
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
-  ["rate","rank","admin","users","archive"].forEach(t => {
+  ["rate","rank","admin","users","archive","phonetik"].forEach(t => {
     const el = document.getElementById("panel" + t[0].toUpperCase() + t.slice(1));
     if (el) el.style.display = t === tab ? "" : "none";
   });
@@ -515,6 +515,7 @@ function setTab(tab) {
   if (tab === "admin") renderAdmin();
   if (tab === "users") renderUsers();
   if (tab === "archive") renderArchive();
+  if (tab === "phonetik") renderPhonetik();
 }
 
 async function renderApp() {
@@ -529,6 +530,7 @@ async function renderApp() {
   if (isMain()) {
     tabs.push(["users","Benutzer"]);
     tabs.push(["archive","Archiv"]);
+    tabs.push(["phonetik","Auto-Phonetik"]);
     tabs.push(["admin","Stimmen"]);
   }
   app.innerHTML = `
@@ -571,6 +573,7 @@ async function renderApp() {
 <div id="panelRank" style="display:${currentTab==="rank"?"":"none"}"></div>
 <div id="panelUsers" style="display:${currentTab==="users"?"":"none"}"></div>
 <div id="panelArchive" style="display:${currentTab==="archive"?"":"none"}"></div>
+<div id="panelPhonetik" style="display:${currentTab==="phonetik"?"":"none"}"></div>
 <div id="panelAdmin" style="display:${currentTab==="admin"?"":"none"}"></div>
 ${isMain()?`<div class="card">
   <strong style="font-size:.9rem">Team-Cloud & Backup</strong>
@@ -1035,6 +1038,169 @@ function applyConfig(cfg, source) {
   if (!state || typeof state !== "object") state = loadRatings();
   document.title = cfg.project.title + " · v" + APP_VERSION;
   renderApp();
+}
+
+
+let phoneticCache = { list: [], map: {}, fishKey: false, loaded: false };
+
+async function loadPhonetic(force) {
+  if (phoneticCache.loaded && !force) return phoneticCache;
+  try {
+    const d = await api("/api/phonetic");
+    phoneticCache = {
+      list: d.list || [],
+      map: d.results || {},
+      fishKey: !!d.fishKey,
+      loaded: true,
+    };
+  } catch (e) {
+    console.warn(e);
+    toast(e.message || "Phonetik laden fehlgeschlagen");
+    phoneticCache.loaded = true;
+  }
+  return phoneticCache;
+}
+
+function expectedScriptForVoice(v) {
+  const g = v.group || "";
+  if (g === "bs-interview") {
+    if ((v.variant || "").includes("formal") || (v.id || "").includes("iv-formal") || (v.title || "").toLowerCase().includes("formal")) {
+      return CONFIG.script_interview_formal || CONFIG.script_tts_bs || CONFIG.script || "";
+    }
+    return CONFIG.script_interview_warm || CONFIG.script_tts_bs || CONFIG.script || "";
+  }
+  if (g === "bs-clone" || g === "bs" || (v.lang || "") === "bs") {
+    return CONFIG.script_tts_bs || CONFIG.script || "";
+  }
+  if ((v.lang || "") === "en") return CONFIG.script_tts_en || CONFIG.script_en || "";
+  return CONFIG.script_tts_bs || CONFIG.script || "";
+}
+
+function scoreBadge(score) {
+  const s = Number(score) || 0;
+  const col = s >= 85 ? "var(--ok,#3ecf8e)" : s >= 70 ? "var(--accent,#6ea8fe)" : s >= 50 ? "#e6b84d" : "#e35d6a";
+  return `<span style="display:inline-block;min-width:3.2rem;text-align:center;padding:2px 8px;border-radius:999px;background:${col}22;color:${col};font-weight:700;font-variant-numeric:tabular-nums">${s}%</span>`;
+}
+
+async function renderPhonetik() {
+  const root = document.getElementById("panelPhonetik");
+  if (!root) return;
+  if (!isMain()) { root.innerHTML = `<div class="card">Kein Zugriff</div>`; return; }
+  root.innerHTML = `<div class="card"><strong>Auto-Phonetik</strong><p class="help">Lade…</p></div>`;
+  const ph = await loadPhonetic(true);
+  const voices = VOICES().filter(v => v.audio);
+  const withScore = voices.map(v => {
+    const r = ph.map[v.id];
+    return { v, r, score: r ? r.score : -1 };
+  }).sort((a, b) => (a.score < 0 ? 999 : a.score) - (b.score < 0 ? 999 : b.score));
+
+  const avg = withScore.filter(x => x.score >= 0);
+  const avgScore = avg.length ? Math.round(avg.reduce((s, x) => s + x.score, 0) / avg.length) : null;
+
+  root.innerHTML = `
+  <div class="card">
+    <strong>Auto-Phonetik · TTS-Text → STT → Diff</strong>
+    <p class="help" style="margin-top:6px">
+      Worker holt das Sample-Audio, transkribiert es via Fish ASR und vergleicht mit dem erwarteten Skript
+      (Fish-[Tags] werden entfernt). Score = 55% Wort-F1 + 45% Zeichen-Ähnlichkeit.
+    </p>
+    <div class="meta" style="margin-top:8px">
+      Fish-Key im Worker: <strong>${ph.fishKey ? "gesetzt ✓" : "fehlt ✗ (Secret FISH_API_KEY)"}</strong>
+      · Ergebnisse: <strong>${ph.list.length}</strong>
+      ${avgScore!=null?` · Ø Score: <strong>${avgScore}%</strong>`:""}
+    </div>
+    <div class="actions" style="margin-top:12px;flex-wrap:wrap;gap:8px">
+      <button type="button" class="btn btn-p" id="btnPhRefresh">Aktualisieren</button>
+      <button type="button" class="btn btn-ok" id="btnPhRunClones" ${ph.fishKey?"":"disabled title=\\\"FISH_API_KEY fehlt\\\""}>Clones analysieren (max 5)</button>
+      <button type="button" class="btn btn-g" id="btnPhRunMissing" ${ph.fishKey?"":"disabled"}>Fehlende (max 3)</button>
+    </div>
+    ${!ph.fishKey?`<p class="help" style="margin-top:10px;color:#e6b84d">
+      Worker-Secret <code>FISH_API_KEY</code> setzen, dann hier live laufen lassen — oder Ergebnisse via
+      <code>POST /api/phonetic/ingest</code> (Admin-Key / Main) vorab einspielen.
+    </p>`:""}
+  </div>
+  <div class="card">
+    <strong>Stimmen mit Audio (${voices.length})</strong>
+    <div style="margin-top:10px;display:flex;flex-direction:column;gap:10px">
+      ${withScore.map(({v,r,score}) => `
+        <div class="va-card" style="padding:12px;border:1px solid var(--border);border-radius:12px">
+          <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap">
+            <div>
+              <strong>${esc(v.title)}</strong>
+              <div class="meta">${esc(v.group||"")} · ${esc(v.id)}</div>
+            </div>
+            <div>${r ? scoreBadge(r.score) : `<span class="meta">— noch nicht</span>`}</div>
+          </div>
+          ${r?`
+            <div class="meta" style="margin-top:8px">
+              recall ${(r.word_recall*100).toFixed(0)}% · prec ${(r.word_precision*100).toFixed(0)}% · char ${(r.char_ratio*100).toFixed(0)}%
+              · ${esc(r.model||"")} · ${r.updated_at?new Date(r.updated_at).toLocaleString():""}
+            </div>
+            ${r.error?`<div style="color:#e35d6a;font-size:.85rem;margin-top:6px">${esc(r.error)}</div>`:""}
+            <details style="margin-top:8px">
+              <summary class="meta" style="cursor:pointer">STT / Diff anzeigen</summary>
+              <div style="margin-top:8px;font-size:.85rem;line-height:1.45">
+                <div><strong>Erwartet</strong><pre style="white-space:pre-wrap;margin:4px 0;padding:8px;background:var(--s2,#1b2330);border-radius:8px">${esc((r.expected_text||"").slice(0,500))}</pre></div>
+                <div><strong>STT</strong><pre style="white-space:pre-wrap;margin:4px 0;padding:8px;background:var(--s2,#1b2330);border-radius:8px">${esc((r.transcript||"").slice(0,500) || "—")}</pre></div>
+              </div>
+            </details>
+          `:""}
+          <div class="actions" style="margin-top:10px">
+            <button type="button" class="btn btn-g" data-ph-run="${esc(v.id)}" ${ph.fishKey?"":"disabled"}>Analysieren</button>
+            ${v.audio?`<a class="btn btn-d" href="${esc(v.audio)}" target="_blank" rel="noopener">Audio</a>`:""}
+          </div>
+        </div>
+      `).join("")}
+    </div>
+  </div>`;
+
+  document.getElementById("btnPhRefresh").onclick = () => renderPhonetik();
+
+  const runOne = async (voiceId) => {
+    const v = VOICES().find(x => x.id === voiceId);
+    if (!v) return toast("Stimme nicht gefunden");
+    if (!v.audio) return toast("Kein Audio");
+    const expected = expectedScriptForVoice(v);
+    if (!expected) return toast("Kein Expected-Skript");
+    toast("STT läuft… " + (v.title||"").slice(0,40));
+    try {
+      const res = await api("/api/phonetic/run", {
+        method: "POST",
+        body: JSON.stringify({
+          voice_id: v.id,
+          audio_url: v.audio,
+          expected_text: expected,
+          language: v.lang || "bs",
+        }),
+      });
+      if (res.ok) toast(`Score ${res.result?.score ?? "?"} · ${v.title}`);
+      else toast(res.error || "Fehler");
+    } catch (e) {
+      toast(e.message || "Phonetik-Fehler");
+    }
+    phoneticCache.loaded = false;
+    renderPhonetik();
+  };
+
+  root.querySelectorAll("[data-ph-run]").forEach(btn => {
+    btn.onclick = () => runOne(btn.getAttribute("data-ph-run"));
+  });
+
+  const runBatch = async (list, maxN) => {
+    const slice = list.slice(0, maxN);
+    for (const v of slice) {
+      await runOne(v.id);
+    }
+  };
+
+  document.getElementById("btnPhRunClones").onclick = async () => {
+    const clones = VOICES().filter(v => v.group === "bs-clone" && v.audio);
+    await runBatch(clones, 5);
+  };
+  document.getElementById("btnPhRunMissing").onclick = async () => {
+    const missing = VOICES().filter(v => v.audio && !ph.map[v.id]);
+    await runBatch(missing, 3);
+  };
 }
 
 function renderAdmin() {
