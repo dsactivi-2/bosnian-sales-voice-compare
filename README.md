@@ -1,41 +1,35 @@
 # bosnian-sales-voice-compare
 
-Team-Dashboard: **50 Fish-Audio-Stimmen** (bs / hr / sr) für Telefonsales vergleichen & bewerten.
+Team-Dashboard: **50 Fish-Audio-Stimmen** (bs / hr / sr) für Telefonsales.
 
 ## Live
 
 **https://voice-compare.activi.io/**
 
-## Stimmen
+### Persönliche Links (Name gesperrt)
 
-Single source of truth: `config.json` → `voices[]` (50 Einträge).
-
-| Sprache | ca. |
+| Person | Link |
 |---|---|
-| Bosnisch (bs) | 19 |
-| Kroatisch (hr) | 26 |
-| Serbisch (sr) | 5 |
+| Arman | https://voice-compare.activi.io/?me=Arman |
+| Denis | https://voice-compare.activi.io/?me=Denis |
+| Osoba 3 | https://voice-compare.activi.io/?me=Osoba%203 |
 
-Filter im Ranking: Geschlecht + Sprache + Mindest-Ø.
+Blind (Peer-Scores erst nach eigener Bewertung): Standard **an**. Aus: `&blind=0`
 
-## Bewertungen
+### Samples
 
-Browser `localStorage` · Export/Import für Team-Sync · Reviewer: Arman / Denis / Osoba 3
+Alle 50 mit **gleichem Sales-Skript** (Batch `2026-07-31-s2-sales`, s2.x Tags).  
+19 bs · 26 hr · 5 sr — Filter im Ranking nutzen.
 
-## Agenten
+> Fish-Label `bs` ≠ garantiert nativer bosnischer Akzent. Kategorie **Aussprache** ernst nehmen.
 
-- Skill: `agents/SKILL.md`
-- MCP: `node mcp/server.mjs`
+### Cloud (D1)
 
+Autosave + manuell speichern. API: `/api/ratings`, `/api/health`.  
+Wipe aller Daten nur mit Admin-Key.
 
-## Cloud-Datenbank (D1)
+### Plan
 
-Bewertungen liegen in **Cloudflare D1** (nicht nur Browser):
+Siehe [PLAN.md](./PLAN.md) — empfohlene Kombi-Version; großer Ausbau nur nach Freigabe.
 
-- `GET /api/ratings` — alle Team-Bewertungen
-- `PUT /api/ratings` — eine Bewertung speichern
-- `PUT /api/ratings/bulk` — Import/Merge
-- `DELETE /api/ratings?voice_id=&reviewer=` — löschen
-- `GET /api/health` — Status
-
-Schema: `deploy/schema.sql`. Worker: `deploy/cloudflare-worker.js` (Binding `DB`).
+Repo: https://github.com/dsactivi-2/bosnian-sales-voice-compare

@@ -111,11 +111,10 @@ See `agents/adapters/` for Claude Desktop, Cursor, OpenAI Agents, Hermes, Grok.
 
 ## Ratings model (do not break)
 
-- Ratings live in **browser localStorage** (`bs-voice-ratings-v1`), **not** in config.json.
-- Key: `voiceId|reviewer`.
-- Categories keys: `pron`, `prof`, `warm`, `clar`, `emo` (0–5).
-- Team merge: Export / Import JSON in UI.
-- Agents should **not** claim server-side shared ratings unless a DB is added later.
+- **Source of truth: Cloudflare D1** via live `/api/ratings`.
+- Browser cache: `localStorage` (`bs-voice-ratings-v1`).
+- Key: `voiceId|reviewer`. Categories: `pron`,`prof`,`warm`,`clar`,`emo` (0–5).
+- Reviewers: Arman, Denis, Osoba 3. Personal links `?me=`. Blind default on.
 
 ---
 
