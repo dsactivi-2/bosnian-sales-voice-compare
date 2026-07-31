@@ -2,6 +2,12 @@
 
 Live: https://voice-compare.activi.io/
 
+## Portfolio v5 (2026-07-31)
+
+**+11 own Fish clones (Telesales)** and **+22 interview variants** (warm/formal tags, Bosnian ijekavian).
+
+Groups: `bs-clone`, `bs-interview`.
+
 ## Portfolio v4 (2026-07-31)
 
 **56 curated voices** for professional tele-sales / call-center / voice-agent evaluation.
