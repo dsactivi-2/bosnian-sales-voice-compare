@@ -1,27 +1,29 @@
 #!/usr/bin/env python3
-"""Build portfolio v3: curated telesales voices + long eval script + agent profiles."""
+"""Build portfolio v4: curated telesales voices + long eval script + agent profiles."""
 import json
 from pathlib import Path
 from collections import Counter
 
 # ── Full evaluation script (UI / scoring) — long, stress-rich ──────────────
-FULL_SCRIPT_BS = """[friendly][confident] Dobar dan! Zovem se Ana Hadžić, viša prodajna savjetnica u Activi Soft d.o.o. sa sjedištem u Sarajevu, Zmaja od Bosne 7.
-[pause] Zovem vas u vezi vašeg zahtjeva od petnaestog marta dvije hiljade dvadeset šeste godine, tačno u četrnaest sati i trideset minuta, referentni broj AS-2026-0847.
-[soft] Moj kolega Marko Petrović vodi tehničku evaluaciju. On je dostupan od devet do sedamnaest sati svakog radnog dana. Ona — dakle ja, Ana — vodi onboarding i ugovore; on — Marko — vodi integracije i API.
-[confident] Uz paket Enterprise Pro Plus možete uštedjeti trideset dva zarez pet posto na mjesečnim troškovima, što je približno stotinu osamdeset i pet KM, odnosno devedeset četiri eura i pedeset centi.
-[pause] Pišite nam na ana.hadzic@activi-soft.ba ili marko.petrovic@activi-soft.ba. Demo rezervišete na https://activi.io/demo-bosna?ref=AS-2026-0847.
-[soft][empathetic] Razumijem da sada niste slobodni — to je u redu. Recite mi samo preferirani termin: utorak u deset i petnaest, ili četvrtak u šesnaest sati?
-[confident] Ako vam se cijena čini visokom: u prva tri mjeseca nema setup naknade, a podrška je uključena. Bez pritiska — odluka je vaša.
-[friendly] Hvala na vremenu. Lijep pozdrav iz Activi Soft-a, Ana Hadžić."""
+FULL_SCRIPT_BS = """[friendly][confident] Dobar dan! Zovem se Ana Hadžić, viša prodajna savjetnica u Activi Soft d.o.o. sa sjedištem u Sarajevu, Zmaja od Bosne broj sedam, sprat tri.
+[pause] Zovem vas u vezi vašeg zahtjeva od petnaestog marta dvije hiljade dvadeset šeste godine, tačno u četrnaest sati i trideset minuta, referentni broj AS-2026-0847-B.
+[soft] Moj kolega Marko Petrović vodi tehničku evaluaciju. On je dostupan od devet do sedamnaest sati, od ponedjeljka do petka. Ona — dakle ja, Ana — vodi onboarding, ugovore i naplatu; on — Marko — vodi integracije, API ključeve i sigurnost.
+[confident] Uz paket Enterprise Pro Plus možete uštedjeti trideset dva zarez pet posto na mjesečnim troškovima: to je približno stotinu osamdeset i pet KM, odnosno devedeset četiri eura i pedeset centi, ili oko sto dva američka dolara.
+[pause] Pišite nam na ana.hadzic@activi-soft.ba ili marko.petrovic@activi-soft.ba. Tehničku dokumentaciju šaljemo na support@activi.io. Demo rezervišete na https://activi.io/demo-bosna?ref=AS-2026-0847&utm=voice.
+[soft][empathetic] Razumijem da sada niste slobodni — to je potpuno u redu. Recite mi samo preferirani termin: utorak, dvadeset drugog aprila, u deset sati i petnaest minuta, ili četvrtak, dvadeset četvrtog, u šesnaest sati?
+[confident] Ako vam se cijena čini visokom: u prva tri mjeseca nema setup naknade od dvije stotine pedeset KM, a prioritetna podrška je uključena. Bez pritiska — odluka je vaša, a ja sam tu ako zatreba.
+[pause] Još jedna napomena: ugovor se aktivira automatski petog maja u nula nula sati, osim ako do trećeg maja do osamnaest sati ne pošaljete otkaz na legal@activi-soft.ba.
+[friendly] Hvala na vremenu. Lijep pozdrav iz Activi Soft-a — Ana Hadžić, u ime tima s Markom Petrovićem."""
 
-FULL_SCRIPT_EN = """[friendly][confident] Good afternoon! My name is Ana Hadzic, senior sales advisor at Activi Soft LLC, based in Sarajevo at Zmaja od Bosne 7.
-[pause] I'm calling about your request from March fifteenth, twenty twenty-six, at exactly two thirty p.m., reference number AS-2026-0847.
-[soft] My colleague Marko Petrovic leads technical evaluation. He is available from nine to five every business day. She — that is me, Ana — leads onboarding and contracts; he — Marko — leads integrations and the API.
-[confident] With the Enterprise Pro Plus package you can save thirty-two point five percent on monthly costs, about one hundred eighty-five convertible marks, or ninety-four euros and fifty cents.
-[pause] Email us at ana.hadzic@activi-soft.ba or marko.petrovic@activi-soft.ba. Book a demo at https://activi.io/demo-bosnia?ref=AS-2026-0847.
-[soft][empathetic] I understand now is not a good time — that is fine. Just tell me a preferred slot: Tuesday at ten fifteen, or Thursday at four p.m.?
-[confident] If the price feels high: the first three months have no setup fee, and support is included. No pressure — the decision is yours.
-[friendly] Thank you for your time. Best regards from Activi Soft, Ana Hadzic."""
+FULL_SCRIPT_EN = """[friendly][confident] Good afternoon! My name is Ana Hadzic, senior sales advisor at Activi Soft LLC, based in Sarajevo at Zmaja od Bosne number seven, third floor.
+[pause] I'm calling about your request from March fifteenth, twenty twenty-six, at exactly two thirty p.m., reference number AS-2026-0847-B.
+[soft] My colleague Marko Petrovic leads technical evaluation. He is available from nine to five, Monday through Friday. She — that is me, Ana — leads onboarding, contracts and billing; he — Marko — leads integrations, API keys and security.
+[confident] With the Enterprise Pro Plus package you can save thirty-two point five percent on monthly costs: about one hundred eighty-five convertible marks, or ninety-four euros and fifty cents, or roughly one hundred two US dollars.
+[pause] Email us at ana.hadzic@activi-soft.ba or marko.petrovic@activi-soft.ba. Technical docs go to support@activi.io. Book a demo at https://activi.io/demo-bosnia?ref=AS-2026-0847&utm=voice.
+[soft][empathetic] I understand now is not a good time — that is completely fine. Just tell me a preferred slot: Tuesday, April twenty-second, at ten fifteen a.m., or Thursday, April twenty-fourth, at four p.m.?
+[confident] If the price feels high: the first three months have no setup fee of two hundred fifty marks, and priority support is included. No pressure — the decision is yours, and I am here if you need me.
+[pause] One more note: the contract activates automatically on May fifth at midnight, unless you cancel by May third at six p.m. via legal@activi-soft.ba.
+[friendly] Thank you for your time. Best regards from Activi Soft — Ana Hadzic, on behalf of the team with Marko Petrovic."""
 
 # Free plan ≤500 UTF-8 bytes — short stress sample for audio
 TTS_BS = "[friendly][confident] Dobar dan! Ana iz Activi Soft. Marko i ja, 15.3. u 14:30, AS-2026. Ušteda 32%. ana@activi.io — imate li minut?"
@@ -468,14 +470,14 @@ for x in voices:
         seen.add(x["id"])
 
 cfg = {
-    "version": 3,
+    "version": 4,
     "project": {
-        "title": "Voice Compare · Tele-Sales Portfolio v3",
+        "title": "Voice Compare · Tele-Sales Portfolio v4",
         "subtitle": "56 kuratierte Stimmen · BS/HR/SR/EN/ML + Agent-Profile · erweitertes Stress-Skript",
         "brand": "Fish Audio s2.x · Activi",
         "liveUrl": "https://voice-compare.activi.io/",
         "repo": "https://github.com/dsactivi-2/bosnian-sales-voice-compare",
-        "sampleBatch": "2026-07-31-portfolio-v3",
+        "sampleBatch": "2026-07-31-portfolio-v4",
     },
     "script": FULL_SCRIPT_BS,
     "script_en": FULL_SCRIPT_EN,
@@ -495,9 +497,9 @@ cfg = {
         {"k": "emo", "l": "Emotion / Ausdruck", "s": "Emotion"},
     ],
     "voices": voices,
-    "sampleBatch": "2026-07-31-portfolio-v3",
+    "sampleBatch": "2026-07-31-portfolio-v4",
     "sampleNote": (
-        "Portfolio v3: neu kuratiert für Telesales/Callcenter/Voice-Agent. "
+        "Portfolio v4: neu kuratiert für Telesales/Callcenter/Voice-Agent. "
         "Politiker/Gags/Charakterstimmen ausgeschlossen. "
         "6 Agent-Profile = Library-Basis + optimierte Voice Instructions (separate Rating-IDs). "
         "Keine echten Clones ohne Speaker-Consent."
@@ -539,7 +541,7 @@ for x in voices:
     if x.get("source") == "agent-profile":
         continue
     lib_ids.append({"id": x["id"], "lang": x["lang"], "title": x["title"]})
-Path("/tmp/vc-portfolio-v3/tts_jobs.json").write_text(
+Path("/tmp/vc-portfolio-v4/tts_jobs.json").write_text(
     json.dumps(lib_ids, ensure_ascii=False, indent=2), encoding="utf-8"
 )
 print("unique library voices for TTS:", len(lib_ids))
