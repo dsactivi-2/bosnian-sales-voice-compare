@@ -7,3 +7,20 @@ account_id = "2f8c7ae79d6d316eac3961585f5c2f5b"
 binding = "DB"
 database_name = "voice-compare"
 database_id = "1ce07788-ada0-4fb3-a9c9-1d61f7e4b005"
+
+# Observability — matches Cloudflare Dashboard (Workers Logs + Traces)
+# FISH_API_KEY is a Worker secret, not listed here (wrangler secret put / Dashboard)
+[observability]
+enabled = false
+head_sampling_rate = 1
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+persist = true
+invocation_logs = true
+
+[observability.traces]
+enabled = true
+persist = true
+head_sampling_rate = 1
