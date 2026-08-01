@@ -4,7 +4,7 @@
  * - Static files from GitHub (pinned COMMIT)
  * - D1: ratings, users, archive, audit
  */
-const COMMIT = "e68af0c"; // pin: esc() fix via string-concat entities
+const COMMIT = "2a34ac3"; // pin: v7.3.1 Auto-Phonetik im Bewertungsmaßstab
 const APP_VERSION = "7.3.1";
 const ADMIN_KEY = "vc-admin-2026";
 const CORS = {
