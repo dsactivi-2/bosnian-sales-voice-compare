@@ -1,0 +1,301 @@
+{
+  "schema": "activi.voice-compare.video-brief.v1",
+  "generated_at": "2026-08-01T13:39:14.991892+00:00",
+  "product": {
+    "name": "Activi Voice Compare",
+    "live_url": "https://voice-compare.activi.io/",
+    "repo": "https://github.com/dsactivi-2/bosnian-sales-voice-compare",
+    "app_version_live": "7.3.1",
+    "subtitle_live": "91 Stimmen · Auto-Phonetik · Clones + Interview · BS/HR",
+    "brand": "Fish Audio s2.x · Activi",
+    "public_access_note": "Live-Tool ist hinter E-Mail-Login (Activi Team). UI-Screens im Brief stammen aus der öffentlichen Compare-UI (vorb Auth) und bleiben repräsentativ für die Produktflächen. config.json und Sample-MP3s sind öffentlich erreichbar.",
+    "auth_required_for_ui": true,
+    "public_endpoints": {
+      "health": "https://voice-compare.activi.io/api/health",
+      "config": "https://voice-compare.activi.io/config.json"
+    },
+    "reviewers": [
+      "Arman",
+      "Denis",
+      "Osoba 3"
+    ],
+    "rating_categories": [
+      "Aussprache / Akzent-Fit",
+      "Professionalität",
+      "Wärme / Sales-Fit",
+      "Verständlichkeit (Telefon)",
+      "Emotion / Ausdruck"
+    ],
+    "features_to_highlight": [
+      "Blind-Modus",
+      "Persönliche Links (?me=)",
+      "Cloud-Team-Ratings (D1)",
+      "Gleiches Sales-Skript für alle Stimmen",
+      "91+ kuratierte Telesales-Stimmen",
+      "Auto-Phonetik"
+    ]
+  },
+  "video_spec": {
+    "purpose": "Pop-up / social / in-app promo for Activi Voice Compare",
+    "resolution": "squared",
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio": "1:1",
+    "fps": 30,
+    "target_duration_sec": 30,
+    "duration_range_sec": [
+      28,
+      34
+    ],
+    "safe_margins_px": 64,
+    "style": {
+      "bg": "#0b0f14",
+      "surface": "#141a22",
+      "accent": "#f5c542",
+      "text": "#eef2f7",
+      "muted": "#8b98ab",
+      "ui_block_radius_px": 16,
+      "ui_block_max_width_pct": 78,
+      "caption_band_height_pct": 22,
+      "font_suggestion": "Inter / system-ui bold for captions"
+    },
+    "audio": {
+      "primary_voiceover": "bs",
+      "voiceover_provider_hint": "Fish Audio s2.x, clear professional BS female or male telesales voice",
+      "music": "light corporate bed, -22dB under VO, no lyrics",
+      "sfx": "soft whoosh on scene cuts"
+    }
+  },
+  "assets": [
+    {
+      "id": "intro-caricature",
+      "kind": "illustration",
+      "description": "Karikatur Call-Agent mit Headset und leuchtendem Phone UI",
+      "composition_1x1": "Zentrieren; unten Label-Band frei halten; ggf. leicht einklappen auf 1:1",
+      "local_path": "video-assets/caricature-intro.jpg",
+      "url_raw": "https://raw.githubusercontent.com/dsactivi-2/bosnian-sales-voice-compare/main/video-assets/caricature-intro.jpg",
+      "url_cdn": "https://cdn.jsdelivr.net/gh/dsactivi-2/bosnian-sales-voice-compare@main/video-assets/caricature-intro.jpg",
+      "preferred_url": "https://cdn.jsdelivr.net/gh/dsactivi-2/bosnian-sales-voice-compare@main/video-assets/caricature-intro.jpg",
+      "source_aspect": "portrait_or_square_art"
+    },
+    {
+      "id": "ui-voice-cards",
+      "kind": "ui_screenshot",
+      "description": "Haupt-UI: Stimmenkarten mit Play/Bewerten und Team-Score-Zeilen",
+      "composition_1x1": "Als zentrierten Block im 1:1-Rahmen (oben Bild, unten Text). Nicht formatfüllend strecken.",
+      "local_path": "video-assets/ui-voice-cards.png",
+      "url_raw": "https://raw.githubusercontent.com/dsactivi-2/bosnian-sales-voice-compare/main/video-assets/ui-voice-cards.png",
+      "url_cdn": "https://cdn.jsdelivr.net/gh/dsactivi-2/bosnian-sales-voice-compare@main/video-assets/ui-voice-cards.png",
+      "preferred_url": "https://cdn.jsdelivr.net/gh/dsactivi-2/bosnian-sales-voice-compare@main/video-assets/ui-voice-cards.png",
+      "source_aspect": "landscape_tool_ui"
+    },
+    {
+      "id": "ui-dashboard-scores",
+      "kind": "ui_screenshot",
+      "description": "Bewertungs-Dashboard mit Score-Zeilen (Aussprache, Professionell, Wärme, Klarheit, Emotion)",
+      "composition_1x1": "Zentrierter Block; Fokus auf Score-Balken; unten Caption.",
+      "local_path": "video-assets/ui-dashboard-scores.png",
+      "url_raw": "https://raw.githubusercontent.com/dsactivi-2/bosnian-sales-voice-compare/main/video-assets/ui-dashboard-scores.png",
+      "url_cdn": "https://cdn.jsdelivr.net/gh/dsactivi-2/bosnian-sales-voice-compare@main/video-assets/ui-dashboard-scores.png",
+      "preferred_url": "https://cdn.jsdelivr.net/gh/dsactivi-2/bosnian-sales-voice-compare@main/video-assets/ui-dashboard-scores.png",
+      "source_aspect": "landscape_tool_ui"
+    },
+    {
+      "id": "ui-ranking",
+      "kind": "ui_screenshot",
+      "description": "Ranking-Ansicht mit Team-Durchschnitt und Stimmenliste",
+      "composition_1x1": "Zentrierter Block; Ranking-Kopf + erste Plätze lesbar halten.",
+      "local_path": "video-assets/ui-ranking.png",
+      "url_raw": "https://raw.githubusercontent.com/dsactivi-2/bosnian-sales-voice-compare/main/video-assets/ui-ranking.png",
+      "url_cdn": "https://cdn.jsdelivr.net/gh/dsactivi-2/bosnian-sales-voice-compare@main/video-assets/ui-ranking.png",
+      "preferred_url": "https://cdn.jsdelivr.net/gh/dsactivi-2/bosnian-sales-voice-compare@main/video-assets/ui-ranking.png",
+      "source_aspect": "landscape_tool_ui"
+    },
+    {
+      "id": "ui-stimmen-catalog",
+      "kind": "ui_screenshot",
+      "description": "Stimmen-Katalog / Admin-Tab mit Metadaten und Audio-URLs",
+      "composition_1x1": "Zentrierter Block; optional weicher Vignette-Rand.",
+      "local_path": "video-assets/ui-stimmen-catalog.png",
+      "url_raw": "https://raw.githubusercontent.com/dsactivi-2/bosnian-sales-voice-compare/main/video-assets/ui-stimmen-catalog.png",
+      "url_cdn": "https://cdn.jsdelivr.net/gh/dsactivi-2/bosnian-sales-voice-compare@main/video-assets/ui-stimmen-catalog.png",
+      "preferred_url": "https://cdn.jsdelivr.net/gh/dsactivi-2/bosnian-sales-voice-compare@main/video-assets/ui-stimmen-catalog.png",
+      "source_aspect": "landscape_tool_ui"
+    },
+    {
+      "id": "ui-after-rate",
+      "kind": "ui_screenshot",
+      "description": "Nach Bewertung: Score-Detail und Status",
+      "composition_1x1": "Zentrierter Block; kurze Caption darunter.",
+      "local_path": "video-assets/ui-after-rate.png",
+      "url_raw": "https://raw.githubusercontent.com/dsactivi-2/bosnian-sales-voice-compare/main/video-assets/ui-after-rate.png",
+      "url_cdn": "https://cdn.jsdelivr.net/gh/dsactivi-2/bosnian-sales-voice-compare@main/video-assets/ui-after-rate.png",
+      "preferred_url": "https://cdn.jsdelivr.net/gh/dsactivi-2/bosnian-sales-voice-compare@main/video-assets/ui-after-rate.png",
+      "source_aspect": "landscape_tool_ui"
+    },
+    {
+      "id": "outro-caricature",
+      "kind": "illustration",
+      "description": "Outro-Karikatur: Agent zeigt auf leeren CTA-Pillen-Bereich (Text overlay)",
+      "composition_1x1": "1:1 ready; CTA-Text als Overlay im JSON2Video legen (nicht im Bild).",
+      "local_path": "video-assets/caricature-outro.jpg",
+      "url_raw": "https://raw.githubusercontent.com/dsactivi-2/bosnian-sales-voice-compare/main/video-assets/caricature-outro.jpg",
+      "url_cdn": "https://cdn.jsdelivr.net/gh/dsactivi-2/bosnian-sales-voice-compare@main/video-assets/caricature-outro.jpg",
+      "preferred_url": "https://cdn.jsdelivr.net/gh/dsactivi-2/bosnian-sales-voice-compare@main/video-assets/caricature-outro.jpg",
+      "source_aspect": "portrait_or_square_art"
+    },
+    {
+      "id": "login-gate-note",
+      "kind": "ui_screenshot_current_live",
+      "description": "Aktueller Live-Stand (v7.3.1): E-Mail-Login-Gate — Tool selbst hinter Auth",
+      "composition_1x1": "Optional nur als Hinweis-Shot; für Demo-UI die älteren Screens oben verwenden.",
+      "local_path": "video-assets/ui-login-gate.png",
+      "url_raw": "https://raw.githubusercontent.com/dsactivi-2/bosnian-sales-voice-compare/main/video-assets/ui-login-gate.png",
+      "url_cdn": "https://cdn.jsdelivr.net/gh/dsactivi-2/bosnian-sales-voice-compare@main/video-assets/ui-login-gate.png",
+      "preferred_url": "https://cdn.jsdelivr.net/gh/dsactivi-2/bosnian-sales-voice-compare@main/video-assets/ui-login-gate.png",
+      "source_aspect": "landscape_tool_ui"
+    }
+  ],
+  "sample_audio": [
+    {
+      "id": "sample-bs-pro-male",
+      "title": "BS · Profesionalni Muški",
+      "url": "https://platform.r2.fish.audio/tasks/2026-07-31/82b4eede89f741dcaca7c05cb647fcd5.mp3",
+      "use": "optional short bed under UI scene 1 (duck under VO)"
+    },
+    {
+      "id": "sample-bs-naglic",
+      "title": "BS · NAGLIC Clear Pro",
+      "url": "https://platform.r2.fish.audio/tasks/2026-07-31/e8ee1857bc2c44a58407646b4463261c.mp3",
+      "use": "optional alternate stinger"
+    }
+  ],
+  "voiceover_bs": {
+    "language": "bs",
+    "locale_note": "Bosanski standard / ijekavica, telefon-sales Ton, warm-professional, nicht zu schnell",
+    "full_script": "[friendly][confident] Tražite pravi glas za tele-prodaju? [pause] Activi Voice Compare okuplja profesionalne glasove — bosanske, hrvatske i više — na jednom mjestu. [soft] Tim sluša isto sales-skript, ocjenjuje izgovor, profesionalnost, toplinu, jasnoću i emociju. [confident] Slijepi način, lični linkovi, rang lista u oblaku — odluka bez pritiska, na osnovu podataka. [friendly] Otvorite voice-compare.activi.io i glasajte za glas koji zvuči kao vaš brend.",
+    "segments": [
+      {
+        "id": "vo-01-hook",
+        "scene": "S1_intro",
+        "text": "Tražite pravi glas za tele-prodaju?",
+        "approx_sec": 3,
+        "delivery": "friendly confident hook"
+      },
+      {
+        "id": "vo-02-product",
+        "scene": "S2_cards",
+        "text": "Activi Voice Compare okuplja profesionalne glasove — bosanske, hrvatske i više — na jednom mjestu.",
+        "approx_sec": 6,
+        "delivery": "clear product"
+      },
+      {
+        "id": "vo-03-criteria",
+        "scene": "S3_scores",
+        "text": "Tim sluša isto sales-skript i ocjenjuje izgovor, profesionalnost, toplinu, jasnoću i emociju.",
+        "approx_sec": 6,
+        "delivery": "measured explanatory"
+      },
+      {
+        "id": "vo-04-features",
+        "scene": "S4_ranking",
+        "text": "Slijepi način, lični linkovi i rang lista u oblaku — odluka na osnovu podataka, bez pritiska.",
+        "approx_sec": 6,
+        "delivery": "confident soft close"
+      },
+      {
+        "id": "vo-05-cta",
+        "scene": "S5_outro",
+        "text": "Otvorite voice-compare.activi.io i glasajte za glas koji zvuči kao vaš brend.",
+        "approx_sec": 5,
+        "delivery": "warm CTA"
+      }
+    ],
+    "on_screen_captions_bs": [
+      "Pravi glas za tele-prodaju",
+      "91+ glasova · BS / HR · Fish Audio",
+      "5 kriterija · timsko ocjenjivanje",
+      "Slijepo · lični link · cloud ranking",
+      "voice-compare.activi.io"
+    ],
+    "on_screen_captions_de_optional": [
+      "Der richtige Voice-Agent-Ton",
+      "91+ Stimmen · BS/HR · Fish Audio",
+      "5 Kriterien · Team-Scoring",
+      "Blind · Personal-Link · Cloud-Ranking",
+      "voice-compare.activi.io"
+    ]
+  },
+  "scenes": [
+    {
+      "id": "S1_intro",
+      "duration_sec": 4,
+      "background": "#0b0f14",
+      "visual": "intro-caricature",
+      "layout_1x1": "full-bleed art, bottom 28% gradient + caption",
+      "overlay_text": "Pravi glas za tele-prodaju",
+      "voiceover_segment": "vo-01-hook",
+      "motion": "slow zoom-in 1.0→1.06"
+    },
+    {
+      "id": "S2_cards",
+      "duration_sec": 7,
+      "background": "#0b0f14",
+      "visual": "ui-voice-cards",
+      "layout_1x1": "centered UI block ~72% width, rounded corners 16px, soft label band",
+      "overlay_text": "Slušaj · ocjeni · uporedi",
+      "voiceover_segment": "vo-02-product",
+      "motion": "gentle pan down UI 4%",
+      "optional_audio_bed": "sample-bs-pro-male (duck -18dB under VO)"
+    },
+    {
+      "id": "S3_scores",
+      "duration_sec": 7,
+      "background": "#0b0f14",
+      "visual": "ui-dashboard-scores",
+      "layout_1x1": "centered UI block, focus score rows",
+      "overlay_text": "5 kriterija · jedan skript",
+      "voiceover_segment": "vo-03-criteria",
+      "motion": "hold + soft pulse on score bars"
+    },
+    {
+      "id": "S4_ranking",
+      "duration_sec": 7,
+      "background": "#0b0f14",
+      "visual": "ui-ranking",
+      "layout_1x1": "centered UI block",
+      "overlay_text": "Timski ranking u oblaku",
+      "voiceover_segment": "vo-04-features",
+      "motion": "slow zoom on ranking header"
+    },
+    {
+      "id": "S5_outro",
+      "duration_sec": 5,
+      "background": "#0b1220",
+      "visual": "outro-caricature",
+      "layout_1x1": "full-bleed; place CTA text on the empty pill area",
+      "overlay_text": "voice-compare.activi.io",
+      "overlay_sub": "Activi · Fish Audio s2.x",
+      "voiceover_segment": "vo-05-cta",
+      "motion": "static + sparkle opacity pulse"
+    }
+  ],
+  "json2video_build_notes": [
+    "resolution: squared (1080×1080).",
+    "Tool screenshots are landscape — place as centered rounded cards, not stretch-to-fill.",
+    "Intro/outro caricatures are illustrations; put CTA text as JSON2Video text element on the empty pill in outro.",
+    "Do not invent extra UI screenshots; use provided asset URLs only.",
+    "If CDN not yet propagated after push, fall back to url_raw.",
+    "Validate public GET 200 on each preferred_url before render.",
+    "Bosnian VO is primary; German captions optional as burn-in or dual-language cut.",
+    "Live tool requires team email login — do not promise public open access in VO."
+  ],
+  "handoff_checklist": {
+    "public_asset_urls": true,
+    "bosnian_vo_script": true,
+    "scene_timings": true,
+    "1x1_composition_rules": true,
+    "login_gate_disclosed": true,
+    "next_step_for_video_agent": "validate_movie → render with these asset URLs + voice elements"
+  }
+}
