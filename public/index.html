@@ -97,7 +97,7 @@ audio{width:100%;margin:8px 0 12px}
 <div id="app"></div>
 <script>
 
-const APP_VERSION = "7.3.0";
+const APP_VERSION = "7.3.1";
 const EMBEDDED_CONFIG = null; // always prefer config.json from worker pin
 const RATE_KEY = "bs-voice-ratings-v1";
 const REV_KEY = "bs-voice-reviewer";
@@ -457,6 +457,12 @@ function getFilteredRateVoices() {
     list.sort((a,b) => (hasMyRating(a.id,rev)?1:0) - (hasMyRating(b.id,rev)?1:0));
   } else if (u.sort === "avg") {
     list.sort((a,b) => (teamAvg(b.id)??-1) - (teamAvg(a.id)??-1));
+  } else if (u.sort === "phonetik") {
+    const sc = (id) => {
+      const r = phoneticCache.map && phoneticCache.map[id];
+      return (r && !r.error && Number.isFinite(Number(r.score))) ? Number(r.score) : -1;
+    };
+    list.sort((a,b) => sc(b.id) - sc(a.id));
   }
   return list;
 }
@@ -636,11 +642,14 @@ ${isMain()?`<div class="card">
   setTab(ui().tab || currentTab || "rate");
 }
 
-function renderRate(keepScroll) {
+async function renderRate(keepScroll) {
   const prevY = keepScroll ? window.scrollY : (ui().scrollY || 0);
   const rev = lockedReviewer || document.getElementById("reviewer")?.value || currentUser?.name || REVIEWERS()[0];
   const root = document.getElementById("panelRate");
   if (!root) return;
+  // Auto-Phonetik scores for the rating scale (read-only machine metric)
+  let ph = { map: {}, fishKey: false, list: [] };
+  try { ph = await loadPhonetic(false); } catch {}
   const list = getFilteredRateVoices();
   const { page, pages, total, slice, start } = pageSlice(list);
   const u = ui();
@@ -671,9 +680,13 @@ function renderRate(keepScroll) {
           <option value="group" ${u.sort==="group"?"selected":""}>Gruppe</option>
           <option value="unrated" ${u.sort==="unrated"?"selected":""}>Unbewertet zuerst</option>
           <option value="avg" ${u.sort==="avg"?"selected":""}>Team-Ø</option>
+          <option value="phonetik" ${u.sort==="phonetik"?"selected":""}>Auto-Phonetik</option>
         </select>
       </label>
     </div>
+    <p class="help" style="margin-top:8px;font-size:.8rem;color:var(--muted)">
+      <strong>Bewertungsmaßstab:</strong> 5× Sterne (1–5, Mensch) + <strong>Auto-Phonetik 0–100 %</strong> (Maschine: Texttreue Skript↔STT). Sterne bleiben führend für Sales-Fit.
+    </p>
   </div>
   ${pagerHtml(page, pages, total)}
   ${slice.map((v, i) => {
@@ -681,6 +694,8 @@ function renderRate(keepScroll) {
     const mine = state[key] || Object.fromEntries([...CATS().map(c=>[c.k,0]), ["comment",""]]);
     const a = avg(mine);
     const votes = archivePending[v.id] || [];
+    const phRow = ph.map[v.id];
+    const phScore = phRow && !phRow.error ? Number(phRow.score) : null;
     return `<article class="card" data-vid="${esc(v.id)}">
       <div class="head-row">
         <div>
@@ -690,15 +705,31 @@ function renderRate(keepScroll) {
             <span class="tag ${esc(v.sex)}">${v.sex==="m"?"männlich":v.sex==="f"?"weiblich":"divers"}</span>
             ${v.lang?`<span class="tag">${esc(v.lang)}</span>`:""}
             ${v.group?`<span class="tag">${esc(v.group)}</span>`:""}
+            ${phScore!=null?`<span class="tag" title="Auto-Phonetik Texttreue">AP ${phScore}%</span>`:""}
           </div>
         </div>
-        ${a!=null&&state[key]?`<div class="avg">${a.toFixed(1)} <span style="font-size:.7rem;color:var(--muted)">dein Ø</span></div>`:""}
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          ${a!=null&&state[key]?`<div class="avg">${a.toFixed(1)} <span style="font-size:.7rem;color:var(--muted)">dein Ø</span></div>`:""}
+          ${phScore!=null?`<div title="Auto-Phonetik">${scoreBadge(phScore)} <span style="font-size:.65rem;color:var(--muted)">AP</span></div>`:""}
+        </div>
       </div>
       <audio controls preload="metadata" src="${esc(v.audio)}"></audio>
       <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px">
-        <div class="meta" style="margin-bottom:8px;font-weight:600">Deine Bewertung als ${esc(rev)}</div>
+        <div class="meta" style="margin-bottom:8px;font-weight:600">Deine Bewertung als ${esc(rev)} · Maßstab 1–5 Sterne</div>
         <div class="grid2">
           ${CATS().map(c=>`<div class="cat"><div class="cat-label">${esc(c.l)}</div>${starsHtml(+mine[c.k]||0,c.k,true)}</div>`).join("")}
+        </div>
+        <div style="margin-top:12px;padding:10px;border-radius:10px;border:1px dashed var(--border);background:rgb(47 155 253/.06)">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+            <div>
+              <div style="font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--primary)">Auto-Phonetik · Texttreue</div>
+              <div class="meta" style="margin-top:2px">Maschine (STT↔Skript) · nicht deine Sterne · 0–100 %</div>
+            </div>
+            <div>${phRow && !phRow.error ? scoreBadge(phRow.score) : (phRow && phRow.error ? `<span style="color:#e35d6a;font-size:.8rem">Fehler</span>` : `<span class="meta">— noch nicht</span>`)}</div>
+          </div>
+          ${phRow && !phRow.error ? `<div class="meta" style="margin-top:8px">recall ${(phRow.word_recall*100).toFixed(0)}% · prec ${(phRow.word_precision*100).toFixed(0)}% · char ${(phRow.char_ratio*100).toFixed(0)}%</div>` : ""}
+          ${phRow && phRow.error ? `<div style="color:#e35d6a;font-size:.8rem;margin-top:6px">${esc(String(phRow.error).slice(0,160))}</div>` : ""}
+          ${isMain() ? `<div class="actions" style="margin-top:8px"><button type="button" class="btn btn-g" data-ph-run-rate ${ph.fishKey?"":"disabled title=\"FISH_API_KEY fehlt\""}>${phRow?"Neu analysieren":"Auto-Phonetik analysieren"}</button></div>` : ""}
         </div>
         <label class="field" style="margin-top:10px">Kommentar
           <textarea rows="2" maxlength="1000" data-comment>${esc(mine.comment||"")}</textarea>
@@ -807,6 +838,31 @@ function renderRate(keepScroll) {
         }
       } catch (e) { toast(e.message); }
     };
+    const phBtn = card.querySelector("[data-ph-run-rate]");
+    if (phBtn) phBtn.onclick = async () => {
+      const v = VOICES().find(x => x.id === vid);
+      if (!v || !v.audio) return toast("Kein Audio");
+      const expected = expectedScriptForVoice(v);
+      if (!expected) return toast("Kein Expected-Skript");
+      toast("STT läuft… " + (v.title || "").slice(0, 40));
+      try {
+        const res = await api("/api/phonetic/run", {
+          method: "POST",
+          body: JSON.stringify({
+            voice_id: v.id,
+            audio_url: v.audio,
+            expected_text: expected,
+            language: v.lang || "bs",
+          }),
+        });
+        if (res.ok) toast(`Auto-Phonetik ${res.result?.score ?? "?"} % · ${v.title}`);
+        else toast(res.error || "Phonetik-Fehler");
+      } catch (e) {
+        toast(e.message || "Phonetik-Fehler");
+      }
+      phoneticCache.loaded = false;
+      renderRate(true);
+    };
   });
 
   if (keepScroll || prevY) {
@@ -819,7 +875,11 @@ function renderRate(keepScroll) {
 }
 
 function getFilteredRankRows() {
-  let rows = activeVoices().map(v => ({ v, ta: teamAvg(v.id), n: voiceRatings(v.id).length }));
+  let rows = activeVoices().map(v => {
+    const pr = phoneticCache.map && phoneticCache.map[v.id];
+    const ap = (pr && !pr.error && Number.isFinite(Number(pr.score))) ? Number(pr.score) : null;
+    return { v, ta: teamAvg(v.id), n: voiceRatings(v.id).length, ap };
+  });
   if (sexFilter !== "all") rows = rows.filter(r => r.v.sex === sexFilter);
   if (langFilter !== "all") rows = rows.filter(r => {
     if (langFilter === "agent") return r.v.group === "agent";
@@ -832,7 +892,8 @@ function getFilteredRankRows() {
   return rows;
 }
 
-function renderRank() {
+async function renderRank() {
+  try { await loadPhonetic(false); } catch {}
   const rows = getFilteredRankRows();
   const root = document.getElementById("panelRank");
   // paginate ranking too
@@ -844,7 +905,7 @@ function renderRank() {
 
   root.innerHTML = `<div class="card">
     <strong>Filter & Ranking</strong>
-    <p class="meta">${total} Stimmen · Team-Ø absteigend · Blind gilt im Bewerten-Tab</p>
+    <p class="meta">${total} Stimmen · Team-Ø absteigend · Auto-Phonetik (AP) · Blind gilt im Bewerten-Tab</p>
     <div class="filters" style="margin-top:10px">
       <label class="field">Mindest-Ø
         <select id="minAvg">
@@ -880,10 +941,13 @@ function renderRank() {
           <div class="rank-num ${start+i===0?"gold":""}">#${start+i+1}</div>
           <div>
             <h2 style="margin:0">${esc(row.v.title)}</h2>
-            <p class="meta">${row.n} Bewertungen · ${esc(row.v.group||row.v.lang||"")}</p>
+            <p class="meta">${row.n} Bewertungen · ${esc(row.v.group||row.v.lang||"")}${row.ap!=null?` · AP ${row.ap}%`:""}</p>
           </div>
         </div>
-        <div class="avg">${row.ta!=null?row.ta.toFixed(2):"—"}</div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+          <div class="avg">${row.ta!=null?row.ta.toFixed(2):"—"} <span style="font-size:.65rem;color:var(--muted)">Team</span></div>
+          ${row.ap!=null?`<div>${scoreBadge(row.ap)} <span style="font-size:.65rem;color:var(--muted)">AP</span></div>`:`<span class="meta" style="font-size:.7rem">AP —</span>`}
+        </div>
       </div>
       <audio controls preload="metadata" src="${esc(row.v.audio)}"></audio>
     </div>`).join("") || `<div class="card meta">Keine Treffer</div>`}`;
@@ -1107,6 +1171,7 @@ async function renderPhonetik() {
     <p class="help" style="margin-top:6px">
       Worker holt das Sample-Audio, transkribiert es via Fish ASR und vergleicht mit dem erwarteten Skript
       (Fish-[Tags] werden entfernt). Score = 55% Wort-F1 + 45% Zeichen-Ähnlichkeit.
+      Die Scores stehen auch im Tab <strong>Bewerten</strong> (Bewertungsmaßstab) und im <strong>Ranking</strong>.
     </p>
     <div class="meta" style="margin-top:8px">
       Fish-Key im Worker: <strong>${ph.fishKey ? "gesetzt ✓" : "fehlt ✗ (Secret FISH_API_KEY)"}</strong>
@@ -1351,6 +1416,7 @@ async function boot() {
 
   await loadUsers();
   if (isMain()) await loadArchive();
+  if (currentUser) { try { await loadPhonetic(true); } catch {} }
 
   // if tester locked, ensure name
   if (currentUser?.name) lockedReviewer = currentUser.name;

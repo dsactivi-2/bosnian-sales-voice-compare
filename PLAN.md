@@ -28,7 +28,8 @@ ops-dashboard = *Call-Qualität & Agent-Verhalten*. Nicht mergen.
 | GitHub pin `COMMIT=7b2fc2a` · appVersion 7.3.0 + Worker redeploy | ✅ |
 | D1 Ratings `PRIMARY KEY(voice_id, reviewer)` | ✅ |
 | v7.2.x Pagination/Rollen/Archiv/Audit live | ✅ |
-| **v7.3 Auto-Phonetik** (STT→Diff, Tab Main-only) | ✅ live · `FISH_API_KEY` Worker-Secret noch setzen |
+| **v7.3 Auto-Phonetik** (STT→Diff, Tab Main-only) | ✅ live · FISH_API_KEY gesetzt |
+| **v7.3.1 Auto-Phonetik im Bewertungsmaßstab** | ✅ Bewerten+Ranking zeigen AP-Score |
 
 > **Hinweis:** Beim Absichern des Wipe-Endpoints wurden bestehende Demo-Ratings geleert. Team muss **neu bewerten**.
 
